@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const User = require('../../models/User');
 const authToken = require('../../middleware/authToken');
-const isAdmin = require('../../middleware/isAdmin');
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -25,8 +24,8 @@ router.get('/', authToken, async (req, res) => {
 // @desc    Authenticate user & get token = Log in
 // @access  Public
 router.post('/', [
-    check('email', 'Email is required.').not().isEmpty().isEmail().withMessage('Has to be an email.'),
-    check('password', 'Password is required.').not().isEmpty().isLength({min: 6}).withMessage('Has to been longer than 6 characters.')
+    check('email', 'Email is required.').not().isEmpty().isEmail().withMessage('Please use valid E-mail.'),
+    check('password', 'Password is required.').not().isEmpty().isLength({min: 6}).withMessage('Password must be longer than 6 characters.')
 ], async (req, res) => {
     const firstCheck = validationResult(req);
     if(!firstCheck.isEmpty()) return res.status(400).json({ msg: firstCheck.array()[0].msg});
