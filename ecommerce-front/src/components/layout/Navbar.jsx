@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import styled , { css }from 'styled-components';
 import logo from './logo-03.svg';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { test } from '../../actions/authAction';
 
 const Navbar = (props) => {
     const {location} = props;
@@ -103,13 +102,13 @@ const Logo = styled.div`
 
 const mapStateToProps = (state) => {
     return {
-        test: state.auth.name
+        
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        change: () => dispatch(test())
+
     }
 }
 

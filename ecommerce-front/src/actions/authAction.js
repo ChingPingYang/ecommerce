@@ -1,13 +1,15 @@
 import axios from 'axios';
 import { setAlert } from './alertAction';
+import setTokenHeader from '../util/setTokenHeader';
 
-export const test = () => async dispatch => {
+export const getUser = () => async dispatch => {
+    if(localStorage.token) setTokenHeader(localStorage.token);
     try {
         const res = await axios.get('/api/auth');
-        dispatch({ type: "TEST", payload: res.data});
+        dispatch({ type: "GOT_USER", payload: res.data});
     } catch(err) {
-        
-        if(err) console.log(err.response.data);
+        dispatch(setAlert(err.response.data.msg));
+        dispatch({ type: 'GETUSER_FAILED' });
     }
 }
 
@@ -23,7 +25,9 @@ export const signIn = credential => async dispatch => {
         })
         const res = await axios.post('/api/auth', body, config);
         dispatch({type: 'SIGNIN_SUCCESS', payload: res.data});
+        dispatch(getUser());
     } catch(err) {
-        dispatch(setAlert(err.response.data.msg))
+        dispatch(setAlert(err.response.data.msg));
+        dispatch({ type: 'SIGNIN_FAILED'});
     }
 }

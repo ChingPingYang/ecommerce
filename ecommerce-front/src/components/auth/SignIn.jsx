@@ -44,6 +44,7 @@ const SignIn = ({signIn}) => {
                         Password
                     </Label>
                     <Input 
+                        autocomplete="on"
                         type={show? "text" : "password"} 
                         id="password" 
                         name="password"
