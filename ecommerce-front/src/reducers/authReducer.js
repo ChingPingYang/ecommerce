@@ -15,6 +15,7 @@ const authReducer = (state = init, action) => {
                 user: payload
             }
         case "SIGNIN_SUCCESS": 
+        case "SIGNUP_SUCCESS":
             localStorage.setItem('token', payload);
             return {
                 ...state,
@@ -25,6 +26,7 @@ const authReducer = (state = init, action) => {
             }
         case "SIGNIN_FAILED":
         case "GETUSER_FAILED":
+        case "SIGNUP_FAILED":
             localStorage.removeItem('token');
             return {
                 ...state,

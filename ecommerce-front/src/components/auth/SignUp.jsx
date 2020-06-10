@@ -1,32 +1,42 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { signIn } from '../../actions/authAction';
 import { connect } from 'react-redux';
+import { signUp } from '../../actions/authAction';
 
-const SignIn = ({signIn}) => {
-    const [show, setShow] = useState(false);
+const SignUp = ({register}) => {
     const [credential, setCredential] = useState({
+        name: "",
         email: "",
         password: ""
-    });
-    const handleShow = (e) => {
-        e.preventDefault();
-        setShow(!show)
-    }
+    })
+
     const handleOnChange = (e) => {
         setCredential({
             ...credential,
             [e.target.name]: e.target.value
         })
     }
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        signIn(credential);
+        register(credential);
     }
     return (
         <>
             <Form onSubmit={handleSubmit}>
-                <Title>SIGN IN</Title>
+                <Title>SIGN UP</Title>
+                <InputWrap>
+                    <Label htmlFor="name">
+                        Name
+                    </Label>
+                    <Input 
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        onChange={handleOnChange}
+                        value={credential.name}
+                    />
+                </InputWrap>
                 <InputWrap>
                     <Label htmlFor="email">
                         Email Address
@@ -45,14 +55,13 @@ const SignIn = ({signIn}) => {
                     </Label>
                     <Input 
                         autocomplete="on"
-                        type={show? "text" : "password"} 
+                        type="password"
                         id="password" 
                         name="password"
                         onChange={handleOnChange}
                         value={credential.password}
                     />
                 </InputWrap>
-                <ShowBtn onClick={handleShow}>{show === true? 'Hide' : 'Show'}</ShowBtn>
                 <input type="submit" value="GO"/>
             </Form>
         </>
@@ -63,7 +72,6 @@ export const Form = styled.form`
     width: 800px;
     display: flex;
     flex-flow: column;
-    justify-content: center;
     align-items: center;
     margin: 55px 30px;
 `;
@@ -71,7 +79,7 @@ export const Form = styled.form`
 export const Title = styled.h1`
     font-weight: 900;
     font-size: 2.5rem;
-    margin-left: -260px;
+    margin-left: -248px;
     color: ${props => props.theme.lightBlue};
 `
 
@@ -104,21 +112,10 @@ export const Input = styled.input`
     }
 `
 
-export const ShowBtn = styled.button`
-    all: unset;
-    cursor: pointer;
-    color: ${props => props.theme.lightBlue};
-    position: relative;
-    font-size: 13px;
-    top: -48px;
-    left: 170px;
-`
-
 const mapDispatchToProps = dispatch => {
     return {
-        signIn: (credential) => dispatch(signIn(credential))
+        register: (credential) => dispatch(signUp(credential))
     }
 }
 
-
-export default connect(null, mapDispatchToProps)(SignIn);
+export default connect(null, mapDispatchToProps)(SignUp);

@@ -15,11 +15,11 @@ router.post('/',[
     check('email', 'Email is required').not().isEmpty()
         .isEmail().withMessage('Must be an e-mail.'),
     check('password', 'Password is required').not().isEmpty()
-        .isLength({ min: 6 }).withMessage('At least 6 characters.')
+        .isLength({ min: 6 }).withMessage('Password has to be at least 6 characters.')
 ],async (req, res) => {
     let firstCheck = validationResult(req);
     if(!firstCheck.isEmpty()) return res.status(400).json({ msg: firstCheck.array()[0].msg});
-    const {name, email, password, about, role, history} = req.body;
+    const {name, email, password} = req.body;
     try{
         // Checking if the email has been used.
         let checkEmail = await User.findOne({ email });
@@ -33,10 +33,7 @@ router.post('/',[
         const newUser = new User({
             name,
             email,
-            password: hashedPassword,
-            about,
-            role,
-            history
+            password: hashedPassword
         })
         await newUser.save();
         
@@ -64,6 +61,10 @@ router.get('/', async (req, res) => {
         return res.status(500).json({ msg: 'Server error...'});
     }
 })
+
+// @route  PUT api/user
+// @desc   Update user profile
+// @access Private
 
 
 // @route  DELETE api/user

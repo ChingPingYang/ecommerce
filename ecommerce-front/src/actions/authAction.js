@@ -31,3 +31,21 @@ export const signIn = credential => async dispatch => {
         dispatch({ type: 'SIGNIN_FAILED'});
     }
 }
+
+export const signUp = credential => async dispatch => {
+    const { name, email, password } = credential;
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+    const body = JSON.stringify({ name, email, password});
+    try {
+        const res = await axios.post('/api/user', body, config);
+        dispatch({ type: "SIGNUP_SUCCESS", payload: res.data});
+        dispatch(getUser());
+    } catch(err) {
+        dispatch(setAlert(err.response.data.msg));
+        dispatch({ type: "SIGNUP_FAILED"});
+    }
+} 
