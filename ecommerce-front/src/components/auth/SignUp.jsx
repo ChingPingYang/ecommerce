@@ -62,7 +62,9 @@ const SignUp = ({register}) => {
                         value={credential.password}
                     />
                 </InputWrap>
-                <input type="submit" value="GO"/>
+                <BtnWrap>
+                    <input type="submit" value="Sign up" />
+                </BtnWrap>
             </Form>
         </>
     )
@@ -109,6 +111,25 @@ export const Input = styled.input`
         border: 1px solid ${props => props.theme.lightBlue};
         box-shadow: 0px 0px 4px 1px ${props => props.theme.lightBlue};
         transition: 0.3s;
+    }
+`
+
+const BtnWrap = styled.div`
+    width: 50%;
+    height: 35px;
+    margin-top: 10px;
+    input {
+        all: unset;
+        font-size: 1.1rem;
+        width: 100px;
+        height: 35px;
+        text-align: center;
+        color: ${props => props.theme.primWhite};
+        background-color: ${props => props.theme.lightBlue};
+        transition: 0.2s;
+        &:hover {
+            background-color: ${props => props.theme.primBlue};
+        }
     }
 `
 

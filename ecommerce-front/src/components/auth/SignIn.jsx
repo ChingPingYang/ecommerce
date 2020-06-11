@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import { signIn } from '../../actions/authAction';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const SignIn = ({signIn}) => {
     const [show, setShow] = useState(false);
@@ -53,7 +54,10 @@ const SignIn = ({signIn}) => {
                     />
                 </InputWrap>
                 <ShowBtn onClick={handleShow}>{show === true? 'Hide' : 'Show'}</ShowBtn>
-                <input type="submit" value="GO"/>
+                <BtnWrap>
+                    <input type="submit" value="Sign in" />
+                    <StyledLink to="/signup">Create an account</StyledLink>
+                </BtnWrap>
             </Form>
         </>
     )
@@ -112,6 +116,37 @@ export const ShowBtn = styled.button`
     font-size: 13px;
     top: -48px;
     left: 170px;
+`
+
+const BtnWrap = styled.div`
+    width: 50%;
+    height: 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    input {
+        all: unset;
+        font-size: 1.1rem;
+        width: 100px;
+        height: 35px;
+        text-align: center;
+        color: ${props => props.theme.primWhite};
+        background-color: ${props => props.theme.lightBlue};
+        transition: 0.2s;
+        &:hover {
+            background-color: ${props => props.theme.primBlue};
+        }
+    }
+`
+const StyledLink = styled(Link)`
+    all: unset;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: ${props => props.theme.lightBlue};
+    transition: 0.2s;
+    &:hover {
+        color: ${props => props.theme.primBlue};
+    }
 `
 
 const mapDispatchToProps = dispatch => {

@@ -8,7 +8,6 @@ export const getUser = () => async dispatch => {
         const res = await axios.get('/api/auth');
         dispatch({ type: "GOT_USER", payload: res.data});
     } catch(err) {
-        dispatch(setAlert(err.response.data.msg));
         dispatch({ type: 'GETUSER_FAILED' });
     }
 }
