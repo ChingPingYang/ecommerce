@@ -6,34 +6,50 @@ import { signOut } from '../../actions/authAction';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-const Navbar = (props) => {
-    const {location, signOut} = props;
+const Navbar = props => {
+    const {location, signOut, auth: { isAuthenticated, loading }} = props;
+    console.log(loading)
+   
+   const authedLinks = () => (
+    <ListWrap>
+        <li>
+            <StyledLink to="/" location={location.pathname} path="/" >
+                HOME
+            </StyledLink>
+        </li>
+        <li>
+            <StyledLink to="/" location={location.pathname} path="/signout" onClick={signOut}>
+                SIGNOUT
+            </StyledLink>
+        </li>
+    </ListWrap>
+   )
+
+   const guestLinks = () => (
+    <ListWrap>
+        <li>
+            <StyledLink to="/" location={location.pathname} path="/" >
+                HOME
+            </StyledLink>
+        </li>
+        <li>
+            <StyledLink to="/signin" location={location.pathname} path="/signin" >
+                SINGIN
+            </StyledLink>
+        </li>
+        <li>
+            <StyledLink to="/signup" location={location.pathname} path="/signup" >
+                SIGNUP
+            </StyledLink>
+        </li>
+    </ListWrap>
+   )
+    
    
     return (
         <NavWrap>
             <Logo />
-            <ListWrap>
-                <li>
-                    <StyledLink to="/" location={location.pathname} path="/" >
-                        HOME
-                    </StyledLink>
-                </li>
-                <li>
-                    <StyledLink to="/signin" location={location.pathname} path="/signin" >
-                        SINGIN
-                    </StyledLink>
-                </li>
-                <li>
-                    <StyledLink to="/signup" location={location.pathname} path="/signup" >
-                        SIGNUP
-                    </StyledLink>
-                </li>
-                <li>
-                    <StyledLink to="/" location={location.pathname} path="/signout" onClick={signOut}>
-                        SIGNOUT
-                    </StyledLink>
-                </li>
-            </ListWrap>
+            {!loading && (isAuthenticated? authedLinks() : guestLinks())}
         </NavWrap>
     ) 
 }
@@ -53,7 +69,7 @@ const ListWrap = styled.ul`
     margin-right: 30px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     li {
         list-style: none;
@@ -63,6 +79,8 @@ const ListWrap = styled.ul`
 `
 const StyledLink = styled(Link)`
     text-decoration: none;
+    display: inline-block;
+    margin: 0px 30px;
     color: ${props => props.theme.lightBlue};
     text-align: center;
     position: relative;
@@ -106,13 +124,13 @@ const Logo = styled.div`
     background-position: center;
 `
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     return {
-        
+        auth: state.auth
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
     return {
         signOut: () => dispatch(signOut())
     }
