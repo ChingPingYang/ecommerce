@@ -8,7 +8,7 @@ const PublicRoute = ({ component: Component, auth: { isAuthenticated }, restrict
             {...rest}
             render={props => (
                 isAuthenticated && restricted ?
-                <Redirect to="/" /> :
+                <Redirect to="/dashboard" /> :
                 <Component {...props} />
             )}
         />

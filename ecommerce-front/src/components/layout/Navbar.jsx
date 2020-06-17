@@ -8,13 +8,11 @@ import { compose } from 'redux';
 
 const Navbar = props => {
     const {location, signOut, auth: { isAuthenticated, loading }} = props;
-    console.log(loading)
-   
    const authedLinks = () => (
     <ListWrap>
         <li>
-            <StyledLink to="/" location={location.pathname} path="/" >
-                HOME
+            <StyledLink to="/dashboard" location={location.pathname} path="/dashboard" >
+                DASHBOARD
             </StyledLink>
         </li>
         <li>
@@ -28,8 +26,8 @@ const Navbar = props => {
    const guestLinks = () => (
     <ListWrap>
         <li>
-            <StyledLink to="/" location={location.pathname} path="/" >
-                HOME
+            <StyledLink to="/dashboard" location={location.pathname} path="/dashboard" >
+                DASHBOARD
             </StyledLink>
         </li>
         <li>
