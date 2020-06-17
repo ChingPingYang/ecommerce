@@ -48,3 +48,8 @@ export const signUp = credential => async dispatch => {
         dispatch({ type: "SIGNUP_FAILED"});
     }
 } 
+
+export const signOut = () => dispatch => {
+    console.log('action')
+    return dispatch({ type: "SIGNOUT"})
+}

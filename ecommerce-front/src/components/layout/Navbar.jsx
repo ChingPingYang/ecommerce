@@ -2,11 +2,12 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import styled , { css }from 'styled-components';
 import logo from './logo-03.svg';
+import { signOut } from '../../actions/authAction';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 const Navbar = (props) => {
-    const {location} = props;
+    const {location, signOut} = props;
    
     return (
         <NavWrap>
@@ -25,6 +26,11 @@ const Navbar = (props) => {
                 <li>
                     <StyledLink to="/signup" location={location.pathname} path="/signup" >
                         SIGNUP
+                    </StyledLink>
+                </li>
+                <li>
+                    <StyledLink to="/" location={location.pathname} path="/signout" onClick={signOut}>
+                        SIGNOUT
                     </StyledLink>
                 </li>
             </ListWrap>
@@ -89,9 +95,9 @@ const StyledLink = styled(Link)`
                 transform: scale(1);
                 opacity: 1;
             }
-    `}
-    
+    `} 
 `
+
 const Logo = styled.div`
     width: 35px;
     height: 35px;
@@ -108,7 +114,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-
+        signOut: () => dispatch(signOut())
     }
 }
 

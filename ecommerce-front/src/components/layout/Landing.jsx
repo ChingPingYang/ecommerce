@@ -1,6 +1,7 @@
 import React from 'react';
 
-const Landing = () => {
+const Landing = (props) => {
+    
     return (
         <h3>...</h3>
     )
