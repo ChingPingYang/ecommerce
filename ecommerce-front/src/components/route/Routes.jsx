@@ -5,7 +5,7 @@ import PublicRoute from './PublicRoute';
 import Landing from '../layout/Landing';
 import SignIn from '../auth/SignIn';
 import SignUp from '../auth/SignUp';
-import Dashboard from '../layout/Dashboard';
+import UserDashboard from '../user/UserDashboard';
 
 
 const Routes = () => {
@@ -14,7 +14,7 @@ const Routes = () => {
             <PublicRoute path="/" exact component={Landing} />
             <PublicRoute path="/signin" restricted component={SignIn} />
             <PublicRoute path="/signup" restricted component={SignUp} />
-            <PrivateRoute path="/dashboard" component={Dashboard} />
+            <PrivateRoute path="/userDashboard" component={UserDashboard} />
         </Switch>
     )
 }

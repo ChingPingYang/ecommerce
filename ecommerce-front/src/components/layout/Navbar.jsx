@@ -11,7 +11,7 @@ const Navbar = props => {
    const authedLinks = () => (
     <ListWrap>
         <li>
-            <StyledLink to="/dashboard" location={location.pathname} path="/dashboard" >
+            <StyledLink to="/userDashboard" location={location.pathname} path="/userDashboard" >
                 DASHBOARD
             </StyledLink>
         </li>
@@ -26,7 +26,7 @@ const Navbar = props => {
    const guestLinks = () => (
     <ListWrap>
         <li>
-            <StyledLink to="/dashboard" location={location.pathname} path="/dashboard" >
+            <StyledLink to="/userDashboard" location={location.pathname} path="/userDashboard" >
                 DASHBOARD
             </StyledLink>
         </li>

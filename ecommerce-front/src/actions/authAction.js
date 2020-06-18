@@ -5,6 +5,7 @@ import setTokenHeader from '../util/setTokenHeader';
 export const getUser = () => async dispatch => {
     if(localStorage.token) setTokenHeader(localStorage.token);
     try {
+        console.log('here')
         const res = await axios.get('/api/auth');
         dispatch({ type: "GOT_USER", payload: res.data});
     } catch(err) {

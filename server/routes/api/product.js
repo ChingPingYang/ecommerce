@@ -103,7 +103,6 @@ router.get('/', async(req, res) => {
     const sortBy = req.query.sortBy? req.query.sortBy : "_id";
     const order = req.query.order? req.query.order : 'desc';
     const limit = req.query.limit? Number(req.query.limit) : 6;
-    console.log(sortBy,': ', order, ': ', limit);
     try {
         const products = await Product.find().populate('category', ['name']).sort({ [sortBy]: order}).limit(limit);
         if(products.length < 1) return res.status(404).json({ msg: 'There\' no products avalible.'});
