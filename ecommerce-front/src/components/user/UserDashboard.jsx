@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
+import History from './History';
 
 const UserDashboard = ({ auth: {user, loading}}) => {
     const [filter, setFilter] = useState({
         active: false,
         sort: '- Sort By -'
     });
+    const [card, setCard] = useState([1,2,3])
 
     const handleOnChange = e => {
         console.log(e.target.value)
@@ -40,23 +42,36 @@ const UserDashboard = ({ auth: {user, loading}}) => {
                     </Option>
                 </DropDown>
             </FormWrap>
+            <HistoryWrap>
+                {card.map(card => <History />)
+                }
+            </HistoryWrap>
         </DashboardWrap>
     )
 }
 
 const DashboardWrap = styled.div`
-    width: 80%;
+    width: 70%;
+    position: relative;
     margin: auto;
-    /* background-color: red; */
+    border: solid 4px red;
+    display: flex;
+    flex-flow: column;
+    padding-top: 20px;
+    /* align-items: center; */
 `
 const Subtitle = styled.h3`
-
+    font-weight: 500;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    
 `
 const Title = styled.h1`
     
 `
 const FormWrap = styled.form`
     width: 100px;
+    
 `
 const SortTitle = styled.div`
     border: 1px solid ${props => props.theme.midGray};
@@ -93,6 +108,11 @@ const Option = styled.div`
         background-color: yellow;
         }
     }
+`
+const HistoryWrap = styled.div`
+    width: 100%;
+    
+    /* border: solid 1px green; */
 `
 const mapStateToProps = state => {
     return {
