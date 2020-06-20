@@ -1,9 +1,14 @@
 export const theme = {
-    primBlue: "#102356",
-    lightBlue: "#00ABF5",
-    primWhite: "#fffaf0",
-    lightGray: "#E7E7E7",
+    darkBlue: "#003255",
+    lightBlue: "#1478E1",
+    brandBlue: "#0028FF",
+    primWhite: "#F9F9FF",
+    lightGray: "#EBEBEB",
     midGray: "#CBCFD3",
     darkGray: "#676F79",
-    primPink: "#C7578F"
+    error: "#FF284B",
+    disable: "#7A878B",
+    success: "#37FF8C",
+    interactive: "#FF328C",
+    interactiveDark: "#BF2669" 
 }

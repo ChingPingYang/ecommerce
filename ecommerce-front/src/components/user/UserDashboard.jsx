@@ -54,7 +54,7 @@ const DashboardWrap = styled.div`
     width: 70%;
     position: relative;
     margin: auto;
-    border: solid 4px red;
+    /* border: solid 4px red; */
     display: flex;
     flex-flow: column;
     padding-top: 20px;

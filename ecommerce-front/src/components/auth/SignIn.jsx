@@ -124,6 +124,7 @@ const BtnWrap = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    cursor: pointer;
     input {
         all: unset;
         font-size: 1.1rem;
@@ -131,10 +132,10 @@ const BtnWrap = styled.div`
         height: 35px;
         text-align: center;
         color: ${props => props.theme.primWhite};
-        background-color: ${props => props.theme.lightBlue};
+        background-color: ${props => props.theme.interactive};
         transition: 0.2s;
         &:hover {
-            background-color: ${props => props.theme.primBlue};
+            background-color: ${props => props.theme.interactiveDark};
         }
     }
 `
@@ -145,7 +146,7 @@ const StyledLink = styled(Link)`
     color: ${props => props.theme.lightBlue};
     transition: 0.2s;
     &:hover {
-        color: ${props => props.theme.primBlue};
+        color: ${props => props.theme.darkBlue};
     }
 `
 

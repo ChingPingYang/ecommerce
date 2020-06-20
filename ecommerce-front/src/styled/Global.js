@@ -10,7 +10,6 @@ const Global = createGlobalStyle`
     #root {
         width: 100vw;
         height: 100vh;
-        background-color: #fffaf0;
     }
 `
 export default Global;

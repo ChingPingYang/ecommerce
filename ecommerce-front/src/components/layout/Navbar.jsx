@@ -54,7 +54,7 @@ const Navbar = props => {
 const NavWrap = styled.div`
     width: 100%;
     height: 100px;
-    background-color: ${props => props.theme.primBlue};
+    background-color: ${props => props.theme.darkBlue};
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -79,7 +79,7 @@ const StyledLink = styled(Link)`
     text-decoration: none;
     display: inline-block;
     margin: 0px 30px;
-    color: ${props => props.theme.lightBlue};
+    color: ${props => props.theme.darkGray};
     text-align: center;
     position: relative;
     transition: 0.3s;

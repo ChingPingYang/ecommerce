@@ -55,7 +55,7 @@ const AlertWrap = styled.div`
         min-width: 400px;
         text-align: center;
         margin: 10px;
-        color: ${props => props.theme.primPink};
+        color: ${props => props.theme.error};
     }
 `
 
