@@ -46,7 +46,7 @@ const AlertWrap = styled.div`
     left: 50%;
     transform: translateX(-50%);
     background-color: ${props => props.theme.primWhite};
-    border: 1px solid ${props => props.theme.darkGray};
+    border: 1px solid ${props => props.theme.error};
     border-radius: 50px;
     z-index: 1000;
     animation: ${AnimateIn} 3s ease-in-out;

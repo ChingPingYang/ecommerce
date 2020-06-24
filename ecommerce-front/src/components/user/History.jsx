@@ -14,7 +14,7 @@ const Cart = styled.div`
     height: 200px;
     margin: 10px 0px;
     border-radius: 10px;
-    box-shadow: 0px 8px 28px -10px rgba(1, 1, 1, 0.3);
+    box-shadow: 0px 8px 28px -5px rgba(0, 1, 3, 0.25);
 `
 
 export default History;

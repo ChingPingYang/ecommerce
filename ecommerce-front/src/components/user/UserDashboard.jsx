@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import Spinner from '../layout/Spinner';
 import History from './History';
 
@@ -12,16 +13,15 @@ const UserDashboard = ({ auth: {user, loading}}) => {
     const [card, setCard] = useState([1,2,3])
 
     const handleOnChange = e => {
-        console.log(e.target.value)
         setFilter({
             ...filter,
             sort: e.target.value
         })
     }
     return (
-        loading || user === null ? <Spinner /> :
-        <DashboardWrap>
-            <Subtitle>Welcome back James</Subtitle>
+        loading || user === null ? <Spinner /> :( user.role === 1? <Redirect to="/adminDashboard"/> :
+        <DashboardWrap onClick={() => filter.active && setFilter({...filter, active: !filter.active})}>
+            <Subtitle>Welcome back {user.name}</Subtitle>
             <Title>Your Orders</Title>
             <FormWrap onChange={handleOnChange}>
                 <SortTitle onClick={() => setFilter({...filter, active: !filter.active})}>
@@ -46,7 +46,7 @@ const UserDashboard = ({ auth: {user, loading}}) => {
                 {card.map(card => <History />)
                 }
             </HistoryWrap>
-        </DashboardWrap>
+        </DashboardWrap>)
     )
 }
 
@@ -54,34 +54,34 @@ const DashboardWrap = styled.div`
     width: 70%;
     position: relative;
     margin: auto;
-    /* border: solid 4px red; */
     display: flex;
     flex-flow: column;
-    padding-top: 20px;
-    /* align-items: center; */
+    padding-top: 40px;
 `
 const Subtitle = styled.h3`
     font-weight: 500;
     font-size: 1rem;
-    letter-spacing: 2px;
-    
+    letter-spacing: 1px;
+    color: ${props => props.theme.darkGray};
 `
 const Title = styled.h1`
-    
+    color: ${props => props.theme.lightBlue};
+    letter-spacing: 1px;
 `
 const FormWrap = styled.form`
+    top: 105px;
+    position: absolute;
     width: 100px;
-    
+    border: 1px solid ${props => props.theme.lightGray};
 `
 const SortTitle = styled.div`
-    border: 1px solid ${props => props.theme.midGray};
     padding: 3px; 
+    color: ${props => props.theme.darkGray};
     cursor: pointer;
     text-align: center;
 `
 
 const DropDown = styled.div`    
-    background-color: red;
     width: 100%;
     height: 0px;
     text-align: center;
@@ -91,6 +91,7 @@ const DropDown = styled.div`
     ${props => props.active && css`
         height: 75px;
         opacity: 1;
+        background-color: white;
     `}
 `
 const Option = styled.div`
@@ -103,16 +104,16 @@ const Option = styled.div`
         height: 100%;
         padding: 3px;
         cursor: pointer;
-        background-color: pink;
+        color: ${props => props.theme.darkGray};
         &:hover {
-        background-color: yellow;
+        background-color: ${props => props.theme.interactive};
+        color: ${props => props.theme.primWhite};
         }
     }
 `
 const HistoryWrap = styled.div`
     width: 100%;
-    
-    /* border: solid 1px green; */
+    margin-top: 40px;
 `
 const mapStateToProps = state => {
     return {

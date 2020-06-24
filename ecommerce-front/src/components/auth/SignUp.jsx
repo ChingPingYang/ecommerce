@@ -104,7 +104,7 @@ export const Input = styled.input`
     margin: 5px 0;
     padding-left: 10px;
     outline: none;
-    border: 1px solid ${props => props.theme.midGray};
+    border: 1px solid ${props => props.theme.lightGray};
     transition: 0.3s;
     &:focus {
         outline: none;

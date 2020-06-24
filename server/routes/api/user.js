@@ -19,7 +19,7 @@ router.post('/',[
 ],async (req, res) => {
     let firstCheck = validationResult(req);
     if(!firstCheck.isEmpty()) return res.status(400).json({ msg: firstCheck.array()[0].msg});
-    const {name, email, password} = req.body;
+    const {name, email, password, role} = req.body;
     try{
         // Checking if the email has been used.
         let checkEmail = await User.findOne({ email });
@@ -33,8 +33,9 @@ router.post('/',[
         const newUser = new User({
             name,
             email,
-            password: hashedPassword
+            password: hashedPassword,
         })
+        if(role) newUser.role = role;
         await newUser.save();
         
         // Create token
