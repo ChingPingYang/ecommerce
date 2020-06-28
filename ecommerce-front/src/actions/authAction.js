@@ -25,6 +25,7 @@ export const signIn = credential => async dispatch => {
         const res = await axios.post('/api/auth', body, config);
         dispatch({type: 'SIGNIN_SUCCESS', payload: res.data});
         dispatch(getUser());
+        dispatch(setAlert('User signed-in.', 'success'));
     } catch(err) {
         dispatch(setAlert(err.response.data.msg));
         dispatch({ type: 'SIGNIN_FAILED'});
@@ -50,6 +51,5 @@ export const signUp = credential => async dispatch => {
 } 
 
 export const signOut = () => dispatch => {
-    console.log('action')
     return dispatch({ type: "SIGNOUT"})
 }

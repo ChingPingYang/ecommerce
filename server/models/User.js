@@ -21,10 +21,14 @@ const UserSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    history: {
-        type: Array,
-        default: []
-    },
+    history: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'products',
+            required: true
+        }
+    ]
+    ,
 }, {timestamps: true})
 
 const User = mongoose.model('users', UserSchema);

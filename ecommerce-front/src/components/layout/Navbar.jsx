@@ -69,7 +69,7 @@ const Navbar = props => {
    
     return (
         <NavWrap>
-            <Logo />
+            <Link to="/"><Logo /></Link>
             {!loading && (isAuthenticated? authedLinks() : guestLinks())}
         </NavWrap>
     ) 
@@ -85,7 +85,6 @@ const NavWrap = styled.div`
 
 const ListWrap = styled.ul`
     height: 100%;
-    max-width: 600px;
     flex-grow: 1;
     margin-right: 30px;
     display: flex;
@@ -94,7 +93,6 @@ const ListWrap = styled.ul`
     align-items: center;
     li {
         list-style: none;
-        color: blue;
         flex: 0 0 50px;
         margin-left: 60px;
             svg {
