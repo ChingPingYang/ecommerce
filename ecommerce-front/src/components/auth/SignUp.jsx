@@ -70,7 +70,7 @@ const SignUp = ({register}) => {
     )
 }
 
-export const Form = styled.form`
+const Form = styled.form`
     width: 800px;
     display: flex;
     flex-flow: column;
@@ -78,14 +78,14 @@ export const Form = styled.form`
     margin: 55px 30px;
 `;
 
-export const Title = styled.h1`
+const Title = styled.h1`
     font-weight: 900;
     font-size: 2.5rem;
     margin-left: -248px;
     color: ${props => props.theme.lightBlue};
 `
 
-export const InputWrap = styled.div`
+const InputWrap = styled.div`
     width: 50%;
     display: flex;
     flex-flow: column;
@@ -94,11 +94,11 @@ export const InputWrap = styled.div`
     margin: 15px 0px;
 `;
 
-export const Label = styled.label`
+const Label = styled.label`
     color: ${props => props.theme.darkGray};
 `
 
-export const Input = styled.input`
+const Input = styled.input`
     width: 100%;
     height: 40px;
     margin: 5px 0;

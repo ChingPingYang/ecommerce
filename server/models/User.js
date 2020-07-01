@@ -19,7 +19,8 @@ const UserSchema = new mongoose.Schema({
     },
     role: {
         type: Number,
-        default: 0
+        default: 0,
+        required: true
     },
     history: [
         {

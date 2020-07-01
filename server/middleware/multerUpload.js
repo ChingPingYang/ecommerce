@@ -21,10 +21,10 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({ 
     storage: storage,
     limits: {
-        // Only takes around 5mb
-        fileSize: 1024 * 1024 * 5 
+        // Only takes around 3mb
+        fileSize: 1024 * 1024 * 3 
     },
     fileFilter
-});
+}).single('imageURL');
 
 module.exports = upload;

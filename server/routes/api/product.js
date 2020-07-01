@@ -10,7 +10,11 @@ const multerUpload = require('../../middleware/multerUpload');
 // @route   POST api/product
 // @desc    For admin to add new product
 // @access  Private
-router.post('/', [ authToken, isAdmin ], (req, res) => multerUpload.single('imageURL') (req, res, async (err) => {
+router.post('/', [ authToken, isAdmin ], (req, res) => multerUpload(req, res, async (err) => {
+        // Handle errors for multer first*
+        if(err) {
+            if(err.message) return res.status(400).json({ msg: err.message});
+        }
         // Check request body
         const { name, description, category, price, quantity, sold } = req.body;
         if(!name) {
@@ -25,11 +29,6 @@ router.post('/', [ authToken, isAdmin ], (req, res) => multerUpload.single('imag
             return res.status(400).json({ msg: 'Image is required.'});
         }
         
-        // Handle errors for multer
-        if(err) {
-            if(err.message) return res.status(400).json({ msg: err.message});
-            return res.status(400).json({ msg: 'Only accept JPG or PNG file.'});
-        }
         try{
             const newProduct = new Product({
                 name,
@@ -51,10 +50,11 @@ router.post('/', [ authToken, isAdmin ], (req, res) => multerUpload.single('imag
 // @route   PUT api/product
 // @desc    For admin to update old product
 // @access  Private
-router.put('/:productId', [ authToken, isAdmin ], (req, res) => multerUpload.single('imageURL')(req, res, async (err) => {
+router.put('/:productId', [ authToken, isAdmin ], (req, res) => multerUpload(req, res, async (err) => {
     const productId = req.params.productId;
     const { name, description, category, price, quantity, sold } = req.body;
     const file = req.file;
+    
     // Handle errors for multer
     if(err) {
         if(err.message) return res.status(400).json({ msg: err.message});
@@ -193,7 +193,7 @@ router.delete('/:productId', [ authToken, isAdmin ], async (req, res) => {
         if(!product) return res.status(404).json({ msg: 'This product does not exist.'});
         // Delete the image first
         fs.unlink(`public${product.imageURL}`, async (err) => {
-            if(err) return res.status(400).json({ msg: 'There\'s a problem of deleting the image of this product...'});
+            if(err) return res.status(400).json({ msg: 'There\'s a problem of deleting the image for this product...'});
             // Then delete the document
             await product.remove();
             return res.json({ msg: 'Product removed.'});

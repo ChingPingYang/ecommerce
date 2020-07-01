@@ -2,11 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+
 const AdminDashboard = () => {
     return (
         <DashboardWrap>
             <StyledLink to="/admin/createCategory">Create Category</StyledLink>
-            <StyledLink to="/admin/addProduct">Areate Product</StyledLink>
+            <StyledLink to="/admin/addProduct">Add Product</StyledLink>
         </DashboardWrap>
         
     )
