@@ -5,8 +5,8 @@ import styled from 'styled-components';
 const AdminDashboard = () => {
     return (
         <DashboardWrap>
-            <StyledLink to="/createCategory">Create Category</StyledLink>
-            <StyledLink to="/addProduct">Areate Product</StyledLink>
+            <StyledLink to="/admin/createCategory">Create Category</StyledLink>
+            <StyledLink to="/admin/addProduct">Areate Product</StyledLink>
         </DashboardWrap>
         
     )

@@ -13,9 +13,9 @@ const Navbar = props => {
     <ListWrap>
         <li>
             <StyledLink 
-                to={user && user.role === 1? "/adminDashboard" : "/userDashboard"} 
+                to={user && user.role === 1? "/admin/adminDashboard" : "/userDashboard"} 
                 location={location.pathname}
-                path={user && user.role === 1? "/adminDashboard" : "/userDashboard"} >
+                path={user && user.role === 1? "/admin/adminDashboard" : "/userDashboard"} >
                 DASHBOARD
             </StyledLink>
         </li>

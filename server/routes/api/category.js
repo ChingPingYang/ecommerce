@@ -17,12 +17,20 @@ router.post('/',[
     const firstCheck = validationResult(req);
     if(!firstCheck.isEmpty()) return res.status(400).json({ msg: firstCheck.array()[0].msg });
     try {
+        const categoryExisted = await Category.findOne({name: req.body.name});
+        //Check if the category is existed.
+        if(categoryExisted) {
+            return res.status(400).json({msg: 'Category name is used.'});
+        }
         const newCategory = new Category({
             name: req.body.name
         });
         await newCategory.save();
         return res.status(200).json(newCategory);
     } catch(err) {
+        if(err.code === 11000) {
+            return res.status(400).json({msg: 'Category name is used.'});
+        }
         return res.status(500).json({ msg: 'Server error...'});
     }
 })

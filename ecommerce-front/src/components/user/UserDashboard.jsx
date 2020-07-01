@@ -22,7 +22,7 @@ const UserDashboard = ({ auth: {user, loading}}) => {
         })
     }
     return (
-        loading || user === null ? <Spinner /> :( user.role === 1? <Redirect to="/adminDashboard"/> :
+        loading || user === null ? <Spinner /> :( user.role === 1? <Redirect to="/admin/adminDashboard"/> :
         <DashboardWrap onClick={() => filter.active && setFilter({...filter, active: !filter.active})}>
             <Subtitle>Welcome back {user.name}</Subtitle>
             <CartWrap>

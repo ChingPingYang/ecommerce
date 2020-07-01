@@ -124,13 +124,13 @@ const BtnWrap = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    cursor: pointer;
     input {
         all: unset;
         font-size: 1.1rem;
         width: 100px;
         height: 35px;
         text-align: center;
+        cursor: pointer;
         color: ${props => props.theme.primWhite};
         background-color: ${props => props.theme.interactive};
         transition: 0.2s;
