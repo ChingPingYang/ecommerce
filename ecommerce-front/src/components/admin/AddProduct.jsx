@@ -34,7 +34,6 @@ const AddProduct = ({category: { categories, loading }, addProduct, getAllCatego
         addProduct(data);
     }
     return (
-        <MainWrap>  
             <Form onSubmit={handleSubmit}>
                 <Title>Add new product</Title>
                 <InputWrap>
@@ -128,16 +127,8 @@ const AddProduct = ({category: { categories, loading }, addProduct, getAllCatego
                     <input type="submit" value="Submit" />
                 </BtnWrap>
             </Form>
-           
-        </MainWrap>
     )
 }
-const MainWrap = styled.div`
-    width: 100%;
-    border: soild red 1px;
-    display: flex;
-    justify-content: space-between;
-`
 
 const Form = styled.form`
     width: 800px;
@@ -152,6 +143,7 @@ const Title = styled.h1`
     font-weight: 900;
     font-size: 2.5rem;
     color: ${props => props.theme.lightBlue};
+    margin-right: 80px;
 `
 
 const InputWrap = styled.div`
