@@ -12,7 +12,6 @@ const multerUpload = require('../../middleware/multerUpload');
 // @access  Private
 router.post('/', [ authToken, isAdmin ], (req, res) => multerUpload.single('imageURL')(req, res, async (err) => {
         // Handle errors for multer first*
-        console.log(req.body)
         if(err) {
             if(err.message) return res.status(400).json({ msg: err.message});
         }
@@ -29,22 +28,23 @@ router.post('/', [ authToken, isAdmin ], (req, res) => multerUpload.single('imag
         } else if(!req.file) {
             return res.status(400).json({ msg: 'Image is required.'});
         }
-        console.log(req.body)
-        // try{
-        //     const newProduct = new Product({
-        //         name,
-        //         description,
-        //         category,
-        //         price,
-        //         quantity,
-        //         sold,
-        //         imageURL: req.file.path.slice(6)
-        //     })
-        //     await newProduct.save();
-        //     return res.json(newProduct);
-        // } catch(err) {
-        //     return res.status(500).json({ msg: 'Server error...'});
-        // }
+        
+        try{
+            const newProduct = new Product({
+                name,
+                description,
+                category,
+                price,
+                quantity,
+                sold,
+                imageURL: req.file.path.slice(6)
+            })
+            await newProduct.save();
+            return res.json(newProduct);
+        } catch(err) {
+            console.log(err)
+            return res.status(500).json({ msg: 'Server error...'});
+        }
         
 }))
 

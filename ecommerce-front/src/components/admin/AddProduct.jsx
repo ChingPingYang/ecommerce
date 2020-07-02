@@ -2,11 +2,17 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { addProduct } from '../../actions/productAction';
+import { getAllCategories } from '../../actions/categoryAction';
 
-const AddProduct = ({addProduct}) => {
+const AddProduct = ({category: { categories, loading }, addProduct, getAllCategories}) => {
     const [data, setData] = useState({
-        imageName: "Choose a file"
+        imageName: "Choose a file*"
     });
+    const [temp, setTemp] = useState(['react','Javascript','Vue']);
+
+    useEffect(() => {
+        getAllCategories();
+    },[getAllCategories])
     
     const handleOnChange = (e) => {
         if(e.target.name === "imageURL"){
@@ -21,6 +27,7 @@ const AddProduct = ({addProduct}) => {
                 [e.target.name]: e.target.value
             })
         }
+        console.log(data)
     }
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -32,7 +39,7 @@ const AddProduct = ({addProduct}) => {
                 <Title>Add new product</Title>
                 <InputWrap>
                     <Label htmlFor="name">
-                        Name
+                        Name*
                     </Label>
                     <Input 
                         type="text" 
@@ -44,22 +51,21 @@ const AddProduct = ({addProduct}) => {
                 </InputWrap>
                 <InputWrap>
                     <Label htmlFor="category">
-                        Category
+                        Category*
                     </Label>
-                    <Input 
-                        type="text" 
-                        id="category" 
-                        name="category" 
-                        onChange={handleOnChange}
-                        required
-                    />
+                    <SelectOption name="category" id="category" onChange={handleOnChange} required>
+                        <option value="">Choose a category</option>
+                        {!loading && categories.map(category => (
+                            <option key={category._id} value={category._id}>{category.name}</option>
+                        ))}                        
+                    </SelectOption>
                 </InputWrap>
                 <InputWrap>
                     <Label htmlFor="price">
-                        Price
+                        Price*
                     </Label>
                     <Input 
-                        type="text" 
+                        type="number" 
                         id="price" 
                         name="price" 
                         onChange={handleOnChange}
@@ -68,7 +74,7 @@ const AddProduct = ({addProduct}) => {
                 </InputWrap>
                 <InputWrap>
                     <Label htmlFor="quantity">
-                        Quantity
+                        Quantity*
                     </Label>
                     <Input 
                         type="number" 
@@ -155,7 +161,15 @@ const InputWrap = styled.div`
     justify-content: center;
     align-items: left;
     margin: 15px 0px;
-`;
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+    input[type=number] {
+    -moz-appearance: textfield;
+    }
+`
 
 const Label = styled.label`
     color: ${props => props.theme.darkGray};
@@ -166,6 +180,25 @@ const Input = styled.input`
     height: 40px;
     margin: 5px 0;
     padding-left: 10px;
+    outline: none;
+    border: 1px solid ${props => props.theme.lightGray};
+    transition: 0.3s;
+    color: ${props => props.theme.brandBlue};
+    font-size: 1rem;
+    &:focus {
+        outline: none;
+        border: 1px solid ${props => props.theme.lightBlue};
+        box-shadow: 0px 0px 4px 1px ${props => props.theme.lightGray};
+        transition: 0.3s;
+    }
+`
+const SelectOption = styled.select`
+    width: 100%;
+    height: 40px;
+    margin: 5px 0;
+    padding-left: 10px;
+    background-color: white;
+    font-size: 1rem;
     outline: none;
     border: 1px solid ${props => props.theme.lightGray};
     transition: 0.3s;
@@ -196,9 +229,10 @@ const TextArea = styled.textarea`
 const ImageInputWrap = styled.div`
     width: 50%;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     margin: 15px 0px;
-`;
+`
 const ImageLabel = styled.label`
     width: 100px;
     height: 30px;
@@ -207,8 +241,8 @@ const ImageLabel = styled.label`
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    color: ${props => props.imageName === "Choose a file"? props.theme.darkGray : props.theme.primWhite};
-    background-color: ${props => props.imageName === "Choose a file"? "none" : props.theme.darkGray};
+    color: ${props => props.imageName === "Choose a file*"? props.theme.darkGray : props.theme.primWhite};
+    background-color: ${props => props.imageName === "Choose a file*"? "none" : props.theme.darkGray};
     border: solid 1px ${props => props.theme.lightGray};
     border-radius: 20px;
     transition: 0.3s;
@@ -242,13 +276,19 @@ const BtnWrap = styled.div`
         }
     }
 `
+const mayStateToProps = state => {
+    return {
+        category: state.category
+    }
+}
 
 const mapDispatchToProps = dispatch => {
     return {
-        addProduct: (data) => dispatch(addProduct(data))
+        addProduct: (data) => dispatch(addProduct(data)),
+        getAllCategories: () => dispatch(getAllCategories())
     }
 }
 
 
 
-export default connect(null, mapDispatchToProps)(AddProduct);
+export default connect(mayStateToProps, mapDispatchToProps)(AddProduct);

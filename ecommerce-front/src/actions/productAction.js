@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { setAlert } from '../actions/alertAction';
 
 export const addProduct = data => async dispatch => {
     const { name, description, category, price, quantity, sold, imageURL } = data;
@@ -17,10 +18,12 @@ export const addProduct = data => async dispatch => {
         const config = {
             headers: {'Content-Type': 'multipart/form-data'}
         }
-        
-        await axios.post('/api/product', formData, config);
-        
+        const res = await axios.post('/api/product', formData, config);
+        dispatch({ type: "ADDED_PRODUCT", payload: res.data});
+        dispatch(setAlert('Product is added', "success"));
+        alert('Product is added')
     } catch(err) {
-        console.log(err.response)
+        dispatch({ type: "FAILED_ADD_PRODUCT", payload: err.response.data.msg});
+        dispatch(setAlert(err.response.data.msg));
     }
 }
