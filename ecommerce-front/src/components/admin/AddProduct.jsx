@@ -1,16 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { addProduct } from '../../actions/productAction';
 
-const AddProduct = () => {
-
+const AddProduct = ({addProduct}) => {
+    const [data, setData] = useState({
+        imageName: "Choose a file"
+    });
     
     const handleOnChange = (e) => {
-        console.log(e.target.value)
+        if(e.target.name === "imageURL"){
+            setData({
+                ...data,
+                [e.target.name]: e.target.files[0],
+                imageName: e.target.files[0].name
+            })
+        } else {
+            setData({
+                ...data,
+                [e.target.name]: e.target.value
+            })
+        }
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+        addProduct(data);
     }
     return (
         <MainWrap>  
@@ -25,19 +39,7 @@ const AddProduct = () => {
                         id="name" 
                         name="name" 
                         onChange={handleOnChange}
-                        
-                    />
-                </InputWrap>
-                <InputWrap>
-                    <Label htmlFor="name">
-                        Description
-                    </Label>
-                    <Input 
-                        type="text" 
-                        id="name" 
-                        name="name" 
-                        onChange={handleOnChange}
-                        
+                        required
                     />
                 </InputWrap>
                 <InputWrap>
@@ -49,7 +51,7 @@ const AddProduct = () => {
                         id="category" 
                         name="category" 
                         onChange={handleOnChange}
-                        
+                        required
                     />
                 </InputWrap>
                 <InputWrap>
@@ -61,7 +63,7 @@ const AddProduct = () => {
                         id="price" 
                         name="price" 
                         onChange={handleOnChange}
-                        
+                        required
                     />
                 </InputWrap>
                 <InputWrap>
@@ -73,7 +75,7 @@ const AddProduct = () => {
                         id="quantity" 
                         name="quantity" 
                         onChange={handleOnChange}
-                        
+                        required
                     />
                 </InputWrap>
                 <InputWrap>
@@ -85,20 +87,37 @@ const AddProduct = () => {
                         id="sold" 
                         name="sold" 
                         onChange={handleOnChange}
-                        
                     />
                 </InputWrap>
                 <InputWrap>
-                    <ImageLabel htmlFor="imageURL">
+                    <Label htmlFor="description">
+                        Description
+                    </Label>
+                    <TextArea 
+                        rows="10"
+                        cols="10"
+                        id="description" 
+                        name="description" 
+                        onChange={handleOnChange}
+                        
+                    />
+                </InputWrap>
+                <ImageInputWrap>
+                    <ImageLabel 
+                        htmlFor="imageURL" 
+                        imageName={data.imageName}
+                    >
                         Image
                     </ImageLabel>
-                    <ImageBtn 
+                    <ImageInput 
                         type="file" 
                         id="imageURL" 
                         name="imageURL"
+                        accept="image/png, image/jpeg"
                         onChange={handleOnChange}
                     />
-                </InputWrap>
+                    <ImageState>{data.imageName}</ImageState>
+                </ImageInputWrap>
                 <BtnWrap>
                     <input type="submit" value="Submit" />
                 </BtnWrap>
@@ -150,6 +169,8 @@ const Input = styled.input`
     outline: none;
     border: 1px solid ${props => props.theme.lightGray};
     transition: 0.3s;
+    color: ${props => props.theme.brandBlue};
+    font-size: 1rem;
     &:focus {
         outline: none;
         border: 1px solid ${props => props.theme.lightBlue};
@@ -157,23 +178,47 @@ const Input = styled.input`
         transition: 0.3s;
     }
 `
-
+const TextArea = styled.textarea`
+    margin: 5px 0;
+    padding-top: 5px;
+    padding-left: 10px;
+    outline: none;
+    border: 1px solid ${props => props.theme.lightGray};
+    transition: 0.3s;
+    color: ${props => props.theme.darkGray};
+    &:focus {
+        outline: none;
+        border: 1px solid ${props => props.theme.lightBlue};
+        box-shadow: 0px 0px 4px 1px ${props => props.theme.lightGray};
+        transition: 0.3s;
+    }
+`
+const ImageInputWrap = styled.div`
+    width: 50%;
+    display: flex;
+    align-items: center;
+    margin: 15px 0px;
+`;
 const ImageLabel = styled.label`
     width: 100px;
     height: 30px;
+    margin-right: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    color: ${props => props.theme.darkGray};
+    color: ${props => props.imageName === "Choose a file"? props.theme.darkGray : props.theme.primWhite};
+    background-color: ${props => props.imageName === "Choose a file"? "none" : props.theme.darkGray};
     border: solid 1px ${props => props.theme.lightGray};
     border-radius: 20px;
+    transition: 0.3s;
 `
-
-const ImageBtn = styled.input`
+const ImageInput = styled.input`
     display: none;
-    border: solid 1px red;
-    width: 100px;
+`
+const ImageState = styled.div`
+    font-size: 0.9rem;
+    color: ${props => props.theme.darkGray};
 `
 
 const BtnWrap = styled.div`
@@ -198,6 +243,12 @@ const BtnWrap = styled.div`
     }
 `
 
+const mapDispatchToProps = dispatch => {
+    return {
+        addProduct: (data) => dispatch(addProduct(data))
+    }
+}
 
 
-export default connect()(AddProduct);
+
+export default connect(null, mapDispatchToProps)(AddProduct);

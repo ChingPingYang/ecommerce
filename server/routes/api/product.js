@@ -10,8 +10,9 @@ const multerUpload = require('../../middleware/multerUpload');
 // @route   POST api/product
 // @desc    For admin to add new product
 // @access  Private
-router.post('/', [ authToken, isAdmin ], (req, res) => multerUpload(req, res, async (err) => {
+router.post('/', [ authToken, isAdmin ], (req, res) => multerUpload.single('imageURL')(req, res, async (err) => {
         // Handle errors for multer first*
+        console.log(req.body)
         if(err) {
             if(err.message) return res.status(400).json({ msg: err.message});
         }
@@ -28,29 +29,29 @@ router.post('/', [ authToken, isAdmin ], (req, res) => multerUpload(req, res, as
         } else if(!req.file) {
             return res.status(400).json({ msg: 'Image is required.'});
         }
-        
-        try{
-            const newProduct = new Product({
-                name,
-                description,
-                category,
-                price,
-                quantity,
-                sold,
-                imageURL: req.file.path.slice(6)
-            })
-            await newProduct.save();
-            return res.json(newProduct);
-        } catch(err) {
-            return res.status(500).json({ msg: 'Server error...'});
-        }
+        console.log(req.body)
+        // try{
+        //     const newProduct = new Product({
+        //         name,
+        //         description,
+        //         category,
+        //         price,
+        //         quantity,
+        //         sold,
+        //         imageURL: req.file.path.slice(6)
+        //     })
+        //     await newProduct.save();
+        //     return res.json(newProduct);
+        // } catch(err) {
+        //     return res.status(500).json({ msg: 'Server error...'});
+        // }
         
 }))
 
 // @route   PUT api/product
 // @desc    For admin to update old product
 // @access  Private
-router.put('/:productId', [ authToken, isAdmin ], (req, res) => multerUpload(req, res, async (err) => {
+router.put('/:productId', [ authToken, isAdmin ], (req, res) => multerUpload.single('imageURL')(req, res, async (err) => {
     const productId = req.params.productId;
     const { name, description, category, price, quantity, sold } = req.body;
     const file = req.file;
