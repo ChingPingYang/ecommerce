@@ -53,11 +53,11 @@ const SignIn = ({signIn}) => {
                         value={credential.password}
                     />
                 </InputWrap>
-                <ShowBtn onClick={handleShow}>{show === true? 'Hide' : 'Show'}</ShowBtn>
                 <BtnWrap>
                     <input type="submit" value="Sign in" />
                     <StyledLink to="/signup">Create an account</StyledLink>
                 </BtnWrap>
+                <ShowBtn onClick={handleShow}>{show === true? 'Hide' : 'Show'}</ShowBtn>
             </Form>
         </>
     )
@@ -107,17 +107,6 @@ const Input = styled.input`
         transition: 0.3s;
     }
 `
-
-const ShowBtn = styled.button`
-    all: unset;
-    cursor: pointer;
-    color: ${props => props.theme.lightBlue};
-    position: relative;
-    font-size: 13px;
-    top: -48px;
-    left: 170px;
-`
-
 const BtnWrap = styled.div`
     width: 50%;
     height: 35px;
@@ -148,6 +137,15 @@ const StyledLink = styled(Link)`
     &:hover {
         color: ${props => props.theme.darkBlue};
     }
+`
+const ShowBtn = styled.button`
+    all: unset;
+    cursor: pointer;
+    color: ${props => props.theme.lightBlue};
+    position: relative;
+    font-size: 13px;
+    top: -83px;
+    left: 170px;
 `
 
 const mapDispatchToProps = dispatch => {
