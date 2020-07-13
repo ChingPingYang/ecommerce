@@ -3,7 +3,7 @@ import { Switch } from 'react-router-dom';
 import AdminRoute from './AdminRoute';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
-import Landing from '../layout/Landing';
+import Landing from '../landing/Landing';
 import SignIn from '../auth/SignIn';
 import SignUp from '../auth/SignUp';
 import UserDashboard from '../user/UserDashboard';

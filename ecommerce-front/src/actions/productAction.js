@@ -31,7 +31,6 @@ export const addProduct = data => async dispatch => {
 export const getAllProducts = (sortBy) => async dispatch => {
     try {
         const res = await axios.get(`/api/product?sortBy=${sortBy}`);
-        console.log('PRODUCTS: ', res.data);
         dispatch({ type: "GET_ALL_PRODUCTS", payload: res.data});
     } catch(err) {
         dispatch({ type: "FAILED_GET_ALL_RPODUCTS"});

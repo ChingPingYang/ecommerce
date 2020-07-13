@@ -15,6 +15,12 @@ const productReducer = (state = init, action) => {
                 loading: false,
                 error: null
             }
+        case "GET_ALL_PRODUCTS":
+            return {
+                ...state,
+                products: payload,
+                loading: false
+            }
         case "FAILED_ADD_PRODUCT":
             return {
                 ...state,
