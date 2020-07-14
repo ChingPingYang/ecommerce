@@ -2,6 +2,7 @@ import React, { useEffect, useState }from 'react';
 import { connect } from 'react-redux';
 import { getAllProducts } from '../../actions/productAction';
 import styled from 'styled-components';
+import SideFilter from './SideFilter';
 import Match from './Match';
 import Product from './Product';
 
@@ -13,13 +14,32 @@ const Landing = ({ product: {loading, products}, getAllProducts }) => {
         if(!loading) setCopyProducts([...products]);
     }, [loading]);
     
+    const setMatch = (e) => {
+        let matchProducts = []
+        switch(e.target.value) {
+            case "Low-Hight":
+                matchProducts = copyProducts.sort((p1, p2) => p1.price > p2.price ? 1 : -1);
+                break;
+            case "Hight-Low":
+                matchProducts = copyProducts.sort((p1, p2) => p1.price < p2.price ? 1 : -1);
+                break;
+            case "Sold":
+                matchProducts = copyProducts.sort((p1, p2) => p1.sold < p2.sold ? 1 : -1);
+                break;
+            default:
+                matchProducts = products;
+                break;
+        }
+        setCopyProducts([...matchProducts])
+    }
+
     return (
         <Wrap>
             <SideFilterWrap>
-
+                <SideFilter />
             </SideFilterWrap>
             <ProductListWrap>
-                <Match/>
+                <Match setMatch={setMatch}/>
                 <ProductWrap>
                     {copyProducts.length < 1 ? <h1>no</h1> : 
                         copyProducts.map(product => <Product key={product._id} product={product} /> )
@@ -32,32 +52,27 @@ const Landing = ({ product: {loading, products}, getAllProducts }) => {
 
 const Wrap = styled.div`
     width: 100%;
-    /* min-height: 580px; */
-    border: solid 3px blue;
     display: flex;
     flex-direction: row;
+    margin-top: 20px;
+    /* border: solid 3px blue; */
 `
 const SideFilterWrap = styled.div`
     width: 30%;
-    border: solid 1px purple;
+    /* border: solid 1px purple; */
 `
 const ProductListWrap = styled.div`
-    width: 70%;
+    width: 80%;
     display: flex;
     flex-direction: column;
-    border: solid 1px red;
-    padding-left: 80px;
+    padding-left: 30px;
+    /* border: solid 1px red; */
 `
 const ProductWrap = styled.div`
-    width: 1050px;
+    width: 85%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    border: solid 1px gray;
 `
-
-
-
 
 
 const Block = styled.div`

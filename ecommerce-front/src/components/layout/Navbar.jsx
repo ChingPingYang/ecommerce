@@ -13,6 +13,14 @@ const Navbar = props => {
     <ListWrap>
         <li>
             <StyledLink 
+                to={"/"} 
+                location={location.pathname}
+                path={"/"} >
+                PRODUCTS
+            </StyledLink>
+        </li>
+        <li>
+            <StyledLink 
                 to={user && user.role === 1? "/admin/adminDashboard" : "/userDashboard"} 
                 location={location.pathname}
                 path={user && user.role === 1? "/admin/adminDashboard" : "/userDashboard"} >
@@ -48,6 +56,14 @@ const Navbar = props => {
 
    const guestLinks = () => (
     <ListWrap>
+        <li>
+            <StyledLink 
+                to={"/"} 
+                location={location.pathname}
+                path={"/"} >
+                PRODUCTS
+            </StyledLink>
+        </li>
         <li>
             <StyledLink to="/userDashboard" location={location.pathname} path="/userDashboard" >
                 DASHBOARD

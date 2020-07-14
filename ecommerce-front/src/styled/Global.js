@@ -14,7 +14,6 @@ const Global = createGlobalStyle`
     }
     #root {
         width: 100vw;
-        border: solid 3px red;
     }
 `
 export default Global;
