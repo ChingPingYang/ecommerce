@@ -119,10 +119,22 @@ router.get('/', async(req, res) => {
 router.post('/search', async (req, res) => {
     // Create filter object first in case of not passing anything in req.body
     let filter = {};    
-    if(req.body.filter) filter = req.body.filter;
+    // if(req.body.filter) filter = req.body.filter;
+    if(req.body.filter) {
+        const { price, category } = req.body.filter;
+        filter = {
+            price: {
+                $gte: price.start,
+                $lte: price.end
+            },
+            category: {
+                $in: [...category]   
+            }
+        }
+    }
     const sortBy = req.query.sortBy? req.query.sortBy : '_id';
     const order = req.query.order? req.query.order : 'asc';
-    const limit = req.query.limit? Number(req.query.limit) : 6;
+    const limit = req.query.limit? Number(req.query.limit) : 60;
     try {
         const products = await Product.find(filter).populate('category', ['name']).sort({ [sortBy]: order} ).limit(limit);
         if(!products) return res.status(400).json({ msg: 'No products are found.'});

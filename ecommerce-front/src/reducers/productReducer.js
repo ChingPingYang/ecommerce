@@ -21,6 +21,12 @@ const productReducer = (state = init, action) => {
                 products: payload,
                 loading: false
             }
+        case "PRODUCTS_BY_CATEGORY":
+            return {
+                ...state,
+                products: payload,
+                loading: false
+            }
         case "FAILED_ADD_PRODUCT":
             return {
                 ...state,

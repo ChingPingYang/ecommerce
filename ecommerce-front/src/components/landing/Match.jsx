@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Match = ({ setMatch }) => {
+const Match = ({ handleMatch }) => {
     return (
         <MatchWrap>
-            <Form onChange={setMatch}>
+            <Form onChange={handleMatch}>
                 <SelectOption name="category" id="category" required>
-                    <option value="">Best Match</option>
+                    <option value="">Sort</option>
                     <option value="Low-Hight">Price Low-Hight</option>
                     <option value="Hight-Low">Price Hight-Low</option>
                     <option value="Sold">Sold</option>                          

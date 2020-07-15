@@ -1,45 +1,95 @@
 import React, { useEffect, useState }from 'react';
 import { connect } from 'react-redux';
 import { getAllProducts } from '../../actions/productAction';
+import { getAllCategories } from '../../actions/categoryAction';
 import styled from 'styled-components';
 import SideFilter from './SideFilter';
 import Match from './Match';
 import Product from './Product';
+import axios from 'axios';
 
-const Landing = ({ product: {loading, products}, getAllProducts }) => {
+const Landing = ({ product: {loading, products}, category, getAllProducts, getAllCategories }) => {
     const [ copyProducts, setCopyProducts ] = useState([]);
-
+    const [ match, setMatch ] = useState();
     useEffect(() => {
         getAllProducts();
+        getAllCategories();
         if(!loading) setCopyProducts([...products]);
-    }, [loading]);
+    }, [loading, getAllProducts, getAllCategories]);
     
-    const setMatch = (e) => {
+    const handleMatch = (e) => {
         let matchProducts = []
         switch(e.target.value) {
             case "Low-Hight":
                 matchProducts = copyProducts.sort((p1, p2) => p1.price > p2.price ? 1 : -1);
+                //set the match state to the selected match
+                setMatch("Low-Hight");
                 break;
             case "Hight-Low":
                 matchProducts = copyProducts.sort((p1, p2) => p1.price < p2.price ? 1 : -1);
+                setMatch("Hight-Low");
                 break;
             case "Sold":
                 matchProducts = copyProducts.sort((p1, p2) => p1.sold < p2.sold ? 1 : -1);
+                setMatch("Sold");
                 break;
             default:
-                matchProducts = products;
+                matchProducts = copyProducts;
                 break;
         }
         setCopyProducts([...matchProducts])
     }
 
+    const setNewCategories = async (selectedCategories) => {
+        const body = JSON.stringify({
+            filter: {
+                price: {
+                    start: 0,
+                    end: 1000000
+                },
+                category: selectedCategories
+            }
+        })
+        const config = {
+            headers: {"Content-Type": "application/json" }
+        }
+        try {
+            // 1. Get new data base on selected categories 
+            const res = await axios.post('/api/product/search', body, config);
+            let products = res.data;
+            // 2. Filter the data with match state
+            let matchProducts = []
+            switch(match) {
+                case "Low-Hight":
+                    matchProducts = products.sort((p1, p2) => p1.price > p2.price ? 1 : -1);
+                    setMatch("Low-Hight");
+                    break;
+                case "Hight-Low":
+                    matchProducts = products.sort((p1, p2) => p1.price < p2.price ? 1 : -1);
+                    setMatch("Hight-Low");
+                    break;
+                case "Sold":
+                    matchProducts = products.sort((p1, p2) => p1.sold < p2.sold ? 1 : -1);
+                    setMatch("Sold");
+                    break;
+                default:
+                    matchProducts = products;
+                    break;
+            }
+            // 3. Set data to products
+            setCopyProducts(matchProducts);
+        } catch(err) {
+            console.log(err)
+        }
+    }
+    
     return (
         <Wrap>
             <SideFilterWrap>
-                <SideFilter />
+                {!category.loading && <SideFilter category={category} setNewCategories={setNewCategories}/>}
             </SideFilterWrap>
             <ProductListWrap>
-                <Match setMatch={setMatch}/>
+                <Match handleMatch={handleMatch}/>
                 <ProductWrap>
                     {copyProducts.length < 1 ? <h1>no</h1> : 
                         copyProducts.map(product => <Product key={product._id} product={product} /> )
@@ -55,11 +105,13 @@ const Wrap = styled.div`
     display: flex;
     flex-direction: row;
     margin-top: 20px;
-    /* border: solid 3px blue; */
+    border: solid 3px blue;
 `
 const SideFilterWrap = styled.div`
     width: 30%;
-    /* border: solid 1px purple; */
+    display: flex;
+    justify-content: flex-end;
+    border: solid 1px purple;
 `
 const ProductListWrap = styled.div`
     width: 80%;
@@ -84,13 +136,15 @@ const Block = styled.div`
 
 const mapStateToProps = state => {
     return {
-        product: state.product
+        product: state.product,
+        category: state.category
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        getAllProducts: (sortBy) => dispatch(getAllProducts(sortBy))
+        getAllProducts: (sortBy) => dispatch(getAllProducts(sortBy)),
+        getAllCategories: () => dispatch(getAllCategories())
     }
 }
 

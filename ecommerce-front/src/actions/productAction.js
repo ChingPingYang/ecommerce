@@ -37,3 +37,25 @@ export const getAllProducts = (sortBy) => async dispatch => {
         dispatch(setAlert(err.response.data.msg));
     }
 }
+
+export const getProductsByCategories = (filter) => async dispatch => {
+    const { category } = filter;
+    const body = JSON.stringify({
+        filter: {
+            price: {
+                start: 0,
+                end: 1000000
+            },
+            category: [...category]
+        }
+    })
+    const config = {
+        headers: {"Content-Type": "application/json" }
+    }
+    try {
+        const res = await axios.post('/api/product/search', body, config);
+        dispatch({type: "PRODUCTS_BY_CATEGORY", payload: res.data});
+    } catch(err) {
+        dispatch(setAlert(err.response.data.msg));
+    }
+}

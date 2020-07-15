@@ -33,8 +33,8 @@ const Product = ({ product }) => {
                 <SoldWrap>
                     <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect width="15" height="15" fill="white"/>
-                        <path d="M1 4L3 11H12L14 4L9.5 8L7.5 2L5.5 8L1 4Z" stroke="#FF328C" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M3 13H12" stroke="#FF328C" stroke-linecap="round"/>
+                        <path d="M1 4L3 11H12L14 4L9.5 8L7.5 2L5.5 8L1 4Z" stroke="#FF328C" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M3 13H12" stroke="#FF328C" strokeLinecap="round"/>
                     </svg>
                     <h5>Sold: {sold}</h5>
                 </SoldWrap>
@@ -44,7 +44,7 @@ const Product = ({ product }) => {
                         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect width="15" height="15" fill="white"/>
                             <circle cx="7.5" cy="7.5" r="6" stroke="#10e33b"/>
-                            <path d="M4.5 7.5L7 10L11 6" stroke="#10e33b" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4.5 7.5L7 10L11 6" stroke="#10e33b" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                         <h5>In stock: {quantity}</h5>
                     </>
