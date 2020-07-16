@@ -27,7 +27,6 @@ const AddProduct = ({category: { categories, loading }, addProduct, getAllCatego
                 [e.target.name]: e.target.value
             })
         }
-        console.log(data)
     }
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -67,6 +66,7 @@ const AddProduct = ({category: { categories, loading }, addProduct, getAllCatego
                         type="number" 
                         id="price" 
                         name="price" 
+                        step="any"
                         onChange={handleOnChange}
                         required
                     />

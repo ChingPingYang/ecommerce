@@ -1,15 +1,32 @@
 import React, { useState, useEffect} from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { setAlert } from '../../actions/alertAction';
 
-const SideFilter = ({category, setNewCategories}) => {
+const SideFilter = ({category, setNewCategories, setAlert}) => {
     const { categories } = category;
     const [ selectedCategories, setSelectedCategories ] = useState([]);
+    const [ priceRange, setPriceRange ] = useState({start: 0, end: 1000000});
+    
     useEffect(() => {
+        // Check if the old priceRange is valid. If not, put the original one.
+        let priceRangeCopy = {};
+        if(priceRange.start >= priceRange.end) {
+            priceRangeCopy = {start: 0, end: 1000000};
+            setAlert('Please insert correct price range.');
+        } else {
+            priceRangeCopy = priceRange;
+        }
+        // Retrieve products base on new selected categories.
         if(selectedCategories.length > 0) {
-            setNewCategories(selectedCategories);
+            setNewCategories(selectedCategories, priceRangeCopy);
+        } else if(selectedCategories.length === 0) {
+            setNewCategories([...categories], priceRangeCopy);
         }
     },[selectedCategories])
+
     const handleOnchange = (e) => {
+        // Set categories to state
         const { checked, value } = e.target;
         if (checked) {
             setSelectedCategories((pre) => {
@@ -25,77 +42,112 @@ const SideFilter = ({category, setNewCategories}) => {
             })
         }      
     }
-    
+
+    const handlePriceOnchange = (e) => {
+        setPriceRange({
+            ...priceRange,
+            [e.target.name]: Number(e.target.value)
+        })
+    }
+    const handlePriceOnSubmit = (e) => {
+        e.preventDefault();
+        if(priceRange.start > priceRange.end) {
+            return setAlert('Minimum price must be smaller than Maximum price.');
+        } else if(priceRange.start === priceRange.end) {
+            return setAlert('Prices must be different.');
+        }
+        if(selectedCategories.length === 0) {
+            setNewCategories([...categories], priceRange);
+        } else {
+            setNewCategories(selectedCategories, priceRange);
+        }
+    }
+
     return (
         <Wrap>
-            <CheckboxForm onChange={handleOnchange}>
-                {categories.map(category => (
-                    <label key={category._id}>
-                        <input type="checkbox" name={category.name} value={category._id} autoFocus/>
-                        <span>{category.name}</span>
-                    </label>    
-                ))}
-                {/* <label>
-                    <input type="checkbox" name="category" value="B"/>
-                    <span className="test">B</span>
-                </label>
-                <label>
-                    <input type="checkbox" name="category" value="C"/>
-                    <span className="test">C</span>
-                </label>
-                <label>
-                    <input type="checkbox" name="category" value="D"/>
-                    <span className="test">D</span>
-                </label> */}
-            </CheckboxForm>
-
+            <SectionWrap>
+                <SectionTitle>
+                    Categories
+                </SectionTitle>
+                <CheckboxForm onChange={handleOnchange}>
+                    {categories.map(category => (
+                        <label key={category._id}>
+                            <input type="checkbox" name={category.name} value={category._id}/>
+                            <span>{category.name}</span>
+                        </label>    
+                    ))}
+                </CheckboxForm>
+            </SectionWrap>
+            <SectionWrap>
+                <SectionTitle>
+                    Price Range
+                </SectionTitle>
+                <PriceForm onSubmit={handlePriceOnSubmit}>
+                    <InputWrap>
+                        <input type="number" name="start" id="start" step="any" onChange={handlePriceOnchange} />
+                        <label htmlFor="start">min.</label>
+                    </InputWrap>
+                    <InputWrap>
+                        <input type="number" name="end" id="end" step="any" onChange={handlePriceOnchange} />
+                        <label htmlFor="end">max.</label>
+                    </InputWrap>
+                    <BtnWrap>
+                        <input type="submit" value="Submit" />
+                    </BtnWrap>
+                </PriceForm>
+            </SectionWrap>
         </Wrap>
-        
     )
 }
 
 const Wrap = styled.div`
-    border-right: solid 1px red;
-    border: solid 1px blue;
-    width: 70%;
+    width: 50%;
     height: 700px;
+    display: flex;
+    flex-direction: column;
+    
+`
+const SectionWrap = styled.div`
+    border-bottom: solid 1px ${props => props.theme.lightGray};
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+`
+const SectionTitle = styled.div`
+    font-weight: 600;
+    margin-bottom: 10px;
 `
 const CheckboxForm = styled.form`
     display: flex;
     flex-direction: column;
     label {
         cursor: pointer;
-        width: 200px;
-        border: solid 1px red;
-        margin: 10px;
+        width: 200px;        
+        margin-bottom: 10px;
         input {
             display: none;
             &:checked + span {
+                font-weight: 600;
                 &:before {
                     content: "";
                     position: absolute;
-                    width: 15px;
-                    height: 15px;
-                    top: 1px;
-                    left: -20px;
-                    border: solid 2px red;
+                    background-color: ${props => props.theme.brandBlue};
+                    border: solid 1px ${props => props.theme.brandBlue};
                 }
                 &:after {
                     content: "";
                     position: absolute;
-                    width: 6px;
-                    height: 12px;
+                    width: 5px;
+                    height: 10px;
                     top: 2px;
-                    left: -15px;
-                    border-bottom: solid 2px black;
-                    border-right: solid 2px black;
+                    left: -20px;
+                    border-bottom: solid 2px white;
+                    border-right: solid 2px white;
                     transform: rotate(40deg);
                 }
-            }
-                
+            }     
         }
         span {
-            margin-left: 20px;
+            margin-left: 25px;
             position: relative;
             &:before {
                 content: "";
@@ -103,11 +155,69 @@ const CheckboxForm = styled.form`
                 width: 15px;
                 height: 15px;
                 top: 1px;
-                left: -20px;
-                border: solid 1px blue;
+                left: -25px;
+                border: solid 1px ${props => props.theme.darkGray};
+                border-radius: 2px;
             }
         }
     }
 `
+const PriceForm = styled.form`
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+`
+const InputWrap = styled.div`
+    margin: 0px 20px 10px 0px;
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    }
+    input[type=number] {
+    -moz-appearance: textfield;
+    width: 50px;
+    height: 20px;
+    padding-left: 2px;
+    outline: none;
+    border: 1px solid ${props => props.theme.lightGray};
+    transition: 0.3s;
+    color: ${props => props.theme.brandBlue};
+    font-size: 0.8rem;
+    &:focus {
+        outline: none;
+        border: 1px solid ${props => props.theme.lightBlue};
+        box-shadow: 0px 0px 4px 1px ${props => props.theme.lightGray};
+        transition: 0.3s;
+    }
+    }
+    label {
+        display: block;
+        text-align: center;
+        font-size: 0.8rem;
+        color: ${props => props.theme.darkGray};
+    }
+`
+const BtnWrap = styled.div`
+    input {
+        all: unset;
+        font-size: 0.8rem;
+        width: 50px;
+        height: 20px;
+        cursor: pointer;
+        text-align: center;
+        color: ${props => props.theme.primWhite};
+        background-color: ${props => props.theme.interactive};
+        transition: 0.2s;
+        &:hover {
+            background-color: ${props => props.theme.interactiveDark};
+        }
+    }
+`
 
-export default SideFilter;
+const mapDispatchToProps = dispatch => {
+    return {
+        setAlert: (message) => dispatch(setAlert(message))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(SideFilter);

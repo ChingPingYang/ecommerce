@@ -22,7 +22,7 @@ const Landing = ({ product: {loading, products}, category, getAllProducts, getAl
         switch(e.target.value) {
             case "Low-Hight":
                 matchProducts = copyProducts.sort((p1, p2) => p1.price > p2.price ? 1 : -1);
-                //set the match state to the selected match
+                //set the match state to the selected match for sideFilter to use
                 setMatch("Low-Hight");
                 break;
             case "Hight-Low":
@@ -40,12 +40,13 @@ const Landing = ({ product: {loading, products}, category, getAllProducts, getAl
         setCopyProducts([...matchProducts])
     }
 
-    const setNewCategories = async (selectedCategories) => {
+    const setNewCategories = async (selectedCategories, priceRange = {start: 0, end: 1000000}) => {
+        console.log(priceRange)
         const body = JSON.stringify({
             filter: {
                 price: {
-                    start: 0,
-                    end: 1000000
+                    start: priceRange.start,
+                    end: priceRange.end
                 },
                 category: selectedCategories
             }
@@ -104,21 +105,19 @@ const Wrap = styled.div`
     width: 100%;
     display: flex;
     flex-direction: row;
-    margin-top: 20px;
-    border: solid 3px blue;
+    margin-top: 40px;
 `
 const SideFilterWrap = styled.div`
     width: 30%;
     display: flex;
     justify-content: flex-end;
-    border: solid 1px purple;
+    border-right: solid 1px ${props => props.theme.lightGray};
 `
 const ProductListWrap = styled.div`
     width: 80%;
     display: flex;
     flex-direction: column;
     padding-left: 30px;
-    /* border: solid 1px red; */
 `
 const ProductWrap = styled.div`
     width: 85%;
