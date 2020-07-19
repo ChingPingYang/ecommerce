@@ -1,6 +1,5 @@
 import React, { useEffect, useState }from 'react';
 import { connect } from 'react-redux';
-import { getAllProducts } from '../../actions/productAction';
 import { getAllCategories } from '../../actions/categoryAction';
 import styled from 'styled-components';
 import SideFilter from './SideFilter';
@@ -8,40 +7,93 @@ import Match from './Match';
 import Product from './Product';
 import axios from 'axios';
 
-const Landing = ({ product: {loading, products}, category, getAllProducts, getAllCategories }) => {
-    const [ copyProducts, setCopyProducts ] = useState([]);
-    const [ match, setMatch ] = useState();
+const Landing = ({ category:{ loading, categories, selectedCategories}, getAllCategories }) => {
+    const [ products, setProducts ] = useState([]);
+    const [ match, setMatch ] = useState({
+        sortBy: "_id",
+        order: "asc"
+    });
+    const [ priceRange, setPriceRange ] = useState({start: 0, end: 1000000});
+    const [ loadMore, setLoadMore ] = useState({
+        limit: 3,
+        page: 1,
+        totalPage: 0, 
+        showBtn: true      
+    });
+
     useEffect(() => {
-        getAllProducts();
         getAllCategories();
-        if(!loading) setCopyProducts([...products]);
-    }, [loading, getAllProducts, getAllCategories]);
-    
-    const handleMatch = (e) => {
-        let matchProducts = []
-        switch(e.target.value) {
+    }, [getAllCategories]);
+
+    const handleMatch = async (e) => {
+        // Get new products base on new match and the rest of other old state.
+        const { value } = e.target;
+        let newMatch = { sortBy: "_id", order: "asc" };
+        let page = 0
+        switch(value) {
             case "Low-Hight":
-                matchProducts = copyProducts.sort((p1, p2) => p1.price > p2.price ? 1 : -1);
+                newMatch = {sortBy: "price", order: "asc"}; 
                 //set the match state to the selected match for sideFilter to use
-                setMatch("Low-Hight");
+                setMatch(newMatch);
                 break;
             case "Hight-Low":
-                matchProducts = copyProducts.sort((p1, p2) => p1.price < p2.price ? 1 : -1);
-                setMatch("Hight-Low");
+                newMatch = {sortBy: "price", order: "desc"};
+                setMatch(newMatch);
                 break;
             case "Sold":
-                matchProducts = copyProducts.sort((p1, p2) => p1.sold < p2.sold ? 1 : -1);
-                setMatch("Sold");
+                newMatch = {sortBy: "price", order: "desc"};
+                setMatch(newMatch);
                 break;
             default:
-                matchProducts = copyProducts;
+                setMatch(newMatch);
                 break;
         }
-        setCopyProducts([...matchProducts])
-    }
 
-    const setNewCategories = async (selectedCategories, priceRange = {start: 0, end: 1000000}) => {
-        console.log(priceRange)
+        let tempCategories = selectedCategories.length === 0? categories : selectedCategories;
+        const body = JSON.stringify({
+            filter: {
+                price: {
+                    start: priceRange.start,
+                    end: priceRange.end
+                },
+                category: tempCategories
+            }
+        });
+        const config = { headers: {"Content-Type": "application/json" }};
+        try {
+            const { sortBy, order } = newMatch;
+            const { limit } = loadMore;
+            // 1. Get new data base on selected categories, also sort it in the server. (Only first page).
+            const res = await axios.post(`/api/product/search?sortBy=${sortBy}&order=${order}&limit=${limit}&skip=${limit*page}`, body, config);
+            let { products, documentCount } = res.data;
+            setProducts(products);
+            // 2. Count how many page in total and set it to the state.
+            let totalPage = Math.ceil(documentCount / limit);
+            // 3. If total page = first page, then get rid of the button.
+            //    Also need to reset the page count.
+            if(totalPage === 1 || totalPage === 0) {
+                setLoadMore({
+                    ...loadMore,
+                    page: 1,
+                    totalPage,
+                    showBtn: false
+                })
+            } else {
+                setLoadMore({
+                    ...loadMore,
+                    page: 1,
+                    totalPage,
+                    showBtn: true
+                })
+            }
+        } catch(err) {
+            console.log(err.response)
+        }
+    }
+    
+    // For setting initial products.
+    // Will execute when the SildFilter mounted, also whenever the selectedCategories are changed.
+    const setNewCategories = async (selectedCategories, priceRange = {start: 0, end: 1000000}, page = 0) => {
         const body = JSON.stringify({
             filter: {
                 price: {
@@ -50,62 +102,118 @@ const Landing = ({ product: {loading, products}, category, getAllProducts, getAl
                 },
                 category: selectedCategories
             }
-        })
-        const config = {
-            headers: {"Content-Type": "application/json" }
-        }
+        });
+        const config = { headers: {"Content-Type": "application/json" }};
         try {
-            // 1. Get new data base on selected categories 
-            const res = await axios.post('/api/product/search', body, config);
-            let products = res.data;
-            // 2. Filter the data with match state
-            let matchProducts = []
-            switch(match) {
-                case "Low-Hight":
-                    matchProducts = products.sort((p1, p2) => p1.price > p2.price ? 1 : -1);
-                    setMatch("Low-Hight");
-                    break;
-                case "Hight-Low":
-                    matchProducts = products.sort((p1, p2) => p1.price < p2.price ? 1 : -1);
-                    setMatch("Hight-Low");
-                    break;
-                case "Sold":
-                    matchProducts = products.sort((p1, p2) => p1.sold < p2.sold ? 1 : -1);
-                    setMatch("Sold");
-                    break;
-                default:
-                    matchProducts = products;
-                    break;
+            const { sortBy, order } = match;
+            const { limit } = loadMore;
+            // 1. Get new data base on selected categories, also sort it in the server. (Only first page).
+            const res = await axios.post(`/api/product/search?sortBy=${sortBy}&order=${order}&limit=${limit}&skip=${limit*page}`, body, config);
+            let { products, documentCount } = res.data;
+            setProducts(products);
+            // 2. Count how many page in total and set it to the state.
+            let totalPage = Math.ceil(documentCount / limit);
+            // 3. If total page = first page, then get rid of the button.
+            //    Also need to reset the page count.
+            if(totalPage === 1 || totalPage === 0) {
+                setLoadMore({
+                    ...loadMore,
+                    page: 1,
+                    totalPage,
+                    showBtn: false
+                })
+            } else {
+                setLoadMore({
+                    ...loadMore,
+                    page: 1,
+                    totalPage,
+                    showBtn: true
+                })
             }
-            // 3. Set data to products
-            setCopyProducts(matchProducts);
         } catch(err) {
-            console.log(err)
+            console.log(err.response)
+        }
+    }
+ 
+    
+    const handleShowMore = async (selectedCategories, currentProducts, priceRange = {start: 0, end: 1000000}, page = 1) => {
+        const body = JSON.stringify({
+            filter: {
+                price: {
+                    start: priceRange.start,
+                    end: priceRange.end
+                },
+                category: selectedCategories
+            }
+        });
+        const config = { headers: {"Content-Type": "application/json" }};
+        try {
+            const { sortBy, order } = match;
+            const { limit } = loadMore;
+            // 1. Get new data if there are more in the selected categories. 
+            const res = await axios.post(`/api/product/search?sortBy=${sortBy}&order=${order}&limit=${limit}&skip=${limit*page}`, body, config);
+            let { products } = res.data;
+            // 2. Add new products to the current products.
+            // let x = [...currentProducts, ...products];
+            // console.log(res.data.documentCount);
+            setProducts([...currentProducts, ...products]);
+            // 3. If the total page = the last page, get ride of show more button.
+            setLoadMore((old) => {
+                const newPage = old.page + 1;
+                if(old.totalPage === newPage) {
+                    return {
+                        ...loadMore,
+                        page: newPage,
+                        showBtn: false
+                    }    
+                } else {
+                    return {
+                        ...loadMore,
+                        page: newPage
+                    }
+                }
+            })
+        } catch(err) {
+            console.log(err.response)
         }
     }
     
     return (
-        <Wrap>
-            <SideFilterWrap>
-                {!category.loading && <SideFilter category={category} setNewCategories={setNewCategories}/>}
-            </SideFilterWrap>
-            <ProductListWrap>
-                <Match handleMatch={handleMatch}/>
-                <ProductWrap>
-                    {copyProducts.length < 1 ? <h1>no</h1> : 
-                        copyProducts.map(product => <Product key={product._id} product={product} /> )
-                    }
-                </ProductWrap>
-            </ProductListWrap>
-        </Wrap>
+        <LandingWrap>
+            <Wrap>
+                <SideFilterWrap>
+                    {!loading && <SideFilter setNewCategories={setNewCategories} priceRange={priceRange} setPriceRange={setPriceRange}/>}
+                </SideFilterWrap>
+                <ProductListWrap>
+                    <Match handleMatch={handleMatch}/>
+                    <ProductWrap>
+                        {products.length < 1 ? <h1>no</h1> : 
+                            products.map(product => <Product key={product._id} product={product} /> )
+                        }
+                    </ProductWrap>
+                </ProductListWrap>
+            </Wrap>
+            {loadMore.showBtn && 
+                <BtnWrap>
+                    <ShowBtn onClick={() => {
+                        let tempCategories = selectedCategories.length === 0? categories : selectedCategories;
+                        handleShowMore(tempCategories, products, priceRange, loadMore.page);
+                    }}/>
+                </BtnWrap>
+            }
+        </LandingWrap>
     )
 }
+
+const LandingWrap = styled.div`
+`
 
 const Wrap = styled.div`
     width: 100%;
     display: flex;
     flex-direction: row;
     margin-top: 40px;
+    border: solid 1px red;
 `
 const SideFilterWrap = styled.div`
     width: 30%;
@@ -124,13 +232,18 @@ const ProductWrap = styled.div`
     display: flex;
     flex-wrap: wrap;
 `
-
-
-const Block = styled.div`
-    width: 100px;
-    height: 150px;
-    background-color: blues;
-    margin: 20px;
+const BtnWrap = styled.div`
+    height: 80px;
+    width: 100%;
+    border: solid 3px blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+const ShowBtn = styled.button`
+    width: 45px;
+    height: 25px;
+    background-color: red;
 `
 
 const mapStateToProps = state => {
@@ -142,7 +255,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getAllProducts: (sortBy) => dispatch(getAllProducts(sortBy)),
         getAllCategories: () => dispatch(getAllCategories())
     }
 }

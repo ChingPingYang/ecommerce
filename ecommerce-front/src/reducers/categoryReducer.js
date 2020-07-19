@@ -1,6 +1,7 @@
 const init = {
     category: null,
     categories: [],
+    selectedCategories: [],
     loading: true,
     error: null
 }
@@ -23,6 +24,11 @@ const categoryReducer = (state = init, action) => {
                 category: payload,
                 loading: false,
                 error: null
+            }
+        case "SET_SELECTED_CATEGORIES":
+            return {
+                ...state,
+                selectedCategories: payload
             }
         case "FAILED_CREATE_CATEGORY":
         case "FAILED_GET_ALL_CATEGORIES":

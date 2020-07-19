@@ -23,7 +23,9 @@ const Product = ({ product }) => {
     return (
         
         <Wrap>
-            <Image imgURL={imageURL}/>
+            <ImageWrap>
+                <img src={imageURL} alt={name}/>
+            </ImageWrap>
             <ContentWrap>
                 <Title>{titleTruncate(name)}</Title>
                 {/* <Title>{titleTruncate("To be continuedddd. You are just Lady gaga og to liga")}</Title> */}
@@ -75,11 +77,19 @@ const Wrap = styled(Link)`
     cursor: pointer; 
     flex-direction: column;
 `
-const Image = styled.div`
+
+const ImageWrap = styled.div`
     width: 100%;
     height: 225.8px;
-    background: url(${props => `http://localhost:8000${props.imgURL}`}) no-repeat;
-    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 `
 const ContentWrap = styled.div`
     width: 100%;

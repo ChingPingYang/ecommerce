@@ -1,13 +1,11 @@
-import React, { useState, useEffect} from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alertAction';
+import { setSelectedCategories } from '../../actions/categoryAction';
 
-const SideFilter = ({category, setNewCategories, setAlert}) => {
-    const { categories } = category;
-    const [ selectedCategories, setSelectedCategories ] = useState([]);
-    const [ priceRange, setPriceRange ] = useState({start: 0, end: 1000000});
-    
+const SideFilter = ({priceRange, setPriceRange, category, setNewCategories, setAlert, setSelectedCategories}) => {
+    const { categories, selectedCategories } = category;
     useEffect(() => {
         // Check if the old priceRange is valid. If not, put the original one.
         let priceRangeCopy = {};
@@ -25,22 +23,8 @@ const SideFilter = ({category, setNewCategories, setAlert}) => {
         }
     },[selectedCategories])
 
-    const handleOnchange = (e) => {
-        // Set categories to state
-        const { checked, value } = e.target;
-        if (checked) {
-            setSelectedCategories((pre) => {
-                const newCategories = [...pre, value]
-                const uniqueArray = newCategories.reduce((unique, item) => {
-                    return unique.includes(item)? unique : [...unique, item];
-                }, []);
-                return uniqueArray
-            });
-        } else {
-            setSelectedCategories((pre) => {
-                return pre.filter((item) => item !== value);
-            })
-        }      
+    const handleSelectionChange = (e) => {
+        setSelectedCategories(e, selectedCategories);
     }
 
     const handlePriceOnchange = (e) => {
@@ -69,7 +53,7 @@ const SideFilter = ({category, setNewCategories, setAlert}) => {
                 <SectionTitle>
                     Categories
                 </SectionTitle>
-                <CheckboxForm onChange={handleOnchange}>
+                <CheckboxForm onChange={handleSelectionChange}>
                     {categories.map(category => (
                         <label key={category._id}>
                             <input type="checkbox" name={category.name} value={category._id}/>
@@ -214,10 +198,17 @@ const BtnWrap = styled.div`
     }
 `
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
     return {
-        setAlert: (message) => dispatch(setAlert(message))
+        category: state.category
     }
 }
 
-export default connect(null, mapDispatchToProps)(SideFilter);
+const mapDispatchToProps = dispatch => {
+    return {
+        setAlert: (message) => dispatch(setAlert(message)),
+        setSelectedCategories: (e, old) => dispatch(setSelectedCategories(e, old))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideFilter);

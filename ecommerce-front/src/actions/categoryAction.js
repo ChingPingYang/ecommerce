@@ -26,3 +26,19 @@ export const getAllCategories = () => async dispatch => {
         dispatch({ type: 'FAILED_GET_ALL_CATEGORIES', payload: err.response.data.msg});
     }
 }
+
+// This action is for setting selected categories to the global state.
+export const setSelectedCategories = (e, old) => dispatch => {
+    // 'e' is from the input element. 'old' is from global state of selectedCategories
+    const { checked, value } = e.target;
+        if (checked) {
+            const newCategories = [...old, value]
+            const uniqueArray = newCategories.reduce((unique, item) => {
+                return unique.includes(item)? unique : [...unique, item];
+            }, []);
+            return dispatch({type: "SET_SELECTED_CATEGORIES", payload: uniqueArray});
+        } else {
+            const uniqueArray = old.filter((item) => item !== value);
+            return dispatch({type: "SET_SELECTED_CATEGORIES", payload: uniqueArray});
+        }      
+}
