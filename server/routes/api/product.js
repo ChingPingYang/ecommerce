@@ -134,11 +134,13 @@ router.post('/search', async (req, res) => {
     }
     const sortBy = req.query.sortBy? req.query.sortBy : '_id';
     const order = req.query.order? req.query.order : 'asc';
-    const limit = req.query.limit? Number(req.query.limit) : 60;
+    const limit = req.query.limit? Number(req.query.limit) : 2;
+    const skip = req.query.skip? Number(req.query.skip) : 1;
     try {
-        const products = await Product.find(filter).populate('category', ['name']).sort({ [sortBy]: order} ).limit(limit);
+        const products = await Product.find(filter).populate('category', ['name']).sort({ [sortBy]: order} ).limit(limit).skip(skip);
+        const count = await Product.find(filter).populate('category', ['name']).countDocuments();
         if(!products) return res.status(400).json({ msg: 'No products are found.'});
-        return res.status(200).json(products);
+        return res.status(200).json({products, documentCount: count});
     } catch(err) {
         return res.status(500).json({ msg: 'Server error...'});
     }
