@@ -86,10 +86,8 @@ const SideFilter = ({priceRange, setPriceRange, category, setNewCategories, setA
 
 const Wrap = styled.div`
     width: 50%;
-    height: 700px;
     display: flex;
     flex-direction: column;
-    
 `
 const SectionWrap = styled.div`
     border-bottom: solid 1px ${props => props.theme.lightGray};

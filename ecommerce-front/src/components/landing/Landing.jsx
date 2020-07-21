@@ -1,7 +1,7 @@
 import React, { useEffect, useState }from 'react';
 import { connect } from 'react-redux';
 import { getAllCategories } from '../../actions/categoryAction';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import SideFilter from './SideFilter';
 import Match from './Match';
 import Product from './Product';
@@ -193,19 +193,23 @@ const Landing = ({ category:{ loading, categories, selectedCategories}, getAllCa
                     </ProductWrap>
                 </ProductListWrap>
             </Wrap>
-            {loadMore.showBtn && 
-                <BtnWrap>
-                    <ShowBtn onClick={() => {
-                        let tempCategories = selectedCategories.length === 0? categories : selectedCategories;
-                        handleShowMore(tempCategories, products, priceRange, loadMore.page);
-                    }}/>
-                </BtnWrap>
-            }
+            <BtnWrap showBtn={loadMore.showBtn}>
+                {loadMore.showBtn ?
+                    <button onClick={() => {
+                    let tempCategories = selectedCategories.length === 0? categories : selectedCategories;
+                    handleShowMore(tempCategories, products, priceRange, loadMore.page);
+                    }}>Show more</button>:
+                    <h3>End of results</h3>
+                }
+            </BtnWrap>
         </LandingWrap>
     )
 }
 
 const LandingWrap = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `
 
 const Wrap = styled.div`
@@ -213,7 +217,6 @@ const Wrap = styled.div`
     display: flex;
     flex-direction: row;
     margin-top: 40px;
-    border: solid 1px red;
 `
 const SideFilterWrap = styled.div`
     width: 30%;
@@ -232,18 +235,37 @@ const ProductWrap = styled.div`
     display: flex;
     flex-wrap: wrap;
 `
+
 const BtnWrap = styled.div`
-    height: 80px;
-    width: 100%;
-    border: solid 3px blue;
+    width: 90%;
+    height: 85px;
+    margin-bottom: 30px;
+    border-bottom: solid 1px ${props => props.theme.lightGray};
     display: flex;
     justify-content: center;
     align-items: center;
-`
-const ShowBtn = styled.button`
-    width: 45px;
-    height: 25px;
-    background-color: red;
+    ${props => !props.showBtn && css`
+        background-color: ${props => props.theme.primWhite};
+        border-bottom: solid 1px ${props => props.theme.primWhite};
+    `}
+    button {
+        all: unset;
+        font-size: 1.1rem;
+        width: 150px;
+        height: 45px;
+        text-align: center;
+        cursor: pointer;
+        color: ${props => props.theme.primWhite};
+        background-color: ${props => props.theme.interactive};
+        transition: 0.2s;
+        &:hover {
+            background-color: ${props => props.theme.interactiveDark};
+        }
+    }
+    h3 {
+        color: ${props => props.theme.darkGray};
+        font-weight: 400;
+    }
 `
 
 const mapStateToProps = state => {
