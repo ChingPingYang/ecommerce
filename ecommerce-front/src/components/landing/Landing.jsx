@@ -20,12 +20,16 @@ const Landing = ({ category:{ loading, categories, selectedCategories}, getAllCa
         totalPage: 0, 
         showBtn: true      
     });
+    const [ productsLoading, setProductsLoading ] = useState(true);
+    const [skeleton, setSkeleton] = useState([0, 1, 2, 3]);
 
     useEffect(() => {
         getAllCategories();
     }, [getAllCategories]);
 
     const handleMatch = async (e) => {
+        // Show data Skeleton
+        setProductsLoading(true);
         // Get new products base on new match and the rest of other old state.
         const { value } = e.target;
         let newMatch = { sortBy: "_id", order: "asc" };
@@ -65,11 +69,13 @@ const Landing = ({ category:{ loading, categories, selectedCategories}, getAllCa
             const { limit } = loadMore;
             // 1. Get new data base on selected categories, also sort it in the server. (Only first page).
             const res = await axios.post(`/api/product/search?sortBy=${sortBy}&order=${order}&limit=${limit}&skip=${limit*page}`, body, config);
+            // 2. Show real data
+            setProductsLoading(false);
             let { products, documentCount } = res.data;
             setProducts(products);
-            // 2. Count how many page in total and set it to the state.
+            // 3. Count how many page in total and set it to the state.
             let totalPage = Math.ceil(documentCount / limit);
-            // 3. If total page = first page, then get rid of the button.
+            // 4. If total page = first page, then get rid of the button.
             //    Also need to reset the page count.
             if(totalPage === 1 || totalPage === 0) {
                 setLoadMore({
@@ -94,6 +100,8 @@ const Landing = ({ category:{ loading, categories, selectedCategories}, getAllCa
     // For setting initial products.
     // Will execute when the SildFilter mounted, also whenever the selectedCategories are changed.
     const setNewCategories = async (selectedCategories, priceRange = {start: 0, end: 1000000}, page = 0) => {
+        // Show data Skeleton
+        setProductsLoading(true);
         const body = JSON.stringify({
             filter: {
                 price: {
@@ -109,11 +117,14 @@ const Landing = ({ category:{ loading, categories, selectedCategories}, getAllCa
             const { limit } = loadMore;
             // 1. Get new data base on selected categories, also sort it in the server. (Only first page).
             const res = await axios.post(`/api/product/search?sortBy=${sortBy}&order=${order}&limit=${limit}&skip=${limit*page}`, body, config);
+            // 2. Show real data
+            setProductsLoading(false);
+
             let { products, documentCount } = res.data;
             setProducts(products);
-            // 2. Count how many page in total and set it to the state.
+            // 3. Count how many page in total and set it to the state.
             let totalPage = Math.ceil(documentCount / limit);
-            // 3. If total page = first page, then get rid of the button.
+            // 4. If total page = first page, then get rid of the button.
             //    Also need to reset the page count.
             if(totalPage === 1 || totalPage === 0) {
                 setLoadMore({
@@ -150,12 +161,10 @@ const Landing = ({ category:{ loading, categories, selectedCategories}, getAllCa
         try {
             const { sortBy, order } = match;
             const { limit } = loadMore;
-            // 1. Get new data if there are more in the selected categories. 
+            // 1. Get new data if there are more in the selected categories (skip the first page of data). 
             const res = await axios.post(`/api/product/search?sortBy=${sortBy}&order=${order}&limit=${limit}&skip=${limit*page}`, body, config);
             let { products } = res.data;
             // 2. Add new products to the current products.
-            // let x = [...currentProducts, ...products];
-            // console.log(res.data.documentCount);
             setProducts([...currentProducts, ...products]);
             // 3. If the total page = the last page, get ride of show more button.
             setLoadMore((old) => {
@@ -187,8 +196,13 @@ const Landing = ({ category:{ loading, categories, selectedCategories}, getAllCa
                 <ProductListWrap>
                     <Match handleMatch={handleMatch}/>
                     <ProductWrap>
-                        {products.length < 1 ? <h1>no</h1> : 
-                            products.map(product => <Product key={product._id} product={product} /> )
+                        {productsLoading ? 
+                            // Show sleletons before data loaded.
+                            skeleton.map((item, index) => <Product key={index} skeleton={true} />) : 
+                            <> {products.length < 1? 
+                                    <h1>Nothing</h1> : 
+                                    products.map(product => <Product key={product._id} product={product} skeleton={false} /> )
+                            }</>
                         }
                     </ProductWrap>
                 </ProductListWrap>
@@ -270,7 +284,6 @@ const BtnWrap = styled.div`
 
 const mapStateToProps = state => {
     return {
-        product: state.product,
         category: state.category
     }
 }
