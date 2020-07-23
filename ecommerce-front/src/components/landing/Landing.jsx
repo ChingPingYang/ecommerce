@@ -200,7 +200,7 @@ const Landing = ({ category:{ loading, categories, selectedCategories}, getAllCa
                             // Show sleletons before data loaded.
                             skeleton.map((item, index) => <Product key={index} skeleton={true} />) : 
                             <> {products.length < 1? 
-                                    <h1>Nothing</h1> : 
+                                    <h1>No products are found...</h1> : 
                                     products.map(product => <Product key={product._id} product={product} skeleton={false} /> )
                             }</>
                         }
@@ -248,6 +248,10 @@ const ProductWrap = styled.div`
     width: 85%;
     display: flex;
     flex-wrap: wrap;
+    h1 {
+        color: ${props => props.theme.brandBlue};
+        margin: auto;
+    }
 `
 
 const BtnWrap = styled.div`

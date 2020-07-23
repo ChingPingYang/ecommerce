@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import styled , { css }from 'styled-components';
 import logo from './logo-03.svg';
+import SearchBox from './SearchBox';
 import { signOut } from '../../actions/authAction';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -86,6 +87,7 @@ const Navbar = props => {
     return (
         <NavWrap>
             <Link to="/"><Logo /></Link>
+            <SearchBox />
             {!loading && (isAuthenticated? authedLinks() : guestLinks())}
         </NavWrap>
     ) 
@@ -98,10 +100,10 @@ const NavWrap = styled.div`
     align-items: center;
     box-shadow: 0px 2px 30px -15px rgba( 1, 1, 1, 0.3);
 `
-
 const ListWrap = styled.ul`
     height: 100%;
     flex-grow: 1;
+    border: solid 1px red;
     margin-right: 30px;
     display: flex;
     flex-wrap: wrap;
