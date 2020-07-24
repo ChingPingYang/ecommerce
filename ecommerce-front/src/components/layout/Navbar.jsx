@@ -103,7 +103,6 @@ const NavWrap = styled.div`
 const ListWrap = styled.ul`
     height: 100%;
     flex-grow: 1;
-    border: solid 1px red;
     margin-right: 30px;
     display: flex;
     flex-wrap: wrap;

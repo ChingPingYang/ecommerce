@@ -38,7 +38,6 @@ const Form = styled.form`
     position: relative;
     width: 350px;
     margin-left: 100px;
-    /* border: solid 1px red; */
     input {
         width: 100%;
         height: 40px;
@@ -58,9 +57,8 @@ const Form = styled.form`
 const BtnWrap = styled.div`
     position: absolute;
     top: 6px;
-    left: 250px;
+    left: 286px;
     height: 40px;
-    width: 100px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -70,7 +68,7 @@ const Reset = styled.button`
     all: unset;
     position: relative;
     pointer-events: none;
-    margin-right: 12px;
+    left: -12px;
     opacity: 0;
     transition: 0.3s;
     cursor: pointer;
@@ -85,18 +83,19 @@ const Reset = styled.button`
     ${props => props.test && css`
         opacity: 1;
         pointer-events: all;
-        margin-right: 24px;
+        left: -24px;
     `}
 `
 
 const Submit = styled.button`
     all: unset;
-    width: 35px;
+    width: 45px;
     height: 35px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    
 `
 
 export default SearchBox;
