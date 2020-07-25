@@ -59,3 +59,7 @@ export const getProductsByCategories = (filter) => async dispatch => {
         dispatch(setAlert(err.response.data.msg));
     }
 }
+
+export const setTextSearch = (search) => dispatch => {
+    dispatch({ type: "SET_SEARCH", payload: search});
+}

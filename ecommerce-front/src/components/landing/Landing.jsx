@@ -7,7 +7,7 @@ import Match from './Match';
 import Product from './Product';
 import axios from 'axios';
 
-const Landing = ({ category:{ loading, categories, selectedCategories}, getAllCategories }) => {
+const Landing = ({ product: { search }, category:{ loading, categories, selectedCategories}, getAllCategories }) => {
     const [ products, setProducts ] = useState([]);
     const [ match, setMatch ] = useState({
         sortBy: "_id",
@@ -18,7 +18,7 @@ const Landing = ({ category:{ loading, categories, selectedCategories}, getAllCa
         limit: 3,
         page: 1,
         totalPage: 0, 
-        showBtn: true      
+        showBtn: true
     });
     const [ productsLoading, setProductsLoading ] = useState(true);
     const [skeleton, setSkeleton] = useState([0, 1, 2, 3]);
@@ -288,6 +288,7 @@ const BtnWrap = styled.div`
 
 const mapStateToProps = state => {
     return {
+        product: state.product,
         category: state.category
     }
 }

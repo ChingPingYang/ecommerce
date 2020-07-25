@@ -1,4 +1,5 @@
 const init = {
+    search: "",
     product: null,
     products: [],
     loading: true,
@@ -26,6 +27,11 @@ const productReducer = (state = init, action) => {
                 ...state,
                 products: payload,
                 loading: false
+            }
+        case "SET_SEARCH": 
+            return {
+                ...state,
+                search: payload
             }
         case "FAILED_ADD_PRODUCT":
             return {

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
+import { setTextSearch } from '../../actions/productAction';
 
-const SearchBox = () => {
+const SearchBox = ({ setTextSearch }) => {
     const [search, setSearch] = useState("");
 
     const handleOnchange = (e) => {
@@ -11,24 +13,29 @@ const SearchBox = () => {
         e.preventDefault();
         setSearch("")
     }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log('go')
+        setTextSearch(search);
+    }
     return (
         <Form>
             <input type="text" name="text" placeholder="Search Your Book" onChange={handleOnchange} value={search}/>
             <BtnWrap>
-                <Reset test={search.length === 0 ? false : true} onClick={handleReset}>
-                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="15" height="15" fill="white"/>
-                        <circle cx="7.5" cy="7.5" r="6.5" fill="#CBCFD3"/>
-                        <path d="M10.3536 5.35357C10.5488 5.15831 10.5488 4.84172 10.3536 4.64646C10.1583 4.4512 9.84171 4.4512 9.64645 4.64646L10.3536 5.35357ZM4.64645 9.64646C4.45118 9.84172 4.45118 10.1583 4.64645 10.3536C4.84171 10.5488 5.15829 10.5488 5.35355 10.3536L4.64645 9.64646ZM9.64645 4.64646L4.64645 9.64646L5.35355 10.3536L10.3536 5.35357L9.64645 4.64646Z" fill="white"/>
-                        <path d="M9.64645 10.3536C9.84171 10.5488 10.1583 10.5488 10.3536 10.3536C10.5488 10.1583 10.5488 9.84171 10.3536 9.64645L9.64645 10.3536ZM5.35355 4.64645C5.15829 4.45118 4.84171 4.45118 4.64645 4.64645C4.45119 4.84171 4.45119 5.15829 4.64645 5.35355L5.35355 4.64645ZM10.3536 9.64645L5.35355 4.64645L4.64645 5.35355L9.64645 10.3536L10.3536 9.64645Z" fill="white"/>
-                    </svg>
-                </Reset>
-                <Submit>
+                <Submit type="submit" onClick={handleSubmit}>
                     <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="8.5" cy="8.5" r="7.75" stroke="#0028FF" strokeWidth="1.5"/>
                         <path d="M14 14L21 21" stroke="#0028FF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                 </Submit>
+                <Reset test={search.length === 0 ? false : true} onClick={handleReset}>
+                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="15" height="15" fill="none"/>
+                        <circle cx="7.5" cy="7.5" r="6.5" fill="#CBCFD3"/>
+                        <path d="M10.3536 5.35357C10.5488 5.15831 10.5488 4.84172 10.3536 4.64646C10.1583 4.4512 9.84171 4.4512 9.64645 4.64646L10.3536 5.35357ZM4.64645 9.64646C4.45118 9.84172 4.45118 10.1583 4.64645 10.3536C4.84171 10.5488 5.15829 10.5488 5.35355 10.3536L4.64645 9.64646ZM9.64645 4.64646L4.64645 9.64646L5.35355 10.3536L10.3536 5.35357L9.64645 4.64646Z" fill="white"/>
+                        <path d="M9.64645 10.3536C9.84171 10.5488 10.1583 10.5488 10.3536 10.3536C10.5488 10.1583 10.5488 9.84171 10.3536 9.64645L9.64645 10.3536ZM5.35355 4.64645C5.15829 4.45118 4.84171 4.45118 4.64645 4.64645C4.45119 4.84171 4.45119 5.15829 4.64645 5.35355L5.35355 4.64645ZM10.3536 9.64645L5.35355 4.64645L4.64645 5.35355L9.64645 10.3536L10.3536 9.64645Z" fill="white"/>
+                    </svg>
+                </Reset>
             </BtnWrap>
         </Form>
     )
@@ -60,6 +67,8 @@ const BtnWrap = styled.div`
     left: 286px;
     height: 40px;
     display: flex;
+    /* To recerse submit and reset button */
+    flex-direction: row-reverse;
     justify-content: flex-end;
     align-items: center;
 `
@@ -98,4 +107,10 @@ const Submit = styled.button`
     
 `
 
-export default SearchBox;
+const mapDispatchToProps = dispatch => {
+    return {
+        setTextSearch: (search) => dispatch(setTextSearch(search))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(SearchBox);

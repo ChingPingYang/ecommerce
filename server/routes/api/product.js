@@ -132,13 +132,15 @@ router.post('/search', async (req, res) => {
             }
         }
         // if searching text is provided, assign it the the filter.
-        if(req.body.search) filter.$text = {$search: req.body.search};
+        // if(req.body.filter.search) filter.$text = {$search: req.body.filter.search};
+        if(req.body.filter.search) filter.$text = {$search: req.body.filter.search};
+        
     }
     // $text: {$search: "javascript react book"}
     const sortBy = req.query.sortBy? req.query.sortBy : '_id';
     const order = req.query.order? req.query.order : 'asc';
-    const limit = req.query.limit? Number(req.query.limit) : 2;
-    const skip = req.query.skip? Number(req.query.skip) : 1;
+    const limit = req.query.limit? Number(req.query.limit) : 3;
+    const skip = req.query.skip? Number(req.query.skip) : 0;
     try {
         const products = await Product.find(filter).populate('category', ['name']).sort({ [sortBy]: order} ).limit(limit).skip(skip);
         const count = await Product.find(filter).populate('category', ['name']).countDocuments();
