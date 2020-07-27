@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alertAction';
 import { setSelectedCategories } from '../../actions/categoryAction';
 
-const SideFilter = ({priceRange, setPriceRange, category, setNewCategories, setAlert, setSelectedCategories}) => {
+const SideFilter = ({product:{search}, priceRange, setPriceRange, category, setNewCategories, setAlert, setSelectedCategories}) => {
     const { categories, selectedCategories } = category;
     useEffect(() => {
         // Check if the old priceRange is valid. If not, put the original one.
@@ -17,9 +17,9 @@ const SideFilter = ({priceRange, setPriceRange, category, setNewCategories, setA
         }
         // Retrieve products base on new selected categories.
         if(selectedCategories.length > 0) {
-            setNewCategories(selectedCategories, priceRangeCopy);
+            setNewCategories(search, selectedCategories, priceRangeCopy);
         } else if(selectedCategories.length === 0) {
-            setNewCategories([...categories], priceRangeCopy);
+            setNewCategories(search, [...categories], priceRangeCopy);
         }
     },[selectedCategories])
 
@@ -41,9 +41,9 @@ const SideFilter = ({priceRange, setPriceRange, category, setNewCategories, setA
             return setAlert('Prices must be different.');
         }
         if(selectedCategories.length === 0) {
-            setNewCategories([...categories], priceRange);
+            setNewCategories(search, [...categories], priceRange);
         } else {
-            setNewCategories(selectedCategories, priceRange);
+            setNewCategories(search, selectedCategories, priceRange);
         }
     }
 
@@ -198,6 +198,7 @@ const BtnWrap = styled.div`
 
 const mapStateToProps = state => {
     return {
+        product: state.product,
         category: state.category
     }
 }

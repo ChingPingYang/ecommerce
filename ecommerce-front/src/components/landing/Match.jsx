@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Match = ({ handleMatch }) => {
+const Match = ({ handleMatch }) => {    
     return (
         <MatchWrap>
             <Form onChange={handleMatch}>

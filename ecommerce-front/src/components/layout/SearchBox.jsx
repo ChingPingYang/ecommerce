@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { setTextSearch } from '../../actions/productAction';
 
-const SearchBox = ({ setTextSearch }) => {
+const SearchBox = ({ setTextSearch, history }) => {
     const [search, setSearch] = useState("");
 
     const handleOnchange = (e) => {
@@ -15,8 +17,8 @@ const SearchBox = ({ setTextSearch }) => {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('go')
         setTextSearch(search);
+        history.push('/')
     }
     return (
         <Form>
@@ -113,4 +115,7 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(SearchBox);
+export default compose(
+    withRouter,
+    connect(null, mapDispatchToProps)
+    )(SearchBox);

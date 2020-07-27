@@ -25,7 +25,9 @@ const Landing = ({ product: { search }, category:{ loading, categories, selected
 
     useEffect(() => {
         getAllCategories();
-    }, [getAllCategories]);
+        // When search is applied, set new products.
+        selectedCategories.length > 0? setNewCategories(search, selectedCategories) : setNewCategories(search, [...categories]) ;
+    }, [search, getAllCategories]);
 
     const handleMatch = async (e) => {
         // Show data Skeleton
@@ -45,7 +47,7 @@ const Landing = ({ product: { search }, category:{ loading, categories, selected
                 setMatch(newMatch);
                 break;
             case "Sold":
-                newMatch = {sortBy: "price", order: "desc"};
+                newMatch = {sortBy: "sold", order: "desc"};
                 setMatch(newMatch);
                 break;
             default:
@@ -60,7 +62,8 @@ const Landing = ({ product: { search }, category:{ loading, categories, selected
                     start: priceRange.start,
                     end: priceRange.end
                 },
-                category: tempCategories
+                category: tempCategories,
+                search
             }
         });
         const config = { headers: {"Content-Type": "application/json" }};
@@ -99,7 +102,7 @@ const Landing = ({ product: { search }, category:{ loading, categories, selected
     
     // For setting initial products.
     // Will execute when the SildFilter mounted, also whenever the selectedCategories are changed.
-    const setNewCategories = async (selectedCategories, priceRange = {start: 0, end: 1000000}, page = 0) => {
+    const setNewCategories = async (search, selectedCategories, priceRange = {start: 0, end: 1000000}, page = 0) => {
         // Show data Skeleton
         setProductsLoading(true);
         const body = JSON.stringify({
@@ -108,7 +111,8 @@ const Landing = ({ product: { search }, category:{ loading, categories, selected
                     start: priceRange.start,
                     end: priceRange.end
                 },
-                category: selectedCategories
+                category: selectedCategories,
+                search: search
             }
         });
         const config = { headers: {"Content-Type": "application/json" }};
@@ -147,14 +151,15 @@ const Landing = ({ product: { search }, category:{ loading, categories, selected
     }
  
     
-    const handleShowMore = async (selectedCategories, currentProducts, priceRange = {start: 0, end: 1000000}, page = 1) => {
+    const handleShowMore = async (search, selectedCategories, currentProducts, priceRange = {start: 0, end: 1000000}, page = 1) => {
         const body = JSON.stringify({
             filter: {
                 price: {
                     start: priceRange.start,
                     end: priceRange.end
                 },
-                category: selectedCategories
+                category: selectedCategories,
+                search: search
             }
         });
         const config = { headers: {"Content-Type": "application/json" }};
@@ -200,7 +205,7 @@ const Landing = ({ product: { search }, category:{ loading, categories, selected
                             // Show sleletons before data loaded.
                             skeleton.map((item, index) => <Product key={index} skeleton={true} />) : 
                             <> {products.length < 1? 
-                                    <h1>No products are found...</h1> : 
+                                    <h1>Sorry, we couldn’t find anything...</h1> : 
                                     products.map(product => <Product key={product._id} product={product} skeleton={false} /> )
                             }</>
                         }
@@ -211,7 +216,7 @@ const Landing = ({ product: { search }, category:{ loading, categories, selected
                 {loadMore.showBtn ?
                     <button onClick={() => {
                     let tempCategories = selectedCategories.length === 0? categories : selectedCategories;
-                    handleShowMore(tempCategories, products, priceRange, loadMore.page);
+                    handleShowMore(search, tempCategories, products, priceRange, loadMore.page);
                     }}>Show more</button>:
                     <h3>End of results</h3>
                 }

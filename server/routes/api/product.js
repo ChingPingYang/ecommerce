@@ -132,9 +132,7 @@ router.post('/search', async (req, res) => {
             }
         }
         // if searching text is provided, assign it the the filter.
-        // if(req.body.filter.search) filter.$text = {$search: req.body.filter.search};
-        if(req.body.filter.search) filter.$text = {$search: req.body.filter.search};
-        
+        if(req.body.filter.search.length > 0) filter.$text = {$search: req.body.filter.search};
     }
     // $text: {$search: "javascript react book"}
     const sortBy = req.query.sortBy? req.query.sortBy : '_id';
