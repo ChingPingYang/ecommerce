@@ -168,7 +168,7 @@ router.get('/categories', async (req, res) => {
 router.get('/:productId', async (req, res) => {
     const productId = req.params.productId;
     try {
-        const product = await Product.findById(productId);
+        const product = await Product.findById(productId).populate('category', ['name']);
         if(!product) return res.status(404).json({ msg: 'This product does not exist.'});
         return res.json(product);
     } catch(err){

@@ -18,7 +18,7 @@ const SearchBox = ({ setTextSearch, history }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setTextSearch(search);
-        history.push('/')
+        // history.push('/')
     }
     return (
         <Form>

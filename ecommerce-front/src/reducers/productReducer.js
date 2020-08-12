@@ -33,9 +33,23 @@ const productReducer = (state = init, action) => {
                 ...state,
                 search: payload
             }
+        case "GOT_CERTAIN_PRODUICT": 
+            return {
+                ...state,
+                product: payload,
+                loading: false,
+                error: null
+            }
         case "FAILED_ADD_PRODUCT":
             return {
                 ...state,
+                loading: false,
+                error: payload
+            }
+        case "FAILED_GET_PRODUCT":
+            return {
+                ...state,
+                product: null,
                 loading: false,
                 error: payload
             }

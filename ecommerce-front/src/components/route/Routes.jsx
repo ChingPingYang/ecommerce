@@ -6,6 +6,7 @@ import PublicRoute from './PublicRoute';
 import Landing from '../landing/Landing';
 import SignIn from '../auth/SignIn';
 import SignUp from '../auth/SignUp';
+import SingleProduct from '../landing/product/SingleProduct';
 import UserDashboard from '../user/UserDashboard';
 import CreateCategory from '../admin/CreateCategory';
 import AdminDashboard from '../admin/AdminDashboard';
@@ -18,6 +19,7 @@ const Routes = () => {
             <PublicRoute path="/" exact component={Landing} />
             <PublicRoute path="/signin" restricted component={SignIn} />
             <PublicRoute path="/signup" restricted component={SignUp} />
+            <PublicRoute path="/product/:productId" component={SingleProduct} />
             <PrivateRoute path="/userDashboard" component={UserDashboard} />
             <AdminRoute path="/admin/adminDashboard" component={AdminDashboard}/>
             <AdminRoute path="/admin/createCategory" component={CreateCategory}/>

@@ -60,6 +60,16 @@ export const getProductsByCategories = (filter) => async dispatch => {
     }
 }
 
+export const getCertainProduct = (id) => async dispatch => {
+    try {
+        const res = await axios.get(`/api/product/${id}`);
+        dispatch({ type: "GOT_CERTAIN_PRODUICT", payload: res.data});
+    } catch(err) {
+        dispatch(setAlert(err.response.data.msg));
+        dispatch({ type: "FAILED_GET_PRODUCT", payload: err.response.data.msg});
+    }
+}
+
 export const setTextSearch = (search) => dispatch => {
     dispatch({ type: "SET_SEARCH", payload: search});
 }
