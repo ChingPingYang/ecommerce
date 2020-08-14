@@ -9,8 +9,7 @@ import { compose } from 'redux';
 
 
 const Navbar = props => {
-    const {location, signOut, auth: { isAuthenticated, loading, user }} = props;
-    // const cartNumber = JSON.parse(localStorage.getItem('cart')).length;
+    const {location, signOut, auth: { isAuthenticated, loading, user }, cart} = props;
     
    const authedLinks = () => (
     <ListWrap>
@@ -61,7 +60,7 @@ const Navbar = props => {
                     <circle cx="8" cy="18" r="2" stroke={location.pathname === "/cart" ? "#0028FF" : "#676F79"} strokeWidth="1.5"/>
                     <circle cx="20" cy="18" r="2" stroke={location.pathname === "/cart" ? "#0028FF" : "#676F79"} strokeWidth="1.5"/>
                 </svg>
-                <div></div>
+                {cart.cart !== null && <div><h5>{cart.cart.length}</h5></div>}
             </Link>
         </li>
     </ListWrap>
@@ -91,6 +90,17 @@ const Navbar = props => {
             <StyledLink to="/signup" location={location.pathname} path="/signup" >
                 SIGNUP
             </StyledLink>
+        </li>
+        <li>
+            <Link to="/cart">
+                <svg width="24" height="21" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1H3.82051L6.07692 13H21.8718L23 4.42857H7.5" stroke={location.pathname === "/cart" ? "#0028FF" : "#676F79"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M19.5 16H6.5C5.67157 16 5 15.3284 5 14.5V14.5C5 13.6716 5.67157 13 6.5 13V13" stroke={location.pathname === "/cart" ? "#0028FF" : "#676F79"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <circle cx="8" cy="18" r="2" stroke={location.pathname === "/cart" ? "#0028FF" : "#676F79"} strokeWidth="1.5"/>
+                    <circle cx="20" cy="18" r="2" stroke={location.pathname === "/cart" ? "#0028FF" : "#676F79"} strokeWidth="1.5"/>
+                </svg>
+                {cart.cart !== null && <div><h5>{cart.cart.length}</h5></div>}
+            </Link>
         </li>
     </ListWrap>
    )
@@ -151,8 +161,15 @@ const ListWrap = styled.ul`
                 left: 16px;
                 width: 20px;
                 height: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 background-color: ${props => props.theme.interactive};
                 border-radius: 100%;
+                h5 {
+                    color: white;
+                    font-weight: 400;
+                }
             }
     }
     
@@ -205,7 +222,8 @@ const Logo = styled.div`
 
 const mapStateToProps = state => {
     return {
-        auth: state.auth
+        auth: state.auth,
+        cart: state.cart
     }
 }
 
