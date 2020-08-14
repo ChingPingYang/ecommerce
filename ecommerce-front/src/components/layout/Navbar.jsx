@@ -10,6 +10,8 @@ import { compose } from 'redux';
 
 const Navbar = props => {
     const {location, signOut, auth: { isAuthenticated, loading, user }} = props;
+    // const cartNumber = JSON.parse(localStorage.getItem('cart')).length;
+    
    const authedLinks = () => (
     <ListWrap>
         <li>
@@ -51,7 +53,17 @@ const Navbar = props => {
                 </svg>
             </Link>
         </li>
-        
+        <li>
+            <Link to="/cart">
+                <svg width="24" height="21" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1H3.82051L6.07692 13H21.8718L23 4.42857H7.5" stroke={location.pathname === "/cart" ? "#0028FF" : "#676F79"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M19.5 16H6.5C5.67157 16 5 15.3284 5 14.5V14.5C5 13.6716 5.67157 13 6.5 13V13" stroke={location.pathname === "/cart" ? "#0028FF" : "#676F79"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <circle cx="8" cy="18" r="2" stroke={location.pathname === "/cart" ? "#0028FF" : "#676F79"} strokeWidth="1.5"/>
+                    <circle cx="20" cy="18" r="2" stroke={location.pathname === "/cart" ? "#0028FF" : "#676F79"} strokeWidth="1.5"/>
+                </svg>
+                <div></div>
+            </Link>
+        </li>
     </ListWrap>
    )
 
@@ -103,15 +115,16 @@ const NavWrap = styled.div`
 const ListWrap = styled.ul`
     height: 100%;
     flex-grow: 1;
-    margin-right: 30px;
+    margin-right: 50px;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
     align-items: center;
     li {
+        position: relative;
         list-style: none;
-        flex: 0 0 50px;
-        margin-left: 60px;
+        flex: 0 0 10px;
+        margin-left: 40px;
             svg {
                 width: 30px;
                 height: 30px;
@@ -131,6 +144,15 @@ const ListWrap = styled.ul`
                         stroke: ${props => props.theme.brandBlue};
                     }
                 }
+            }
+            div {
+                position: absolute;
+                top: -3px;
+                left: 16px;
+                width: 20px;
+                height: 20px;
+                background-color: ${props => props.theme.interactive};
+                border-radius: 100%;
             }
     }
     

@@ -1,13 +1,14 @@
 import React, { useEffect, useState }from 'react';
 import { connect } from 'react-redux';
-import { getAllCategories } from '../../actions/categoryAction';
 import styled, { css } from 'styled-components';
+import { getAllCategories } from '../../actions/categoryAction';
+import { clearProduct } from '../../actions/productAction';
 import SideFilter from './SideFilter';
 import Match from './Match';
 import Product from './Product';
 import axios from 'axios';
 
-const Landing = ({ product: { search }, category:{ loading, categories, selectedCategories}, getAllCategories }) => {
+const Landing = ({ product: { search }, category:{ loading, categories, selectedCategories}, getAllCategories, clearProduct }) => {
     const [ products, setProducts ] = useState([]);
     const [ match, setMatch ] = useState({
         sortBy: "_id",
@@ -24,6 +25,7 @@ const Landing = ({ product: { search }, category:{ loading, categories, selected
     const [skeleton, setSkeleton] = useState([0, 1, 2, 3]);
 
     useEffect(() => {
+        clearProduct();
         getAllCategories();
         // When search is applied, set new products.
         selectedCategories.length > 0? setNewCategories(search, selectedCategories) : setNewCategories(search, [...categories]) ;
@@ -300,7 +302,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getAllCategories: () => dispatch(getAllCategories())
+        getAllCategories: () => dispatch(getAllCategories()),
+        clearProduct: () => dispatch(clearProduct())
     }
 }
 

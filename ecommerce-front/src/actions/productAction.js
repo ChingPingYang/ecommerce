@@ -70,6 +70,10 @@ export const getCertainProduct = (id) => async dispatch => {
     }
 }
 
+export const clearProduct = () => async dispatch => {
+    dispatch({ type: "CLEAR_PRODUCT"});
+}
+
 export const setTextSearch = (search) => dispatch => {
     dispatch({ type: "SET_SEARCH", payload: search});
 }

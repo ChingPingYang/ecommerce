@@ -18,7 +18,8 @@ const SearchBox = ({ setTextSearch, history }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setTextSearch(search);
-        // history.push('/')
+        // Push to landing page to do the api call
+        history.push('/');
     }
     return (
         <Form>

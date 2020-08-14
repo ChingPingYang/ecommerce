@@ -40,9 +40,16 @@ const productReducer = (state = init, action) => {
                 loading: false,
                 error: null
             }
+        case "CLEAR_PRODUCT":
+            return {
+                ...state,
+                product: null,
+                loading: false
+            }
         case "FAILED_ADD_PRODUCT":
             return {
                 ...state,
+                product: null,
                 loading: false,
                 error: payload
             }

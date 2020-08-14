@@ -1,26 +1,26 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Spinner from '../../layout/Spinner';
 import styled from 'styled-components';
 import { getCertainProduct } from '../../../actions/productAction';
+import { addToCart } from '../../../actions/cartAction';
 
 
-const SingleProduct = ({ match, product: { product, loading, error}, getCertainProduct}) => {
+const SingleProduct = ({ match, product: { product, loading, error}, getCertainProduct, addToCart}) => {
     const { productId } = match.params;
     const [copyDescription, setCopyDescription] = useState({
         text: '',
         showReadMore: false
     });
+
     useEffect(() => {
         getCertainProduct(productId);
     }, [getCertainProduct]);
 
     useEffect(()=> {
-        if(product && product.description.length > 500){
-            console.log('long')
+        if(product && product.description.length > 530){
             descriptionTruncate(product.description)
         }else if(product) {
-            console.log('short')
             setCopyDescription({
                 text: product.description    
             })
@@ -28,7 +28,7 @@ const SingleProduct = ({ match, product: { product, loading, error}, getCertainP
     }, [product])
 
     const descriptionTruncate = (string) => {
-        const newString = string.slice(0, 500).concat('...');
+        const newString = string.slice(0, 530).concat('...');
         setCopyDescription({
             text: newString,
             showReadMore: true
@@ -41,9 +41,20 @@ const SingleProduct = ({ match, product: { product, loading, error}, getCertainP
         })
     }
 
+    const handleAddToCart = () => {
+        const productForCart = {
+            _id: product._id,
+            name: product.name,
+            category: product.category,
+            imageURL: product.imageURL,
+            price: product.price
+        }
+        addToCart(productForCart)
+    }
+
     return (
         <Wrapper>
-            {loading ? <Spinner/> : 
+            {loading || !product ? <Spinner/> : 
                 <>{error ? <ErrorMsg>{error}</ErrorMsg> :
                 <>
                     <TitleSection>
@@ -59,7 +70,7 @@ const SingleProduct = ({ match, product: { product, loading, error}, getCertainP
                         </ImgWrap>
                         <ContentWrap>
                             <Price>${product.price}</Price>
-                            <AddToCart>Add to Cart</AddToCart>
+                            <AddToCart onClick={handleAddToCart}>Add to Cart</AddToCart>
                             <Description>
                                 <h3>Description</h3>
                                 <p> {copyDescription.text} 
@@ -77,16 +88,14 @@ const SingleProduct = ({ match, product: { product, loading, error}, getCertainP
 
 const Wrapper = styled.div`
     width: 100%;
-    padding: 0px 10%;
+    padding: 30px 10%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* border: solid 1px red; */
 `
 const TitleSection = styled.section`
     width: 100%; 
     border-bottom: solid 1px ${props => props.theme.lightGray};
-    margin-top: 20px;
     padding-bottom: 10px;
     h1 {
         font-weight: 400;
@@ -115,8 +124,7 @@ const ImgWrap = styled.div`
     height: 400px;
     display: flex;
     justify-content: center;
-    /* border: solid 2px black; */
-    /* align-items: center; */
+    align-items: center;
     img {
         width: 50%;
         object-fit: cover;
@@ -124,7 +132,6 @@ const ImgWrap = styled.div`
 `
 const ContentWrap = styled.div`
     width: 50%;
-    /* border: solid 2px red; */
 `
 const Price = styled.div`
     font-size: 2rem;
@@ -179,7 +186,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getCertainProduct: (id) => dispatch(getCertainProduct(id))
+        getCertainProduct: (id) => dispatch(getCertainProduct(id)),
+        addToCart: (product) => dispatch(addToCart(product))
     }
 }
 
