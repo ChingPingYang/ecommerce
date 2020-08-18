@@ -5,6 +5,7 @@ const init = {
 
 const cartReducer = (state = init, action) => {
     const {type, payload} = action;
+    console.log('fff: ',payload);
     switch(type){
         case "ADDED_CART":
             return {
