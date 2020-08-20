@@ -126,6 +126,7 @@ const ImgWrap = styled.div`
     justify-content: center;
     align-items: center;
     img {
+        height: 100%;
         width: 50%;
         object-fit: cover;
     }
