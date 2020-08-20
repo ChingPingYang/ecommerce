@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import SingleCart from './SingleCart';
+import CheckOut from './CheckOut';
 
 const CartPage = ({ cart: { cart } }) => {   
     return (
@@ -15,7 +16,9 @@ const CartPage = ({ cart: { cart } }) => {
                         <ProductsSection>
                             {cart.map(item => <SingleCart key={item._id} cart={item} />)}
                         </ProductsSection>
-                        <CheckoutSection></CheckoutSection>
+                        <CheckoutSection>
+                            <CheckOut cart={cart}/>
+                        </CheckoutSection>
                     </MainSection>
                 </>
             }</>
@@ -56,7 +59,7 @@ const ProductsSection = styled.section`
 `
 const CheckoutSection = styled.section`
     width: 35%;
-    /* height: 400px; */
+    padding-bottom: 20px;
     border: solid 1px red;
 `
 

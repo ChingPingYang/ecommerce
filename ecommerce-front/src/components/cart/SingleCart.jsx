@@ -51,18 +51,17 @@ const Wrap = styled.div`
     border: solid 1px blue;
 `
 const Img = styled.img`
-    width: 150px;
-    height: 130px;
-    margin-right: 10px;
+    width: 140px;
+    height: 140px;
+    margin-right: 20px;
     object-fit: cover;
 `
 const CartContent = styled.div`
     width: 60%;
-    height: 130px;
+    height: 140px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* border: solid 3px red; */
     :last-child {
         text-align: right;
         font-size: 1.3rem;
@@ -82,8 +81,7 @@ const CartName = styled(Link)`
     }
 `
 const QuantityWrap = styled.div`
-    width: 150px;
-    border: solid 1px blue;
+    width: 120px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -154,7 +152,6 @@ const Plus = styled.div`
 `
 const RemoveCart = styled.div`
     width: 70px;
-    border: solid 1px red;
     cursor: pointer;
     display: flex;
     align-items: center;
