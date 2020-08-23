@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { plusQuantity, minusQuantity, removeCart } from '../../actions/cartAction';
 
-const SingleCart = ({cart: {_id, category, name, price, purchase, imageURL}, plusQuantity, minusQuantity, removeCart}) => {
+const SingleCart = ({cart: {_id, name, price, purchase, imageURL}, plusQuantity, minusQuantity, removeCart}) => {
     const handlePlus = (_id) => {
         plusQuantity(_id);
     }
