@@ -1,6 +1,9 @@
 const init = {
   cart: JSON.parse(localStorage.getItem("cart")),
-  loading: false,
+  clientToken: null,
+  instance: {},
+  address: "",
+  error: null
 };
 
 const cartReducer = (state = init, action) => {
@@ -25,6 +28,17 @@ const cartReducer = (state = init, action) => {
         return {
             ...state,
             cart: payload
+        }
+    case "GOT_BRAINTREE_TOKEN":
+        return {
+          ...state,
+          clientToken: payload
+        }
+    case "FAILED_BRAINTREE_TOKEN":
+        return {
+          ...state,
+          clientToken: null,
+          error: payload
         }
     default:
       return state;

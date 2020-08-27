@@ -32,7 +32,6 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: solid 1px red;
     background-color: ${props => props.theme.primWhite};
 `
 const TitleSection = styled.section`
@@ -49,18 +48,15 @@ const TitleSection = styled.section`
 `
 const MainSection = styled.section`
     width: 100%;
-    border: solid 1px red;
     display: flex;
     justify-content: space-between;
 `
 const ProductsSection = styled.section`
     width: 63%;
-    border: solid 1px red;
 `
 const CheckoutSection = styled.section`
     width: 35%;
     padding-bottom: 20px;
-    border: solid 1px red;
 `
 
 const NoProductMsg = styled.h1`

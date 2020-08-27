@@ -1,9 +1,5 @@
 import { setAlert } from './alertAction';
-
-export const getCart = () => dispatch => {
-    let cart = JSON.parse(localStorage.getItem('cart'));
-    dispatch({ type: "GET_CART", payload: cart});
-}
+import axios from 'axios';
 
 export const addToCart = (product) => async dispatch => {
     let cart = JSON.parse(localStorage.getItem('cart'));
@@ -19,12 +15,12 @@ export const addToCart = (product) => async dispatch => {
             cart[index].purchase++;
             localStorage.setItem('cart',JSON.stringify(cart));
             dispatch({type: "ADDED_CART", payload: cart});
-            dispatch(setAlert("Added product to cart"));
+            dispatch(setAlert("Added product to cart", "success"));
         } else {
             cart.push({...product, purchase: 1});
             localStorage.setItem('cart',JSON.stringify(cart));
             dispatch({type: "ADDED_CART", payload: cart});
-            dispatch(setAlert("Added product to cart"));
+            dispatch(setAlert("Added product to cart", "success"));
         }
     }
 }
@@ -49,4 +45,14 @@ export const removeCart = (_id) => dispatch => {
     localStorage.setItem('cart', JSON.stringify(newCart));
     dispatch({ type: "REMOVE_CART", payload: newCart});
     dispatch(setAlert('Removed product from cart.'));
+}
+
+export const getBraintreeToken = () => async dispatch => {
+    try {
+        const res = await axios.get('/api/braintree/getToken');
+        dispatch({ type: "GOT_BRAINTREE_TOKEN", payload: res.data})
+    } catch(err) {
+        dispatch({ type: "FAILED_BRAINTREE_TOKEN", payload: err.response.data.msg});
+        dispatch(setAlert("ERR..."));
+    }
 }

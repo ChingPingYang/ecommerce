@@ -48,7 +48,6 @@ const Wrap = styled.div`
     display: flex;
     align-items: center;
     background-color: white;
-    border: solid 1px blue;
 `
 const Img = styled.img`
     width: 140px;

@@ -1,22 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getBraintreeToken } from '../../actions/cartAction';
+import DropIn from 'braintree-web-drop-in-react';
 
-const CheckOut = ({ cart, auth: { isAuthenticated } }) => {
-    console.log(isAuthenticated)
+const CheckOut = ({ cart, auth: { isAuthenticated }, cartState: { clientToken, instance } , getBraintreeToken }) => {
+
+    useEffect(() => {
+        if(isAuthenticated) getBraintreeToken()
+    },[isAuthenticated])
+    
     const getTotal = () => {
         let total = cart.reduce((acc, item) => {
             return acc + item.purchase * item.price;
         }, 0);
         return Math.round(total * 100) / 100;
     }
-    const handleSignin = () => {
-
-    }
+    
     return (
         <Wrap>
             <Total>Total: ${getTotal()}</Total>
+            {clientToken !== null && isAuthenticated &&
+             <DropIn options={{ authorization: clientToken}} onInstance={instance => instance = instance} />
+            }
             {isAuthenticated? 
                 <CheckoutBtn>Checkout</CheckoutBtn> 
                 : <SigninBtn to="/signin">Signin to checkout</SigninBtn>
@@ -33,7 +40,8 @@ const Wrap = styled.div`
 
 const Total = styled.div`
     font-size: 1.5rem;
-    letter-spacing: 0.1rem;
+    letter-spacing: 0.05rem;
+    margin-bottom: 10px;
 `
 
 const CheckoutBtn = styled.button`
@@ -69,8 +77,15 @@ const SigninBtn = styled(Link)`
 
 const mapStateToProps = state => {
     return {
-        auth: state.auth
+        auth: state.auth,
+        cartState: state.cart
     }
 }
 
-export default connect(mapStateToProps)(CheckOut);
+const mapDispatchToProps = dispatch => {
+    return {
+        getBraintreeToken: () => dispatch(getBraintreeToken())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckOut);
