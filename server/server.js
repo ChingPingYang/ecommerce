@@ -18,6 +18,7 @@ server.use('/api/user', require('./routes/api/user'));
 server.use('/api/auth', require('./routes/api/auth'));
 server.use('/api/category', require('./routes/api/category'));
 server.use('/api/product', require('./routes/api/product'));
+server.use('/api/braintree', require('./routes/api/braintree'));
 
 server.use(express.static('public'));
 
