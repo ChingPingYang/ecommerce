@@ -8,7 +8,7 @@ const gateWay = braintree.connect({
     privateKey: config.get('BRAINTREE_PRIVATE_KEY') 
 })
 
-const braintreeToken = async (req, res, next) => {
+exports.braintreeToken = async (req, res, next) => {
     try {
         const token = await gateWay.clientToken.generate({});
         req.braintreeToken = token.clientToken;
@@ -18,4 +18,17 @@ const braintreeToken = async (req, res, next) => {
     }
 }
 
-module.exports = braintreeToken;
+exports.processPayment = async (req, res) => {
+    let nonceFromClient = req.body.nonce;
+    let amountFromClient = req.body.amount;
+    try {
+        let newTransaction = await gateWay.transaction.sale({
+            amount: amountFromClient,
+            paymentMethodNonce: nonceFromClient,
+            options: { submitForSettlement: true }
+        })
+        return res.status(200).json(newTransaction);
+    } catch(err) {
+        return res.statue(500).json({ msg: err });
+    }
+}

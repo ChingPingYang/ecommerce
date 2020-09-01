@@ -56,3 +56,20 @@ export const getBraintreeToken = () => async dispatch => {
         dispatch(setAlert("ERR..."));
     }
 }
+
+export const processPayment = (payment) => async dispatch => {
+    const config = {
+        headers: {"Content-Type": "application/json"}
+    }
+    const body = JSON.stringify(payment);
+    try {
+        const res = await axios.post('/api/braintree/payment', body, config);
+        console.log('front: ',res)
+        dispatch({ type: "SUCCESS_PAYMENT", payload: res.data });
+        dispatch(setAlert('Thank you for shopping with us', 'success'));
+    } catch(err) {
+        dispatch({ type: "FAILED_PAYMENT" });
+        dispatch(setAlert(err.response.data.msg));
+    }
+
+}

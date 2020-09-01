@@ -1,16 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getBraintreeToken } from '../../actions/cartAction';
+import { getBraintreeToken, processPayment } from '../../actions/cartAction';
 import DropIn from 'braintree-web-drop-in-react';
 
-const CheckOut = ({ cart, auth: { isAuthenticated }, cartState: { clientToken, instance } , getBraintreeToken }) => {
-
+const CheckOut = ({ cart, auth: { isAuthenticated }, cartState: { clientToken } , getBraintreeToken, processPayment }) => {
+    const [instance, setInstance] = useState(null);
+    const [total, setTotal] = useState(null);
     useEffect(() => {
         if(isAuthenticated) getBraintreeToken()
     },[isAuthenticated])
-    
+
     const getTotal = () => {
         let total = cart.reduce((acc, item) => {
             return acc + item.purchase * item.price;
@@ -18,14 +19,32 @@ const CheckOut = ({ cart, auth: { isAuthenticated }, cartState: { clientToken, i
         return Math.round(total * 100) / 100;
     }
     
+    const buy = async () => {
+        // send nonce to server (nonce = instance.requestPaymentMethod())
+        try {
+            let { nonce } = await instance.requestPaymentMethod();
+            let amount = getTotal();
+            let payment = { nonce, amount }
+            processPayment(payment)
+        } catch(err) {
+            console.log(err)
+        }
+    }
     return (
         <Wrap>
             <Total>Total: ${getTotal()}</Total>
             {clientToken !== null && isAuthenticated &&
-             <DropIn options={{ authorization: clientToken}} onInstance={instance => instance = instance} />
+             <DropIn 
+                options={{ 
+                    authorization: clientToken
+                }} 
+                onInstance={instance => {
+                    setInstance(instance)
+                }} 
+             />
             }
             {isAuthenticated? 
-                <CheckoutBtn>Checkout</CheckoutBtn> 
+                (instance !== null? <CheckoutBtn onClick={buy}>Pay</CheckoutBtn> : <LoadingBtn>Loading</LoadingBtn>) 
                 : <SigninBtn to="/signin">Signin to checkout</SigninBtn>
             }
         </Wrap>
@@ -44,6 +63,15 @@ const Total = styled.div`
     margin-bottom: 10px;
 `
 
+const LoadingBtn = styled.button`
+    all: unset;
+    font-size: 1.1rem;
+    width: 100%;
+    height: 45px;
+    text-align: center;
+    color: ${props => props.theme.primWhite};
+    background-color: ${props => props.theme.lightGray};
+`
 const CheckoutBtn = styled.button`
     all: unset;
     font-size: 1.1rem;
@@ -84,7 +112,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getBraintreeToken: () => dispatch(getBraintreeToken())
+        getBraintreeToken: () => dispatch(getBraintreeToken()),
+        processPayment: (payment) => dispatch(processPayment(payment))
     }
 }
 

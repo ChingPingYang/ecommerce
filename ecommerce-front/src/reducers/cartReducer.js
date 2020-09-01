@@ -1,8 +1,8 @@
 const init = {
   cart: JSON.parse(localStorage.getItem("cart")),
   clientToken: null,
-  instance: {},
   address: "",
+  success: null,
   error: null
 };
 
@@ -39,6 +39,16 @@ const cartReducer = (state = init, action) => {
           ...state,
           clientToken: null,
           error: payload
+        }
+    case "SUCCESS_PAYMENT":
+        return {
+          ...state,
+          success: true
+        }
+    case "FAILED_PAYMENT":
+        return {
+          ...state,
+          success: false
         }
     default:
       return state;
