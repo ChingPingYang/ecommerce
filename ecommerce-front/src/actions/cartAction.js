@@ -63,13 +63,35 @@ export const processPayment = (payment) => async dispatch => {
     }
     const body = JSON.stringify(payment);
     try {
+
         const res = await axios.post('/api/braintree/payment', body, config);
-        console.log('front: ',res)
+
+        // If payment goes through, create order in DB
+        dispatch(createOrder(res.data.transaction));
+
+        // After order is created, set state and clear localstorage
         dispatch({ type: "SUCCESS_PAYMENT", payload: res.data });
         dispatch(setAlert('Thank you for shopping with us', 'success'));
     } catch(err) {
         dispatch({ type: "FAILED_PAYMENT" });
         dispatch(setAlert(err.response.data.msg));
     }
+}
 
+export const createOrder = (transaction) => async dispatch => {
+    const cart = JSON.parse(localStorage.getItem('cart'));
+    const newOrder = cart.map(item => ({_id: item._id, quantity: item.purchase}));
+    try {
+        const config = {
+            headers: {"Content-Type": "application/json"}
+        }
+        const body = {
+            products: newOrder,
+            transaction_id: transaction.id,
+            amount: transaction.amount
+        }
+    } catch(err) {
+
+    }
+    
 }

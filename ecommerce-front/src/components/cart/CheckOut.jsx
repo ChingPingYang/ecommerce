@@ -7,7 +7,7 @@ import DropIn from 'braintree-web-drop-in-react';
 
 const CheckOut = ({ cart, auth: { isAuthenticated }, cartState: { clientToken } , getBraintreeToken, processPayment }) => {
     const [instance, setInstance] = useState(null);
-    const [total, setTotal] = useState(null);
+    const [address, setAddress] = useState('');
     useEffect(() => {
         if(isAuthenticated) getBraintreeToken()
     },[isAuthenticated])
@@ -34,14 +34,20 @@ const CheckOut = ({ cart, auth: { isAuthenticated }, cartState: { clientToken } 
         <Wrap>
             <Total>Total: ${getTotal()}</Total>
             {clientToken !== null && isAuthenticated &&
-             <DropIn 
-                options={{ 
-                    authorization: clientToken
-                }} 
-                onInstance={instance => {
-                    setInstance(instance)
-                }} 
-             />
+            <>
+                <DropIn 
+                    options={{ 
+                        authorization: clientToken
+                    }} 
+                    onInstance={instance => {
+                        setInstance(instance)
+                    }} 
+                />
+                 <AddressWrap>
+                    <h3>Your Address: </h3>
+                    <textarea name="address" rows="2" placeholder="For Delivery"></textarea>
+                </AddressWrap>
+            </>
             }
             {isAuthenticated? 
                 (instance !== null? <CheckoutBtn onClick={buy}>Pay</CheckoutBtn> : <LoadingBtn>Loading</LoadingBtn>) 
@@ -55,12 +61,25 @@ const Wrap = styled.div`
     width: 100%;
     height: 100%;
     background-color: white;
+    padding: 10px;
 `
 
 const Total = styled.div`
     font-size: 1.5rem;
     letter-spacing: 0.05rem;
+`
+
+const AddressWrap = styled.div`
+    width: 100%;
     margin-bottom: 10px;
+    h3 {
+        font-weight: 400;
+    }
+    textarea {
+        width: 100%;
+        padding: 6px;
+        font-size: 0.9rem;
+    }
 `
 
 const LoadingBtn = styled.button`

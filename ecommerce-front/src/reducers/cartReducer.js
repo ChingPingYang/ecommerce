@@ -41,8 +41,10 @@ const cartReducer = (state = init, action) => {
           error: payload
         }
     case "SUCCESS_PAYMENT":
+        localStorage.removeItem('cart');
         return {
           ...state,
+          cart: JSON.parse(localStorage.getItem("cart")),
           success: true
         }
     case "FAILED_PAYMENT":
