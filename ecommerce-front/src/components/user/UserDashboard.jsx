@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Spinner from '../layout/Spinner';
 import History from './History';
 import CartItem from './CartItem';
+import { getOrders } from '../../actions/orderAction';
 
-const UserDashboard = ({ auth: {user, loading}}) => {
+const UserDashboard = ({ auth: {user, loading}, getOrders}) => {
     const [filter, setFilter] = useState({
         active: false,
         sort: '- Sort By -'
@@ -14,6 +15,10 @@ const UserDashboard = ({ auth: {user, loading}}) => {
     const [card, setCard] = useState([1,2,3,4,5,6,7])
 
     const [orders, setOrders] = useState([1,2,3])
+
+    useEffect(() => {
+        getOrders(filter.sort)
+    },[filter])
 
     const handleOnChange = e => {
         setFilter({
@@ -142,10 +147,17 @@ const HistoryWrap = styled.div`
     width: 100%;
     margin-top: 40px;
 `
+
 const mapStateToProps = state => {
     return {
         auth: state.auth
     }
 }
 
-export default connect(mapStateToProps)(UserDashboard);
+const mapDispatchToProps = dispatch => {
+    return {
+        getOrders: (sort) => dispatch(getOrders(sort))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserDashboard);

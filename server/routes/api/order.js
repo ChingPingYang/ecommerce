@@ -42,4 +42,19 @@ router.post('/', [
     }
 })
 
+// @route   GET api/order
+// @desc    Get orders based on userId and sorting
+// @access  Private
+router.get('/', authToken , async (req, res) => {
+    const userId = req.userId;
+    const sortBy = req.query.sortBy? req.query.sortBy : 'createdAt'; 
+    const order = req.query.order? req.query.order : 'desc'; 
+    try {
+        const orders = await Order.find({ user: userId }).sort({ [sortBy]: order });
+        return res.status(200).json(orders);
+    } catch(err) {
+        return res.status(500).json({ msg: err });
+    }
+})
+
 module.exports = router;

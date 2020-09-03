@@ -34,8 +34,11 @@ const SingleCart = ({cart: {_id, name, price, purchase, imageURL, quantity}, plu
                     <h5>Remove</h5>
                 </RemoveCart>
             </CartContent>
-            <CartContent>${price}</CartContent>
-            
+            <CartContent>
+                ${price}
+                <h6>{quantity} in stock</h6>
+            </CartContent>
+
         </Wrap>
     )
 }
@@ -66,6 +69,10 @@ const CartContent = styled.div`
         font-size: 1.3rem;
         flex-basis: 10%;
         margin-left: auto;
+        h6 {
+            color: ${props => props.theme.darkGray};
+            font-weight: 400;
+        }
     }
 `
 const CartName = styled(Link)`
