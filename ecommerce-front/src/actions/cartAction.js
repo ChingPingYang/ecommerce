@@ -57,17 +57,16 @@ export const getBraintreeToken = () => async dispatch => {
     }
 }
 
-export const processPayment = (payment) => async dispatch => {
+export const processPayment = (payment, address) => async dispatch => {
     const config = {
         headers: {"Content-Type": "application/json"}
     }
     const body = JSON.stringify(payment);
     try {
-
         const res = await axios.post('/api/braintree/payment', body, config);
 
         // If payment goes through, create order in DB
-        dispatch(createOrder(res.data.transaction));
+        dispatch(createOrder(res.data.transaction, address));
 
         // After order is created, set state and clear localstorage
         dispatch({ type: "SUCCESS_PAYMENT", payload: res.data });
@@ -78,9 +77,9 @@ export const processPayment = (payment) => async dispatch => {
     }
 }
 
-export const createOrder = (transaction) => async dispatch => {
+export const createOrder = (transaction, address) => async dispatch => {
     const cart = JSON.parse(localStorage.getItem('cart'));
-    const newOrder = cart.map(item => ({_id: item._id, quantity: item.purchase}));
+    const newOrder = cart.map(item => ({product: item._id, quantity: item.purchase}));
     try {
         const config = {
             headers: {"Content-Type": "application/json"}
@@ -88,10 +87,13 @@ export const createOrder = (transaction) => async dispatch => {
         const body = {
             products: newOrder,
             transaction_id: transaction.id,
-            amount: transaction.amount
+            amount: transaction.amount,
+            address
         }
+        const res = await axios.post('/api/order', body, config);
+        console.log('Done: ',res);
     } catch(err) {
-
+        dispatch(setAlert(err.response.data.msg));
     }
     
 }

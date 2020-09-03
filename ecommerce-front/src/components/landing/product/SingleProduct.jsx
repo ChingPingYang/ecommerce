@@ -70,7 +70,10 @@ const SingleProduct = ({ match, product: { product, loading, error}, getCertainP
                         </ImgWrap>
                         <ContentWrap>
                             <Price>${product.price}</Price>
-                            <AddToCart onClick={handleAddToCart}>Add to Cart</AddToCart>
+                            {product.quantity === 0? 
+                                <SoldOutBtn>Sold Out</SoldOutBtn>:
+                                <AddToCart onClick={handleAddToCart}>Add to Cart</AddToCart>
+                            }
                             <Description>
                                 <h3>Description</h3>
                                 <p> {copyDescription.text} 
@@ -154,6 +157,16 @@ const AddToCart = styled.button`
         background-color: ${props => props.theme.interactiveDark};
     }
 `
+const SoldOutBtn = styled.button`
+    all: unset;
+    font-size: 1.1rem;
+    width: 100%;
+    height: 45px;
+    text-align: center;
+    color: ${props => props.theme.primWhite};
+    background-color: ${props => props.theme.lightGray};
+`
+
 const Description = styled.div`
     margin-top: 20px;
     h3 {
@@ -171,7 +184,6 @@ const Description = styled.div`
         }
     }
 `
-
 
 
 const ErrorMsg = styled.h1`

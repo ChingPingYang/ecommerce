@@ -3,9 +3,10 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getBraintreeToken, processPayment } from '../../actions/cartAction';
+import { setAlert } from '../../actions/alertAction';
 import DropIn from 'braintree-web-drop-in-react';
 
-const CheckOut = ({ cart, auth: { isAuthenticated }, cartState: { clientToken } , getBraintreeToken, processPayment }) => {
+const CheckOut = ({ cart, auth: { isAuthenticated }, cartState: { clientToken } , getBraintreeToken, processPayment, setAlert }) => {
     const [instance, setInstance] = useState(null);
     const [address, setAddress] = useState('');
     useEffect(() => {
@@ -18,14 +19,19 @@ const CheckOut = ({ cart, auth: { isAuthenticated }, cartState: { clientToken } 
         }, 0);
         return Math.round(total * 100) / 100;
     }
+
+    const handleAddress = (e) => {
+        setAddress(e.target.value);
+    }
     
     const buy = async () => {
         // send nonce to server (nonce = instance.requestPaymentMethod())
         try {
+            if(address.length <= 0) return setAlert('Please insert your address.');
             let { nonce } = await instance.requestPaymentMethod();
             let amount = getTotal();
             let payment = { nonce, amount }
-            processPayment(payment)
+            processPayment(payment, address)
         } catch(err) {
             console.log(err)
         }
@@ -45,7 +51,12 @@ const CheckOut = ({ cart, auth: { isAuthenticated }, cartState: { clientToken } 
                 />
                  <AddressWrap>
                     <h3>Your Address: </h3>
-                    <textarea name="address" rows="2" placeholder="For Delivery"></textarea>
+                    <textarea 
+                     rows="2" 
+                     placeholder="For Delivery"
+                     onChange={handleAddress}
+                     required
+                    ></textarea>
                 </AddressWrap>
             </>
             }
@@ -132,7 +143,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         getBraintreeToken: () => dispatch(getBraintreeToken()),
-        processPayment: (payment) => dispatch(processPayment(payment))
+        processPayment: (payment, address) => dispatch(processPayment(payment, address)),
+        setAlert: (message) => dispatch(setAlert(message))
     }
 }
 
