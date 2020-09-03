@@ -8,7 +8,6 @@ const AddProduct = ({category: { categories, loading }, addProduct, getAllCatego
     const [data, setData] = useState({
         imageName: "Choose a file*"
     });
-    const [temp, setTemp] = useState(['react','Javascript','Vue']);
 
     useEffect(() => {
         getAllCategories();

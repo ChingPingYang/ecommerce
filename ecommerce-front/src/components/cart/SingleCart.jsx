@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { plusQuantity, minusQuantity, removeCart } from '../../actions/cartAction';
 
-const SingleCart = ({cart: {_id, name, price, purchase, imageURL}, plusQuantity, minusQuantity, removeCart}) => {
+const SingleCart = ({cart: {_id, name, price, purchase, imageURL, quantity}, plusQuantity, minusQuantity, removeCart}) => {
     const handlePlus = (_id) => {
         plusQuantity(_id);
     }
@@ -22,7 +22,7 @@ const SingleCart = ({cart: {_id, name, price, purchase, imageURL}, plusQuantity,
                 <QuantityWrap>
                     {purchase > 1 ? <MinusReal onClick={() => handleMinus(_id)}/> : <MinusFake/>}
                     <Quantity>{purchase}</Quantity>
-                    <Plus onClick={() => handlePlus(_id)}/>
+                    {purchase >= quantity ? <PlusFake/> : <PlusReal onClick={() => handlePlus(_id)}/>}
                 </QuantityWrap>
                 <RemoveCart onClick={() => handleRemove(_id)}>
                     <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -121,7 +121,7 @@ const MinusFake = styled.div`
         transform: translateX(-50%) translateY(-50%);
     }
 `
-const Plus = styled.div`
+const PlusReal = styled.div`
     width: 20px;
     height: 20px;
     position: relative;
@@ -144,6 +144,33 @@ const Plus = styled.div`
         width: 8px;
         height: 2px;
         background-color: white;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%) rotate(90deg);
+    }
+`
+const PlusFake = styled.div`
+    width: 20px;
+    height: 20px;
+    position: relative;
+    border-radius: 100%;
+    border: solid 1px ${props => props.theme.lightGray};
+    :before {
+        content: "";
+        position: absolute;
+        width: 8px;
+        height: 2px;
+        background-color: ${props => props.theme.lightGray};
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+    }
+    :after {
+        content: "";
+        position: absolute;
+        width: 8px;
+        height: 2px;
+        background-color: ${props => props.theme.lightGray};
         top: 50%;
         left: 50%;
         transform: translateX(-50%) translateY(-50%) rotate(90deg);

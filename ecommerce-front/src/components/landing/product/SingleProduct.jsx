@@ -12,6 +12,7 @@ const SingleProduct = ({ match, product: { product, loading, error}, getCertainP
         text: '',
         showReadMore: false
     });
+    const [purchaseLimit, setPurchaseLimit] = useState(true);
 
     useEffect(() => {
         getCertainProduct(productId);
@@ -20,10 +21,13 @@ const SingleProduct = ({ match, product: { product, loading, error}, getCertainP
     useEffect(()=> {
         if(product && product.description.length > 530){
             descriptionTruncate(product.description)
+            getPurchaseLimit(product._id, product.quantity);
         }else if(product) {
+            console.log(product)
             setCopyDescription({
                 text: product.description    
             })
+            getPurchaseLimit(product._id, product.quantity);
         };
     }, [product])
 
@@ -40,6 +44,17 @@ const SingleProduct = ({ match, product: { product, loading, error}, getCertainP
             showReadMore: false
         })
     }
+    // To check if there's enough stock for the item
+    const getPurchaseLimit = (id, quantity) => {
+        const cart = JSON.parse(localStorage.getItem('cart'));
+        const product = cart.filter(item => item._id === id);
+        if(product.length === 0) return;
+        if(product[0].purchase >= quantity) {
+            setPurchaseLimit(false);
+        } else {
+            setPurchaseLimit(true);
+        }
+    }
 
     const handleAddToCart = () => {
         const productForCart = {
@@ -47,9 +62,12 @@ const SingleProduct = ({ match, product: { product, loading, error}, getCertainP
             name: product.name,
             category: product.category,
             imageURL: product.imageURL,
-            price: product.price
+            price: product.price,
+            quantity: product.quantity
         }
         addToCart(productForCart)
+        // Check again here
+        getPurchaseLimit(product._id, product.quantity);
     }
 
     return (
@@ -70,9 +88,9 @@ const SingleProduct = ({ match, product: { product, loading, error}, getCertainP
                         </ImgWrap>
                         <ContentWrap>
                             <Price>${product.price}</Price>
-                            {product.quantity === 0? 
-                                <SoldOutBtn>Sold Out</SoldOutBtn>:
-                                <AddToCart onClick={handleAddToCart}>Add to Cart</AddToCart>
+                            {purchaseLimit && product.quantity !== 0? 
+                                <AddToCart onClick={handleAddToCart}>Add to Cart</AddToCart>:
+                                <SoldOutBtn>Sold Out</SoldOutBtn>
                             }
                             <Description>
                                 <h3>Description</h3>

@@ -3,10 +3,11 @@ const router = express.Router();
 const authToken = require('../../middleware/authToken');
 const { check, validationResult } = require('express-validator');
 const Order = require('../../models/Order');
+const Product = require('../../models/Product');
 
 
 // @route   POST api/order
-// @desc    Create new order from cart
+// @desc    Create new order from cart. Also change quantity and sold for products
 // @access  Private
 router.post('/', [
     authToken,
@@ -18,11 +19,22 @@ router.post('/', [
     const userId = req.userId;
     console.log(req.body)
     try {
+        // Create new order in DB
         const newOrder = new Order({
             ...req.body,
             user: userId
         })
         await newOrder.save();
+
+        // Change quantity and sold for products
+        req.body.products.map( async item => {
+            const product = await Product.findById(item.product);
+            product.quantity -= item.quantity;
+            product.sold += item.quantity;
+            console.log('NEW: ', product);
+            await product.save();
+        })
+
         return res.status(200).json(newOrder);
     } catch(err) {
         console.log(err)
