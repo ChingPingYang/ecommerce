@@ -13,7 +13,8 @@ const SearchBox = ({ setTextSearch, history }) => {
     }
     const handleReset = (e) => {
         e.preventDefault();
-        setSearch("")
+        setSearch("");
+        setTextSearch("");
     }
     const handleSubmit = (e) => {
         e.preventDefault();

@@ -28,10 +28,8 @@ export const getOrders = (sort) => async dispatch => {
             break;
     }
     try {
-        console.log('SORT: ',sort)
-        console.log('HIT: ',match)
         const res = await axios.get(`/api/order?sortBy=${match.sortBy}&order=${match.order}`);
-        console.log(res.data);
+        dispatch({ type: "GOT_ORDERS", payload: res.data});
     } catch(err) {
         console.log(err.response.data);
     }

@@ -50,7 +50,7 @@ router.get('/', authToken , async (req, res) => {
     const sortBy = req.query.sortBy? req.query.sortBy : 'createdAt'; 
     const order = req.query.order? req.query.order : 'desc'; 
     try {
-        const orders = await Order.find({ user: userId }).sort({ [sortBy]: order });
+        const orders = await Order.find({ user: userId }).populate('products.product', ['name']).sort({ [sortBy]: order });
         return res.status(200).json(orders);
     } catch(err) {
         return res.status(500).json({ msg: err });

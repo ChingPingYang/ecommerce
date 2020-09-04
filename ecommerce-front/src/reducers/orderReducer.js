@@ -6,7 +6,7 @@ const init = {
 const orderReducer = (state = init, action) => {
     const { type, payload } = action;
     switch(type) {
-        case "GET_ORDERS": 
+        case "GOT_ORDERS": 
             return {
                 orders: payload,
                 loading: false
