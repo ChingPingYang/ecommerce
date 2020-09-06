@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 const History = ({ order }) => {
-    console.log(order)
     return (
         <HistoryWrap>
             <HistoryContent>
@@ -12,7 +11,7 @@ const History = ({ order }) => {
                     return  ( 
                         <Fragment key={item._id}>
                             <ProductName to={`/product/${item.product._id}`}>{item.product.name}</ProductName>
-                            <h4>quantity: {item.quantity}</h4>
+                            <h4>quantity: {item.quantity} <span>product price: ${item.product.price}</span></h4>
                         </Fragment>
                         )
                 })}
@@ -42,11 +41,14 @@ const HistoryContent = styled.div`
     min-height: 140px;
     display: flex;
     flex-direction: column;
+    span {
+        margin-left: 50px;
+    }
     h4{
         position: relative;
         font-weight: 300;
         margin-top: 3px;
-        margin-bottom: 15px;
+        margin-bottom: 25px;
         :last-child{
             margin-bottom: 0px;
         }
@@ -56,7 +58,7 @@ const HistoryContent = styled.div`
             height: 1px;
             background-color: ${props=> props.theme.lightGray};
             position: absolute;
-            top: 20px;
+            top: 23px;
             left: 0px;
         }
     }

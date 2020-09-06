@@ -11,6 +11,7 @@ import CartPage from '../cart/CartPage';
 import UserDashboard from '../user/UserDashboard';
 import CreateCategory from '../admin/CreateCategory';
 import AdminDashboard from '../admin/AdminDashboard';
+import Profile from '../layout/Profile';
 import AddProduct from '../admin/AddProduct';
 
 
@@ -23,6 +24,7 @@ const Routes = () => {
             <PublicRoute path="/product/:productId" component={SingleProduct} />
             <PublicRoute path="/cart" component={CartPage} />
             <PrivateRoute path="/userDashboard" component={UserDashboard} />
+            <PrivateRoute path="/profile/:userId" component={Profile} />
             <AdminRoute path="/admin/adminDashboard" component={AdminDashboard}/>
             <AdminRoute path="/admin/createCategory" component={CreateCategory}/>
             <AdminRoute path="/admin/addProduct" component={AddProduct}/>

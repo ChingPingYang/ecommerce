@@ -26,7 +26,7 @@ const Product = ({ product, skeleton = false }) => {
     }
     return (
         
-        <Wrap to={`/product/${product && product._id}`}>
+        <Wrap to={`/product/${product?._id}`}>
             <ImageWrap skeleton={skeleton}>
                 {!skeleton && <img src={imageURL} alt={name}/>}
             </ImageWrap>

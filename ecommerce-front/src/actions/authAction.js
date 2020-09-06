@@ -27,7 +27,8 @@ export const signIn = credential => async dispatch => {
         dispatch(getUser());
         dispatch(setAlert('User signed-in.', 'success'));
     } catch(err) {
-        dispatch(setAlert(err.response.data.msg));
+        console.log('HERE: ',err)
+        // dispatch(setAlert(err.response.data.msg));
         dispatch({ type: 'SIGNIN_FAILED'});
     }
 }

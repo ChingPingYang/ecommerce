@@ -23,7 +23,6 @@ const SingleProduct = ({ match, product: { product, loading, error}, getCertainP
             descriptionTruncate(product.description)
             getPurchaseLimit(product._id, product.quantity);
         }else if(product) {
-            console.log(product)
             setCopyDescription({
                 text: product.description    
             })
@@ -47,12 +46,15 @@ const SingleProduct = ({ match, product: { product, loading, error}, getCertainP
     // To check if there's enough stock for the item
     const getPurchaseLimit = (id, quantity) => {
         const cart = JSON.parse(localStorage.getItem('cart'));
-        const product = cart.filter(item => item._id === id);
-        if(product.length === 0) return;
-        if(product[0].purchase >= quantity) {
-            setPurchaseLimit(false);
-        } else {
-            setPurchaseLimit(true);
+        // If there's cart in the localStorage keep checking
+        if(cart !== null) {
+            const product = cart.filter(item => item._id === id);
+            if(product.length === 0) return;
+            if(product[0].purchase >= quantity) {
+                setPurchaseLimit(false);
+            } else {
+                setPurchaseLimit(true);
+            }
         }
     }
 

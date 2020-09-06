@@ -35,15 +35,23 @@ const SideFilter = ({product:{search}, priceRange, setPriceRange, category, setN
     }
     const handlePriceOnSubmit = (e) => {
         e.preventDefault();
-        if(priceRange.start > priceRange.end) {
+        console.log(priceRange);
+        let priceRangeCopy = priceRange;
+        if(priceRangeCopy.start > priceRangeCopy.end) {
+            setPriceRange({start: 0, end: 1000000})
             return setAlert('Minimum price must be smaller than Maximum price.');
-        } else if(priceRange.start === priceRange.end) {
+        } else if(priceRangeCopy.start === 0 && priceRangeCopy.end === 0) {
+            setPriceRange({start: 0, end: 1000000})
+            priceRangeCopy = {start: 0, end: 1000000};
+        }
+         else if(priceRangeCopy.start === priceRangeCopy.end) {
+            setPriceRange({start: 0, end: 1000000})
             return setAlert('Prices must be different.');
         }
         if(selectedCategories.length === 0) {
-            setNewCategories(search, [...categories], priceRange);
+            setNewCategories(search, [...categories], priceRangeCopy);
         } else {
-            setNewCategories(search, selectedCategories, priceRange);
+            setNewCategories(search, selectedCategories, priceRangeCopy);
         }
     }
 
