@@ -27,8 +27,7 @@ export const signIn = credential => async dispatch => {
         dispatch(getUser());
         dispatch(setAlert('User signed-in.', 'success'));
     } catch(err) {
-        console.log('HERE: ',err)
-        // dispatch(setAlert(err.response.data.msg));
+        dispatch(setAlert(err.response.data.msg));
         dispatch({ type: 'SIGNIN_FAILED'});
     }
 }
@@ -54,3 +53,17 @@ export const signUp = credential => async dispatch => {
 export const signOut = () => dispatch => {
     return dispatch({ type: "SIGNOUT"})
 }
+
+export const updateProfile = (userId, credential) => async dispatch => {
+    const config = {
+        headers: {"Content-Type": "application/json"}
+    }
+    const body = JSON.stringify(credential);
+    try {
+        const res = await axios.put(`/api/user/${userId}`, body, config);
+        dispatch({ type: "UPDATED_PROFILE", payload: res.data});
+        dispatch(setAlert('Profile Updated', 'success'));
+    } catch(err) {
+        dispatch(setAlert(err.response.data.msg));
+    }
+} 

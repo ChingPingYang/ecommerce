@@ -12,7 +12,6 @@ const UserDashboard = ({ auth: {user, loading}, order,getOrders}) => {
         active: false,
         sort: '- Sort By -'
     });
-    const [card, setCard] = useState([1,2,3,4,5,6,7])
 
     useEffect(() => {
         getOrders(filter.sort)
@@ -29,12 +28,6 @@ const UserDashboard = ({ auth: {user, loading}, order,getOrders}) => {
         loading || user === null ? <Spinner /> :( user.role === 1? <Redirect to="/admin/adminDashboard"/> :
         <DashboardWrap onClick={() => filter.active && setFilter({...filter, active: !filter.active})}>
             <Subtitle>Welcome back {user.name}</Subtitle>
-            {/* <CartWrap>
-                <Title>Your Card</Title>
-                <CartItemWrap>
-                    {card.map((item, index) => <CartItem key={index}/>)}
-                </CartItemWrap>
-            </CartWrap> */}
             <OrdersWrap>
                 <Title>Your Orders</Title>
                 <FormWrap onChange={handleOnChange}>
@@ -67,11 +60,12 @@ const UserDashboard = ({ auth: {user, loading}, order,getOrders}) => {
 
 const DashboardWrap = styled.div`
     width: 70%;
+    min-height: 75vh;
     position: relative;
     margin: auto;
     display: flex;
     flex-flow: column;
-    padding-top: 40px;
+    padding-top: 20px;
 `
 const Subtitle = styled.h3`
     font-weight: 500;
@@ -79,15 +73,7 @@ const Subtitle = styled.h3`
     letter-spacing: 1px;
     color: ${props => props.theme.darkGray};
 `
-const CartWrap = styled.div`
-    margin-top: 10px;
-`
-const CartItemWrap = styled.div`
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-`
+
 const OrdersWrap = styled.div`
     margin-top: 10px;
     position: relative;

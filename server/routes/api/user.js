@@ -66,6 +66,26 @@ router.get('/', async (req, res) => {
 // @route  PUT api/user
 // @desc   Update user profile
 // @access Private
+router.put('/:id', authToken, async (req, res) => {
+    const userId = req.userId;
+    const updateId = req.params.id;
+    const { name, password } = req.body;
+    if( userId !== updateId) return res.status(400).json({ msg: 'Only the user can update his profile.'});
+    try {
+        const user = await User.findById(userId);
+        if(name.length > 0 ) user.name = name;
+        if(password.length > 0) {
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(password, salt);
+            user.password = hashedPassword;
+        }
+        await user.save();
+        return res.status(200).json(user)
+
+    } catch(err){ 
+        return res.status(500).json({ msg: 'Server error...'})
+    }
+})
 
 
 // @route  DELETE api/user

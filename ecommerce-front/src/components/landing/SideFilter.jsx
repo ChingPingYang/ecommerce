@@ -35,7 +35,6 @@ const SideFilter = ({product:{search}, priceRange, setPriceRange, category, setN
     }
     const handlePriceOnSubmit = (e) => {
         e.preventDefault();
-        console.log(priceRange);
         let priceRangeCopy = priceRange;
         if(priceRangeCopy.start > priceRangeCopy.end) {
             setPriceRange({start: 0, end: 1000000})

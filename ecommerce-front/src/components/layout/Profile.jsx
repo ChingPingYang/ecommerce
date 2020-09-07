@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import { setAlert } from '../../actions/alertAction';
+import { updateProfile } from '../../actions/authAction';
 
-const Profile = ({ auth: { user }, match }) => {
-    console.log(match.params.userId)
-    console.log(user)
+const Profile = ({ auth: { user }, history, updateProfile, setAlert }) => {
     const [credential, setCredential] = useState({
         name: "",
-        email: "",
-        password: ""
+        password: "",
+        rePassword: ""
     })
     const handleOnChange = (e) => {
         setCredential({
@@ -19,10 +19,17 @@ const Profile = ({ auth: { user }, match }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('HERE: ',credential);
+        const passwordLength = credential.password.length;
+        if(passwordLength > 0 && passwordLength < 6) {
+            return setAlert('Password has to be at least 6 characters.')
+        } else if(passwordLength > 0) {
+            if(credential.password !== credential.rePassword) return setAlert("Passwords don't match.");
+        }
+        updateProfile(user._id, credential);
+        history.push('/');
     }
     return (
-        <>
+        <Wrapper>
             <Form onSubmit={handleSubmit}>
                 <Title>Update Profile</Title>
                 <InputWrap>
@@ -40,37 +47,42 @@ const Profile = ({ auth: { user }, match }) => {
                 </InputWrap>
                 <InputWrap>
                     <Label htmlFor="email">
-                        Email Address
+                        New Password
                     </Label>
                     <Input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
+                        type="password" 
+                        id="password" 
+                        name="password"
+                        minLength="6"
                         onChange={handleOnChange}
-                        value={credential.email}
-                        placeholder={user.email}
+                        value={credential.password}
                     />
                 </InputWrap>
                 <InputWrap>
                     <Label htmlFor="password">
-                        New Password
+                        Retype Password
                     </Label>
                     <Input 
-                        autocomplete="on"
                         type="password"
-                        id="password" 
-                        name="password"
+                        id="rePassword" 
+                        name="rePassword"
+                        minLength="6"
                         onChange={handleOnChange}
-                        value={credential.password}
+                        value={credential.rePassword}
                     />
                 </InputWrap>
                 <BtnWrap>
                     <input type="submit" value="Update" />
                 </BtnWrap>
             </Form>
-        </>
+        </Wrapper>
     )
 }
+
+const Wrapper = styled.div`
+    width: 100%;
+    height: 70%;
+`
 
 const Form = styled.form`
     width: 800px;
@@ -144,8 +156,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-
+        updateProfile: (userId, credential) => dispatch(updateProfile(userId, credential)),
+        setAlert: (message) => dispatch(setAlert(message))
     }
 }
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

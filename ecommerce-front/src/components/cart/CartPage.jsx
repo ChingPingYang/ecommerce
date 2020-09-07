@@ -28,6 +28,7 @@ const CartPage = ({ cart: { cart } }) => {
 
 const Wrapper = styled.div`
     width: 100%;
+    min-height: 80%;
     padding: 30px 10%;
     display: flex;
     flex-direction: column;

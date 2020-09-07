@@ -22,7 +22,7 @@ const SignUp = ({register}) => {
         register(credential);
     }
     return (
-        <>
+        <Wrapper>
             <Form onSubmit={handleSubmit}>
                 <Title>SIGN UP</Title>
                 <InputWrap>
@@ -54,7 +54,6 @@ const SignUp = ({register}) => {
                         Password
                     </Label>
                     <Input 
-                        autocomplete="on"
                         type="password"
                         id="password" 
                         name="password"
@@ -66,9 +65,14 @@ const SignUp = ({register}) => {
                     <input type="submit" value="Sign up" />
                 </BtnWrap>
             </Form>
-        </>
+        </Wrapper>
     )
 }
+
+const Wrapper = styled.div`
+    width: 100%;
+    height: 70%;
+`
 
 const Form = styled.form`
     width: 800px;

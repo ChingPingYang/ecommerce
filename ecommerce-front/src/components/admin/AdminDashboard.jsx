@@ -15,12 +15,12 @@ const AdminDashboard = () => {
 
 const DashboardWrap = styled.div`
     width: 70%;
+    height: 80%;
     position: relative;
     margin: auto;
     display: flex;
     justify-content: space-around;
-    align-items: center;
-    padding-top: 200px;
+    align-items: center; 
 `
 const StyledLink = styled(Link)`
     all: unset;

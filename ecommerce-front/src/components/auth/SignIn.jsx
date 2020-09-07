@@ -25,7 +25,7 @@ const SignIn = ({signIn}) => {
         signIn(credential);
     }
     return (
-        <>
+        <Wrapper>
             <Form onSubmit={handleSubmit}>
                 <Title>SIGN IN</Title>
                 <InputWrap>
@@ -59,9 +59,14 @@ const SignIn = ({signIn}) => {
                 </BtnWrap>
                 <ShowBtn onClick={handleShow}>{show === true? 'Hide' : 'Show'}</ShowBtn>
             </Form>
-        </>
+        </Wrapper>
     )
 }
+
+const Wrapper = styled.div`
+    width: 100%;
+    height: 70%;
+`
 
 const Form = styled.form`
     width: 800px;
