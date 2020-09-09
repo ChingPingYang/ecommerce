@@ -9,6 +9,7 @@
     "axios": "^0.19.2",
     "braintree-web": "^3.65.0",
     "braintree-web-drop-in-react": "^1.1.2",
+    "express": "^4.17.1",
     "moment": "^2.27.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
