@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 3000;
 
 server.use(express.static(path.join(__dirname, 'build')));
 server.use('*', (req, res) => {
-    return res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
 })
 
 server.listen(PORT, () => console.log(`react running on ${PORT}...`));
