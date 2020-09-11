@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const NotFound = () => {
+    console.log(process.env.NODE_ENV)
+    console.log(process.env.REACT_APP_PROXY)
     return (
         <Wrapper>
             <NotFoundMsg>Page Not Found</NotFoundMsg>

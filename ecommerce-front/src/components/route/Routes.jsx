@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import AdminRoute from './AdminRoute';
 import PrivateRoute from './PrivateRoute';
@@ -18,7 +18,7 @@ import NotFound from '../layout/NotFound';
 
 const Routes = () => {
     return (
-        <Fragment>
+        <div className="container">
             <Alert/>
             <Switch>
                 <PublicRoute path="/" exact component={Landing} />
@@ -33,7 +33,7 @@ const Routes = () => {
                 <AdminRoute path="/admin/addProduct" component={AddProduct}/>
                 <Route component={NotFound} />
             </Switch>
-        </Fragment>
+        </div>
     )
 }
 
