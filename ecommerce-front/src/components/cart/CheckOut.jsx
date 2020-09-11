@@ -11,7 +11,7 @@ const CheckOut = ({ cart, auth: { isAuthenticated }, cartState: { clientToken } 
     const [address, setAddress] = useState('');
     useEffect(() => {
         if(isAuthenticated) getBraintreeToken()
-    },[isAuthenticated])
+    },[isAuthenticated, getBraintreeToken])
 
     const getTotal = () => {
         let total = cart.reduce((acc, item) => {

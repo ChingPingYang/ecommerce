@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Spinner from '../layout/Spinner';
 import History from './History';
-import CartItem from './CartItem';
 import { getOrders } from '../../actions/orderAction';
 
 const UserDashboard = ({ auth: {user, loading}, order,getOrders}) => {
@@ -15,8 +14,7 @@ const UserDashboard = ({ auth: {user, loading}, order,getOrders}) => {
 
     useEffect(() => {
         getOrders(filter.sort)
-        console.log(order)
-    },[filter.sort])
+    },[filter.sort, getOrders])
 
     const handleOnChange = e => {
         setFilter({

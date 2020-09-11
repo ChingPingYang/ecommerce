@@ -6,7 +6,7 @@ import { setAlert } from '../../actions/alertAction';
 const PrivateRoute = ({ component: Component, auth: { isAuthenticated, loading }, setAlert, ...rest }) => {
     useEffect(() => {
         if(!loading && !isAuthenticated) setAlert('Please log-in first.');
-    }, [setAlert])
+    }, [setAlert, isAuthenticated])
 
     return (
         <Route 

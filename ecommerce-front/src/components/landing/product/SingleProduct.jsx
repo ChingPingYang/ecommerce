@@ -16,7 +16,7 @@ const SingleProduct = ({ match, product: { product, loading, error}, getCertainP
 
     useEffect(() => {
         getCertainProduct(productId);
-    }, [getCertainProduct]);
+    }, [getCertainProduct, productId]);
 
     useEffect(()=> {
         if(product && product.description.length > 530){
