@@ -2,8 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 const NotFound = () => {
-    console.log(process.env.NODE_ENV)
-    console.log(process.env.REACT_APP_PROXY)
     return (
         <Wrapper>
             <NotFoundMsg>Page Not Found</NotFoundMsg>
@@ -32,6 +30,3 @@ const Sub = styled.h3`
 `
 
 export default NotFound;
-
-
-// http://157.245.160.22:8000

@@ -1,8 +1,10 @@
 const express = require('express');
+const compression = require('compression');
 const path = require('path');
 const server = express();
 const PORT = process.env.PORT || 3000;
 
+server.use(compression());
 server.use(express.static(path.join(__dirname, 'build')));
 server.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
