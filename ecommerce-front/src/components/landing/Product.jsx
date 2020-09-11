@@ -28,7 +28,13 @@ const Product = ({ product, skeleton = false }) => {
         
         <Wrap to={`/product/${product?._id}`}>
             <ImageWrap skeleton={skeleton}>
-                {!skeleton && <img src={imageURL} alt={name}/>}
+                {!skeleton && 
+                 <img 
+                    src={
+                      process.env.NODE_ENV === "production" ? `${process.env.REACT_APP_PROXY}${imageURL}` : imageURL
+                    } 
+                    alt={name}/>
+                }
             </ImageWrap>
             <ContentWrap>
                 <Title skeleton={skeleton}>{!skeleton && titleTruncate(name)}</Title>

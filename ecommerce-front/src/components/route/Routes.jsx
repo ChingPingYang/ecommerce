@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import AdminRoute from './AdminRoute';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
@@ -14,7 +14,7 @@ import AdminDashboard from '../admin/AdminDashboard';
 import Profile from '../layout/Profile';
 import AddProduct from '../admin/AddProduct';
 import Alert from '../layout/Alert';
-
+import NotFound from '../layout/NotFound';
 
 const Routes = () => {
     return (
@@ -31,6 +31,7 @@ const Routes = () => {
                 <AdminRoute path="/admin/adminDashboard" component={AdminDashboard}/>
                 <AdminRoute path="/admin/createCategory" component={CreateCategory}/>
                 <AdminRoute path="/admin/addProduct" component={AddProduct}/>
+                <Route component={NotFound} />
             </Switch>
         </Fragment>
     )

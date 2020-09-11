@@ -16,7 +16,11 @@ const SingleCart = ({cart: {_id, name, price, purchase, imageURL, quantity}, plu
     }
     return (
         <Wrap>
-            <Img src={imageURL} alt={name} />
+            <Img src={
+                      process.env.NODE_ENV === "production" ? `${process.env.REACT_APP_PROXY}${imageURL}` : imageURL
+                    } 
+                 alt={name} 
+            />
             <CartContent>
                 <CartName to={`/product/${_id}`}>{name}</CartName>
                 <QuantityWrap>
