@@ -50,9 +50,9 @@ const AlertWrap = styled.div`
     background-color: ${props => props.theme.primWhite};
     border: 1px solid ${props => props.kind === 'error'? props.theme.error : props.theme.success};
     border-radius: 50px;
-    z-index: 1000;
-    animation: ${AnimateIn} 3s ease-in-out;
-    animation-fill-mode: forwards;
+    /* z-index: 1000; */
+    /* animation: ${AnimateIn} 3s ease-in-out; */
+    /* animation-fill-mode: forwards; */
     h3 {
         min-width: 400px;
         text-align: center;
