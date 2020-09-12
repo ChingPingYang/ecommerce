@@ -4,19 +4,11 @@ import styled, { keyframes } from 'styled-components';
 
 const Alert = ({ alert }) => {
     console.log('ALERT: ', alert);
+    
     return (
         <>  
-        <AlertWrap><h3>hiiiiii</h3></AlertWrap>
-           {alert.length > 0 && alert.map(alert => {
-               console.log('in maping');
-               return (
-                //Don't use "index", the ID has to be "uuid", otherwise the conponent render will have bug
-                <AlertWrap key={alert.id} kind={alert.kind}>
-                    <h3>{alert.message}</h3>
-                </AlertWrap>            
-               )
-            })
-            }
+            {/* <AlertWrap><h3>hiiiiii</h3></AlertWrap> */}
+            {alert.length > 0 && alert.map(alert => <AlertWrap key={alert.id} kind={alert.kind}><h3>{alert.message}</h3></AlertWrap>)}
         </>
     )
 }
