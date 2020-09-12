@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
 
 const Alert = ({ alert }) => {
+    console.log('ALERT: ', alert);
     return (
         <>
            {alert.length > 0 && alert.map(alert => {
+               console.log('in maping');
                return (
                 //Don't use "index", the ID has to be "uuid", otherwise the conponent render will have bug
                 <AlertWrap key={alert.id} kind={alert.kind}>
