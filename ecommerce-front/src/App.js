@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Navbar from './components/layout/Navbar';
+import Alert from './components/layout/Alert';
 import Footer from './components/layout/Footer';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Routes from './components/route/Routes';
@@ -20,6 +21,7 @@ function App() {
     <Provider store={store}>
       <Router>
           <Navbar />
+          <Alert />
           <Route component={Routes}/>
           <Footer />
       </Router>

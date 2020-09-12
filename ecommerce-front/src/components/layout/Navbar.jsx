@@ -114,7 +114,7 @@ const Navbar = props => {
                 <SearchBox />
                 {!loading && (isAuthenticated? authedLinks() : guestLinks())}
             </NavWrap>
-            <Alert />
+            {/* <Alert /> */}
         </>
     ) 
 }
