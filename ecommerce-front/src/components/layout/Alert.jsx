@@ -4,7 +4,8 @@ import styled, { keyframes } from 'styled-components';
 
 const Alert = ({ alert }) => {
     return (
-        <>  
+        <> 
+            {/* Don't use {} and return for maping the "AlertWrap" otherwise will not work in production. */}
            {alert.length > 0 && alert.map(alert =><AlertWrap key={alert.id} kind={alert.kind}><h3>{alert.message}</h3></AlertWrap>)}
         </>
     )

@@ -119,7 +119,6 @@ router.get('/', async(req, res) => {
 router.post('/search', async (req, res) => {
     // Create filter object first in case of not passing anything in req.body
     let filter = {};   
-    console.log('HEADER: ',req.headers) 
     // if(req.body.filter) filter = req.body.filter;
     if(req.body.filter) {
         const { price, category } = req.body.filter;
