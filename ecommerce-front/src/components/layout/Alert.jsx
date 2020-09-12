@@ -5,7 +5,8 @@ import styled, { keyframes } from 'styled-components';
 const Alert = ({ alert }) => {
     console.log('ALERT: ', alert);
     return (
-        <>
+        <>  
+        <AlertWrap><h3>hiiiiii</h3></AlertWrap>
            {alert.length > 0 && alert.map(alert => {
                console.log('in maping');
                return (
@@ -50,7 +51,7 @@ const AlertWrap = styled.div`
     background-color: ${props => props.theme.primWhite};
     border: 1px solid ${props => props.kind === 'error'? props.theme.error : props.theme.success};
     border-radius: 50px;
-    /* z-index: 1000; */
+    z-index: 1000;
     /* animation: ${AnimateIn} 3s ease-in-out; */
     /* animation-fill-mode: forwards; */
     h3 {
