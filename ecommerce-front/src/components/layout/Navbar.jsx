@@ -6,6 +6,7 @@ import SearchBox from './SearchBox';
 import { signOut } from '../../actions/authAction';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import Alert from './Alert';
 
 
 const Navbar = props => {
@@ -107,11 +108,14 @@ const Navbar = props => {
     
    
     return (
-        <NavWrap>
-            <Link to="/"><Logo /></Link>
-            <SearchBox />
-            {!loading && (isAuthenticated? authedLinks() : guestLinks())}
-        </NavWrap>
+        <>
+            <NavWrap>
+                <Link to="/"><Logo /></Link>
+                <SearchBox />
+                {!loading && (isAuthenticated? authedLinks() : guestLinks())}
+            </NavWrap>
+            <Alert />
+        </>
     ) 
 }
 const NavWrap = styled.div`

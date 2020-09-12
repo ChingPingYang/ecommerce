@@ -13,27 +13,23 @@ import CreateCategory from '../admin/CreateCategory';
 import AdminDashboard from '../admin/AdminDashboard';
 import Profile from '../layout/Profile';
 import AddProduct from '../admin/AddProduct';
-import Alert from '../layout/Alert';
 import NotFound from '../layout/NotFound';
 
 const Routes = () => {
     return (
-        <div className="container">
-            <Alert/>
-            <Switch>
-                <PublicRoute path="/" exact component={Landing} />
-                <PublicRoute path="/signin" restricted component={SignIn} />
-                <PublicRoute path="/signup" restricted component={SignUp} />
-                <PublicRoute path="/product/:productId" component={SingleProduct} />
-                <PublicRoute path="/cart" component={CartPage} />
-                <PrivateRoute path="/userDashboard" component={UserDashboard} />
-                <PrivateRoute path="/profile/:userId" component={Profile} />
-                <AdminRoute path="/admin/adminDashboard" component={AdminDashboard}/>
-                <AdminRoute path="/admin/createCategory" component={CreateCategory}/>
-                <AdminRoute path="/admin/addProduct" component={AddProduct}/>
-                <Route component={NotFound} />
-            </Switch>
-        </div>
+        <Switch>
+            <PublicRoute path="/" exact component={Landing} />
+            <PublicRoute path="/signin" restricted component={SignIn} />
+            <PublicRoute path="/signup" restricted component={SignUp} />
+            <PublicRoute path="/product/:productId" component={SingleProduct} />
+            <PublicRoute path="/cart" component={CartPage} />
+            <PrivateRoute path="/userDashboard" component={UserDashboard} />
+            <PrivateRoute path="/profile/:userId" component={Profile} />
+            <AdminRoute path="/admin/adminDashboard" component={AdminDashboard}/>
+            <AdminRoute path="/admin/createCategory" component={CreateCategory}/>
+            <AdminRoute path="/admin/addProduct" component={AddProduct}/>
+            <Route component={NotFound} />
+        </Switch>
     )
 }
 
