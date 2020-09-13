@@ -27,22 +27,9 @@ const Product = ({ product, skeleton = false }) => {
     return (
         
         <Wrap to={`/product/${product?._id}`}>
-            {/* <ImageWrap skeleton={skeleton}>
-                {!skeleton && 
-                 <img 
-                    src={
-                      process.env.NODE_ENV === "production" ? `${process.env.REACT_APP_PROXY}${imageURL}` : imageURL
-                    } 
-                    alt={name}/>
-                }
-            </ImageWrap> */}
             <ImageWrap skeleton={skeleton}>
                 {!skeleton && 
-                 <img 
-                    src={
-                      imageURL
-                    } 
-                    alt={name}/>
+                 <img src={imageURL} alt={name}/>
                 }
             </ImageWrap>
             <ContentWrap>

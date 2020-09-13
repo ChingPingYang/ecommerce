@@ -86,11 +86,7 @@ const SingleProduct = ({ match, product: { product, loading, error}, getCertainP
                     </TitleSection>
                     <ContentSection>
                         <ImgWrap>
-                            <img 
-                                src={
-                                process.env.NODE_ENV === "production" ? `${process.env.REACT_APP_PROXY}${product.imageURL}` : product.imageURL
-                                } 
-                                alt={product.name}/>
+                            <img src={ product.imageURL } alt={product.name}/>
                         </ImgWrap>
                         <ContentWrap>
                             <Price>${product.price}</Price>

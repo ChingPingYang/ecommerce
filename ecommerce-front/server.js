@@ -6,7 +6,10 @@ const PORT = process.env.PORT || 3000;
 
 server.use(compression());
 server.use(express.static(path.join(__dirname, 'build')));
+
+// This is very important... for front-end to find images from server.
 server.use(express.static('../server/public'));
+
 server.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 })
