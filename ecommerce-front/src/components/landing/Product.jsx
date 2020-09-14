@@ -77,7 +77,7 @@ const Wrap = styled(Link)`
     width: 225.8px;
     height: 425.8px;
     display: flex;
-    margin-top: 20px;
+    margin-top: 30px;
     margin-right: 1%;
     cursor: pointer; 
     flex-direction: column;
