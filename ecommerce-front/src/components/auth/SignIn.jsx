@@ -1,15 +1,24 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { signIn } from '../../actions/authAction';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { media } from '../../styled/media';
 
 const SignIn = ({signIn}) => {
     const [show, setShow] = useState(false);
+    const [width, setWidth] = useState(window.innerWidth);
     const [credential, setCredential] = useState({
         email: "",
         password: ""
     });
+
+    useEffect(() => {
+        window.addEventListener('resize', handleResizing);
+    },[]);
+    const handleResizing = () => {
+        setWidth(window.innerWidth);
+    }
     const handleShow = (e) => {
         e.preventDefault();
         setShow(!show)
@@ -57,7 +66,7 @@ const SignIn = ({signIn}) => {
                     <input type="submit" value="Sign in" />
                     <StyledLink to="/signup">Create an account</StyledLink>
                 </BtnWrap>
-                <ShowBtn onClick={handleShow}>{show === true? 'Hide' : 'Show'}</ShowBtn>
+                {width >= 800 && <ShowBtn onClick={handleShow}>{show === true? 'Hide' : 'Show'}</ShowBtn>}
             </Form>
         </Wrapper>
     )
@@ -69,12 +78,11 @@ const Wrapper = styled.div`
 `
 
 const Form = styled.form`
-    width: 800px;
+    max-width: 800px;
     display: flex;
     flex-flow: column;
     justify-content: center;
     align-items: center;
-    border: solid red 1px;
     margin: 55px 0px;
 `;
 
@@ -83,6 +91,9 @@ const Title = styled.h1`
     font-size: 2.5rem;
     margin-left: -260px;
     color: ${props => props.theme.lightBlue};
+    ${media.tablat_S} {
+        margin-left: 0px;
+    }
 `
 
 const InputWrap = styled.div`
@@ -115,12 +126,12 @@ const Input = styled.input`
 `
 const BtnWrap = styled.div`
     width: 50%;
-    height: 35px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     input {
         all: unset;
+        display: block;
         font-size: 1.1rem;
         width: 100px;
         height: 35px;
@@ -133,6 +144,9 @@ const BtnWrap = styled.div`
             background-color: ${props => props.theme.interactiveDark};
         }
     }
+    ${media.mobile} {
+        flex-direction: column;
+    }
 `
 const StyledLink = styled(Link)`
     all: unset;
@@ -142,6 +156,9 @@ const StyledLink = styled(Link)`
     transition: 0.2s;
     &:hover {
         color: ${props => props.theme.darkBlue};
+    }
+    ${media.mobile} {
+        margin-top: 10px;
     }
 `
 const ShowBtn = styled.button`

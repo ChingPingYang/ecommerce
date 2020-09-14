@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { createCategory, getAllCategories } from '../../actions/categoryAction';
 import { connect } from 'react-redux';
+import { media } from '../../styled/media';
 
 const CreateCategory = ({ category: { category, categories, loading, error}, createCategory, getAllCategories}) => {
     useEffect(() => {
@@ -53,16 +54,18 @@ const CreateCategory = ({ category: { category, categories, loading, error}, cre
 }
 const MainWrap = styled.div`
     width: 100%;
-    border: soild red 1px;
-    display: flex;
-    justify-content: space-between;
+    height: 80vh;
+    display: flex; 
+    ${media.tablat_L} {
+        flex-direction: column;
+        align-items: center;
+    }
 `
 
 const Form = styled.form`
-    width: 800px;
+    max-width: 800px;
     display: flex;
     flex-flow: column;
-    justify-content: center;
     align-items: center;
     margin: 55px 30px;
 `;
@@ -70,7 +73,12 @@ const Form = styled.form`
 const Title = styled.h1`
     font-weight: 900;
     font-size: 2.5rem;
+    margin-left: 130px;
     color: ${props => props.theme.lightBlue};
+    ${media.tablat_L} {
+        margin-left: 0px;
+        text-align: center;
+    }
 `
 
 const InputWrap = styled.div`
@@ -105,9 +113,6 @@ const Input = styled.input`
 const BtnWrap = styled.div`
     width: 50%;
     height: 35px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     input {
         all: unset;
         font-size: 1.1rem;
@@ -125,9 +130,10 @@ const BtnWrap = styled.div`
 `
 
 const CategoryWrap = styled.div`
-    width: 600px;
+    max-width: 600px;
     height: 300px;
-    margin: 55px 30px;
+    margin-left: 155px;
+    padding-left: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -153,6 +159,9 @@ const CategoryWrap = styled.div`
         h4 {
             color: ${props => props.theme.lightGray};
         }
+    }
+    ${media.tablat_L} {
+        margin: 0px;
     }
 `
 

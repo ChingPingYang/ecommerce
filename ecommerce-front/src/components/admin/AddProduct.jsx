@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { addProduct } from '../../actions/productAction';
 import { getAllCategories } from '../../actions/categoryAction';
+import { media } from '../../styled/media';
 
 const AddProduct = ({category: { categories, loading }, addProduct, getAllCategories}) => {
     const [data, setData] = useState({
@@ -130,12 +131,12 @@ const AddProduct = ({category: { categories, loading }, addProduct, getAllCatego
 }
 
 const Form = styled.form`
-    width: 800px;
+    max-width: 800px;
     display: flex;
     flex-flow: column;
     justify-content: center;
     align-items: center;
-    margin: 55px 30px;
+    margin: 55px 0px;
 `;
 
 const Title = styled.h1`
@@ -143,6 +144,9 @@ const Title = styled.h1`
     font-size: 2.5rem;
     color: ${props => props.theme.lightBlue};
     margin-right: 80px;
+    ${media.mobile} {
+        margin-right: 0px;
+    }
 `
 
 const InputWrap = styled.div`

@@ -53,7 +53,6 @@ const Form = styled.form`
     display: flex;
     justify-content: center;
     align-items: center;
-    border: solid 1px red;
     ${media.tablat_L} {
         margin-top: 20px;
         width: 100%;

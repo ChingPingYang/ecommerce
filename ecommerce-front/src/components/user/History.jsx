@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import { media } from '../../styled/media';
 
 const History = ({ order }) => {
     return (
@@ -36,14 +37,14 @@ const HistoryWrap = styled.div`
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 8px 28px -5px rgba(0, 1, 3, 0.25);
+    ${media.tablat_L} {
+        flex-direction: column;
+    }
 `
 const HistoryContent = styled.div`
     min-height: 140px;
     display: flex;
     flex-direction: column;
-    span {
-        margin-left: 50px;
-    }
     h4{
         position: relative;
         font-weight: 300;
@@ -60,6 +61,16 @@ const HistoryContent = styled.div`
             position: absolute;
             top: 23px;
             left: 0px;
+            ${media.mobile} {
+                top: 43px;
+            }
+        }
+    }
+    span {
+        margin-left: 50px;
+        ${media.mobile} {
+            display: block;
+            margin-left: 0px;
         }
     }
     :last-child {
@@ -68,7 +79,6 @@ const HistoryContent = styled.div`
         position: relative;
             li {
                 list-style: none;
-                margin-bottom: 7px;
                 font-size: 1rem;
                 color: ${props => props.theme.darkGray};
                 font-weight: 300;
@@ -81,6 +91,9 @@ const HistoryContent = styled.div`
                     font-size: 1.5rem;
                 }
             }
+        ${media.tablat_L} {
+            margin-top: 10px;
+        }
     }
 `
 
@@ -94,6 +107,9 @@ const ProductName = styled(Link)`
     cursor: pointer;
     :hover {
         text-decoration: underline;
+    }
+    ${media.tablat_L} {
+        width: 100%;
     }
 `
 

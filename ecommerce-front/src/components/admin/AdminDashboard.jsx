@@ -28,6 +28,7 @@ const StyledLink = styled(Link)`
     width: 300px;
     height: 80px;
     text-align: center;
+    margin: 10px;
     padding-top: 50px;
     color: ${props => props.theme.primWhite};
     background-color: ${props => props.theme.interactive};

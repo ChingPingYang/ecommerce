@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { setAlert } from '../../actions/alertAction';
 import { updateProfile } from '../../actions/authAction';
+import { media } from '../../styled/media';
 
 const Profile = ({ auth: { user }, history, updateProfile, setAlert }) => {
     const [credential, setCredential] = useState({
@@ -85,7 +86,7 @@ const Wrapper = styled.div`
 `
 
 const Form = styled.form`
-    width: 800px;
+    max-width: 800px;
     display: flex;
     flex-flow: column;
     align-items: center;
@@ -97,6 +98,10 @@ const Title = styled.h1`
     font-size: 2.5rem;
     margin-left: -135px;
     color: ${props => props.theme.lightBlue};
+    ${media.tablat_S} {
+        margin-left: 0px;
+        text-align: center;
+    }
 `
 
 const InputWrap = styled.div`

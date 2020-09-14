@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { signUp } from '../../actions/authAction';
+import { media } from '../..//styled/media';
 
 const SignUp = ({register}) => {
     const [credential, setCredential] = useState({
@@ -75,7 +76,7 @@ const Wrapper = styled.div`
 `
 
 const Form = styled.form`
-    width: 800px;
+    max-width: 800px;
     display: flex;
     flex-flow: column;
     align-items: center;
@@ -87,6 +88,9 @@ const Title = styled.h1`
     font-size: 2.5rem;
     margin-left: -248px;
     color: ${props => props.theme.lightBlue};
+    ${media.tablat_S} {
+        margin-left: 0px;
+    }
 `
 
 const InputWrap = styled.div`
