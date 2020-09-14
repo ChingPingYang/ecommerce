@@ -6,6 +6,7 @@ import SearchBox from './SearchBox';
 import { signOut } from '../../actions/authAction';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { media } from '../../styled/media';
 
 
 const Navbar = props => {
@@ -117,7 +118,7 @@ const Navbar = props => {
     return (
         <>
             <NavWrap>
-                <Link to="/"><Logo /></Link>
+                {width >= 500 && <Link to="/"><Logo /></Link>}
                 {width >= 1150 && <SearchBox />}
                 {!loading && (isAuthenticated? authedLinks() : guestLinks())}
             </NavWrap>
@@ -141,11 +142,21 @@ const ListWrap = styled.ul`
     flex-wrap: wrap;
     justify-content: flex-end;
     align-items: center;
+    ${media.tablat_S} {
+        margin-right: 20px;
+        ${media.mobile} {
+            justify-content: center;
+            margin-right: 0px;
+        }
+    }
     li {
         position: relative;
         list-style: none;
         flex: 0 0 10px;
         margin-left: 40px;
+        ${media.mobile} {
+            margin: 0px 10px;
+        }
             svg {
                 width: 30px;
                 height: 30px;
@@ -229,6 +240,9 @@ const Logo = styled.div`
     margin-left: 30px;
     background: url(${logo}) no-repeat;
     background-position: center;
+    ${media.tablat_S} {
+        margin-left: 20px;
+    }
 `
 
 const mapStateToProps = state => {
