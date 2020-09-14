@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import styled , { css }from 'styled-components';
 import logo from './logo-03.svg';
@@ -6,11 +6,18 @@ import SearchBox from './SearchBox';
 import { signOut } from '../../actions/authAction';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import Alert from './Alert';
 
 
 const Navbar = props => {
     const {location, signOut, auth: { isAuthenticated, loading, user }, cart} = props;
+    const [ width, setWidth ] = useState(window.innerWidth);
+
+    useEffect(() => {
+        window.addEventListener('resize', handleResize)
+    },[])
+    const handleResize = () => {
+        setWidth(window.innerWidth);
+    }
     
    const authedLinks = () => (
     <ListWrap>
@@ -111,10 +118,10 @@ const Navbar = props => {
         <>
             <NavWrap>
                 <Link to="/"><Logo /></Link>
-                <SearchBox />
+                {width >= 1150 && <SearchBox />}
                 {!loading && (isAuthenticated? authedLinks() : guestLinks())}
             </NavWrap>
-            {/* <Alert /> */}
+            {width < 1150 && <SearchBox />}
         </>
     ) 
 }

@@ -74,7 +74,8 @@ const Form = styled.form`
     flex-flow: column;
     justify-content: center;
     align-items: center;
-    margin: 55px 30px;
+    border: solid red 1px;
+    margin: 55px 0px;
 `;
 
 const Title = styled.h1`

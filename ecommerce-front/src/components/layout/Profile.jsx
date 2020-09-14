@@ -89,7 +89,7 @@ const Form = styled.form`
     display: flex;
     flex-flow: column;
     align-items: center;
-    margin: 55px 30px;
+    margin: 55px 0px;
 `;
 
 const Title = styled.h1`

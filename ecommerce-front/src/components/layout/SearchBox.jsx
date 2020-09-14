@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { setTextSearch } from '../../actions/productAction';
+import { media } from '../../styled/media';
 
 const SearchBox = ({ setTextSearch, history }) => {
     const [search, setSearch] = useState("");
@@ -47,8 +48,24 @@ const SearchBox = ({ setTextSearch, history }) => {
 
 const Form = styled.form`
     position: relative;
-    width: 350px;
+    width: 400px;
     margin-left: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 1px red;
+    ${media.tablat_L} {
+        margin-top: 20px;
+        width: 100%;
+        margin-left: 0px;
+        padding: 0px 20%;
+        border: none;
+        ${media.tablat_S} {
+            padding: 0px 20px;
+            
+        }
+    }
+
     input {
         width: 100%;
         height: 40px;
@@ -66,15 +83,15 @@ const Form = styled.form`
     }
 `
 const BtnWrap = styled.div`
-    position: absolute;
-    top: 6px;
-    left: 286px;
+    position: relative;
+    left: -57px;
     height: 40px;
     display: flex;
-    /* To recerse submit and reset button */
+    /* To reverse submit and reset button */
     flex-direction: row-reverse;
     justify-content: flex-end;
     align-items: center;
+   
 `
 
 const Reset = styled.button`
@@ -102,7 +119,7 @@ const Reset = styled.button`
 
 const Submit = styled.button`
     all: unset;
-    width: 45px;
+    width: 35px;
     height: 35px;
     display: flex;
     justify-content: center;

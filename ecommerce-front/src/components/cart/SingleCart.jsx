@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { plusQuantity, minusQuantity, removeCart } from '../../actions/cartAction';
+import { media } from '../../styled/media';
 
 const SingleCart = ({cart: {_id, name, price, purchase, imageURL, quantity}, plusQuantity, minusQuantity, removeCart}) => {
     const handlePlus = (_id) => {
@@ -51,12 +52,18 @@ const Wrap = styled.div`
     display: flex;
     align-items: center;
     background-color: white;
+    ${media.mobile} {
+        flex-direction: column;
+    }
 `
 const Img = styled.img`
     width: 140px;
     height: 140px;
     margin-right: 20px;
     object-fit: cover;
+    ${media.mobile} {
+        margin-top: 10px;
+    }
 `
 const CartContent = styled.div`
     width: 60%;
@@ -73,6 +80,17 @@ const CartContent = styled.div`
             color: ${props => props.theme.darkGray};
             font-weight: 400;
         }
+
+        ${media.mobile} {
+            text-align: left;
+            margin-left: 0;
+        }
+    }
+    
+    ${media.mobile} {
+        width: 100%;
+        align-items: center;
+        margin: 10px 0px;     
     }
 `
 const CartName = styled(Link)`

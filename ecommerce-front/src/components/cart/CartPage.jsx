@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import SingleCart from './SingleCart';
 import CheckOut from './CheckOut';
+import { media } from '../../styled/media';
 
 const CartPage = ({ cart: { cart } }) => {   
     return (
@@ -51,13 +52,23 @@ const MainSection = styled.section`
     width: 100%;
     display: flex;
     justify-content: space-between;
+    ${media.tablat_S} {
+        flex-direction: column;
+        justify-content: center;
+    }
 `
 const ProductsSection = styled.section`
     width: 63%;
+    ${media.tablat_S} {
+        width: 100%;
+    }
 `
 const CheckoutSection = styled.section`
     width: 35%;
     padding-bottom: 20px;
+    ${media.tablat_S} {
+        width: 100%;
+    }
 `
 
 const NoProductMsg = styled.h1`

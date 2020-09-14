@@ -7,6 +7,7 @@ import SideFilter from './SideFilter';
 import Match from './Match';
 import Product from './Product';
 import axios from 'axios';
+import { media } from '../../styled/media';
 
 const Landing = ({ product: { search }, category:{ loading, categories, selectedCategories}, getAllCategories, clearProduct }) => {
     const [ products, setProducts ] = useState([]);
@@ -238,23 +239,35 @@ const Wrap = styled.div`
     display: flex;
     flex-direction: row;
     margin-top: 40px;
+    margin-bottom: 20px;
 `
 const SideFilterWrap = styled.div`
     width: 30%;
     display: flex;
     justify-content: flex-end;
     border-right: solid 1px ${props => props.theme.lightGray};
+    ${media.tablat_S} {
+        justify-content: flex-start;
+        margin-left: 10px;
+    }
 `
 const ProductListWrap = styled.div`
     width: 80%;
     display: flex;
     flex-direction: column;
     padding-left: 30px;
+    ${media.tablat_S} {
+        width: 100%;
+        padding-left: 5px;
+    }
 `
 const ProductWrap = styled.div`
     width: 85%;
     display: flex;
     flex-wrap: wrap;
+    ${media.tablat_S} {
+        justify-content: center;
+    }
     h1 {
         color: ${props => props.theme.brandBlue};
         margin: auto;
