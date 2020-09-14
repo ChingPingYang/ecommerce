@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
+import { media } from '../../styled/media';
 
 const Product = ({ product, skeleton = false }) => {
     const imageURL = product? product.imageURL : null;
@@ -80,6 +81,9 @@ const Wrap = styled(Link)`
     margin-right: 1%;
     cursor: pointer; 
     flex-direction: column;
+    ${media.tablat_S} {
+        margin-top: 40px;
+    }
 `
 
 const ImageWrap = styled.div`

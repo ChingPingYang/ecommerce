@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
+import { media } from '../../styled/media';
 
 const Alert = ({ alert }) => {
     return (
@@ -49,6 +50,10 @@ const AlertWrap = styled.div`
         text-align: center;
         margin: 10px;
         color: ${props => props.kind === 'error'? props.theme.error : props.theme.success};
+
+        ${media.mobile} {
+            min-width: 200px;
+        }
     }
 `
 
