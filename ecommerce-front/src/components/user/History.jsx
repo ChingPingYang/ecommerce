@@ -9,10 +9,10 @@ const History = ({ order }) => {
         <HistoryWrap>
             <HistoryContent>
                 {order.products.map(item => {
-                    return  ( 
-                        <Fragment key={item._id}>
-                            <ProductName to={`/product/${item.product._id}`}>{item.product.name}</ProductName>
-                            <h4>quantity: {item.quantity} <span>product price: ${item.product.price}</span></h4>
+                    return ( 
+                        <Fragment key={item?._id}>
+                            <ProductName to={`/product/${item?.product._id}`}>{item?.product.name}</ProductName>
+                            <h4>quantity: {item?.quantity} <span>product price: ${item?.product.price}</span></h4>
                         </Fragment>
                         )
                 })}
