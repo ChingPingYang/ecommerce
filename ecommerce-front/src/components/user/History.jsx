@@ -9,11 +9,11 @@ const History = ({ order }) => {
     return (
         <HistoryWrap>
             <HistoryContent>
-                {order.products && order.products.map(item => {
+                {order.products.map(item => {
                     return ( 
-                        <Fragment key={item?._id}>
-                            <ProductName to={item.product._id? `/product/${item?.product._id}`: '/'}>{item.product.name ?? 'Unknown product'}</ProductName>
-                            <h4>quantity: {item.quantity} <span>product price: ${item.product.price ?? 'unknown'}</span></h4>
+                        <Fragment key={item._id}>
+                            {item.product !== null? <ProductName to={`/product/${item.product._id}`}>{item.product.name}</ProductName>: <h2>Unknown Product</h2>}
+                            <h4>quantity: {item.quantity} {item.product && <span>product price: ${item.product.price}</span>} </h4>
                         </Fragment>
                         )
                 })}
