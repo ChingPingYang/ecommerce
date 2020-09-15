@@ -6,7 +6,7 @@ import { getBraintreeToken, processPayment } from '../../actions/cartAction';
 import { setAlert } from '../../actions/alertAction';
 import DropIn from 'braintree-web-drop-in-react';
 
-const CheckOut = ({ cart, auth: { isAuthenticated }, cartState: { clientToken } , getBraintreeToken, processPayment, setAlert }) => {
+const CheckOut = ({ cart, history, auth: { isAuthenticated }, cartState: { clientToken } , getBraintreeToken, processPayment, setAlert }) => {
     const [instance, setInstance] = useState(null);
     const [address, setAddress] = useState('');
     useEffect(() => {
@@ -32,6 +32,7 @@ const CheckOut = ({ cart, auth: { isAuthenticated }, cartState: { clientToken } 
             let amount = getTotal();
             let payment = { nonce, amount }
             processPayment(payment, address)
+            history.push('/userDashboard');
         } catch(err) {
             console.log(err)
         }

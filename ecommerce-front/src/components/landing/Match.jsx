@@ -7,8 +7,8 @@ const Match = ({ handleMatch }) => {
             <Form onChange={handleMatch}>
                 <SelectOption name="category" id="category" required>
                     <option value="">Sort</option>
-                    <option value="Low-Hight">Price Low-Hight</option>
-                    <option value="Hight-Low">Price Hight-Low</option>
+                    <option value="Low-Hight">Price Low-High</option>
+                    <option value="Hight-Low">Price High-Low</option>
                     <option value="Sold">Sold</option>                          
                 </SelectOption>
             </Form>

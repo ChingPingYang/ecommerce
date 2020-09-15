@@ -92,7 +92,7 @@ const Navbar = props => {
         </li>
         <li>
             <StyledLink to="/signin" location={location.pathname} path="/signin" >
-                SINGIN
+                SIGNIN
             </StyledLink>
         </li>
         <li>

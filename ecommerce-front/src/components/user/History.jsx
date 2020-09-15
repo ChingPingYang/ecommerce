@@ -5,7 +5,6 @@ import moment from 'moment';
 import { media } from '../../styled/media';
 
 const History = ({ order }) => {
-    console.log('ORDER: ',order)
     return (
         <HistoryWrap>
             <HistoryContent>
