@@ -188,7 +188,7 @@ const InputWrap = styled.div`
 `
 const BtnWrap = styled.div`
     input {
-        /* all: unset; */
+        all: unset;
         font-size: 0.8rem;
         width: 50px;
         height: 20px;

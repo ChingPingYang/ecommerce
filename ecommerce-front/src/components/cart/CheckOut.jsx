@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import { compose } from 'redux';
 import { getBraintreeToken, processPayment } from '../../actions/cartAction';
 import { setAlert } from '../../actions/alertAction';
 import DropIn from 'braintree-web-drop-in-react';
@@ -149,4 +150,7 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckOut);
+export default compose(
+    withRouter,
+    connect(mapStateToProps, mapDispatchToProps)
+    )(CheckOut);
