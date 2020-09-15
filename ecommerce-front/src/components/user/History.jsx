@@ -8,7 +8,7 @@ const History = ({ order }) => {
     return (
         <HistoryWrap>
             <HistoryContent>
-                {order.products.map(item => {
+                {order.products?.map(item => {
                     return ( 
                         <Fragment key={item?._id}>
                             <ProductName to={item.product._id? `/product/${item?.product._id}`: '/'}>{item.product.name ?? 'Unknown product'}</ProductName>
