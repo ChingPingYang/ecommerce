@@ -11,8 +11,8 @@ const History = ({ order }) => {
                 {order.products.map(item => {
                     return ( 
                         <Fragment key={item?._id}>
-                            <ProductName to={`/product/${item?.product._id}`}>{item?.product.name}</ProductName>
-                            <h4>quantity: {item?.quantity} <span>product price: ${item?.product.price}</span></h4>
+                            <ProductName to={item.product._id? `/product/${item?.product._id}`: '/'}>{item.product.name ?? 'Unknown product'}</ProductName>
+                            <h4>quantity: {item.quantity} <span>product price: ${item.product.price ?? 'unknown'}</span></h4>
                         </Fragment>
                         )
                 })}

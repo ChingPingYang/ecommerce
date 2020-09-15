@@ -73,7 +73,7 @@ const Product = ({ product, skeleton = false }) => {
 }
 
 const Wrap = styled(Link)`
-    all: unset;
+    /* all: unset; */
     width: 225.8px;
     height: 425.8px;
     display: flex;
