@@ -127,6 +127,9 @@ const BtnWrap = styled.div`
     height: 35px;
     margin-top: 10px;
     input {
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        border-radius: 0;
         display: inline-block;
         border: none;
         outline: none;

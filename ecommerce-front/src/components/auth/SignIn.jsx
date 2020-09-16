@@ -130,6 +130,9 @@ const BtnWrap = styled.div`
     justify-content: space-between;
     align-items: center;
     input {
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        border-radius: 0;
         display: inline-block;
         border: none;
         outline: none;

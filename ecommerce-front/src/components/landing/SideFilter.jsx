@@ -188,6 +188,9 @@ const InputWrap = styled.div`
 `
 const BtnWrap = styled.div`
     input {
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        border-radius: 0;
         border: none;
         outline: none;
         font-size: 0.8rem;
