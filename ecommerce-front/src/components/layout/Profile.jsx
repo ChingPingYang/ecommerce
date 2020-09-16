@@ -138,11 +138,15 @@ const BtnWrap = styled.div`
     height: 35px;
     margin-top: 10px;
     input {
-        all: unset;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        border-radius: 0;
+        display: inline-block;
+        border: none;
+        outline: none;
         font-size: 1.1rem;
         width: 100px;
         height: 35px;
-        text-align: center;
         cursor: pointer;
         color: ${props => props.theme.primWhite};
         background-color: ${props => props.theme.interactive};
