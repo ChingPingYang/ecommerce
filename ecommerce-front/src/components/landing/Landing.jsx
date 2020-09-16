@@ -287,11 +287,10 @@ const BtnWrap = styled.div`
         border-bottom: solid 1px ${props => props.theme.primWhite};
     `}
     button {
-        all: unset;
+        border: none;
+        outline: none;
         font-size: 1.1rem;
-        width: 150px;
-        height: 45px;
-        text-align: center;
+        padding: 1rem 2.5rem;
         cursor: pointer;
         color: ${props => props.theme.primWhite};
         background-color: ${props => props.theme.interactive};

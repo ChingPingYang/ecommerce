@@ -130,12 +130,12 @@ const BtnWrap = styled.div`
     justify-content: space-between;
     align-items: center;
     input {
-        all: unset;
-        display: block;
+        display: inline-block;
+        border: none;
+        outline: none;
         font-size: 1.1rem;
         width: 100px;
         height: 35px;
-        text-align: center;
         cursor: pointer;
         color: ${props => props.theme.primWhite};
         background-color: ${props => props.theme.interactive};
@@ -149,7 +149,7 @@ const BtnWrap = styled.div`
     }
 `
 const StyledLink = styled(Link)`
-    all: unset;
+    text-decoration: none;
     cursor: pointer;
     font-size: 1.1rem;
     color: ${props => props.theme.lightBlue};

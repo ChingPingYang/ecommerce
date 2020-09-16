@@ -73,15 +73,14 @@ const Product = ({ product, skeleton = false }) => {
 }
 
 const Wrap = styled(Link)`
-    /* all: unset; */
     text-decoration: none;
     width: 225.8px;
-    height: 425.8px;
+    min-height: 425.8px;
     display: flex;
     margin-top: 30px;
-    margin-right: 1%;
-    cursor: pointer; 
+    margin-right: 1.5%;
     flex-direction: column;
+    cursor: pointer; 
     ${media.tablat_S} {
         margin-top: 40px;
     }
@@ -105,7 +104,7 @@ const ImageWrap = styled.div`
 `
 const ContentWrap = styled.div`
     width: 100%;
-    height: 192px;
+    min-height: 192px;
     margin-top: 8px;
     display: flex;
     flex-direction: column;

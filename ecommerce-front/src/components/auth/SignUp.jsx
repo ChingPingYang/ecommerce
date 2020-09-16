@@ -127,11 +127,12 @@ const BtnWrap = styled.div`
     height: 35px;
     margin-top: 10px;
     input {
-        all: unset;
+        display: inline-block;
+        border: none;
+        outline: none;
         font-size: 1.1rem;
         width: 100px;
         height: 35px;
-        text-align: center;
         cursor: pointer;
         color: ${props => props.theme.primWhite};
         background-color: ${props => props.theme.interactive};

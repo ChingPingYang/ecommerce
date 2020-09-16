@@ -33,11 +33,12 @@ const Form = styled.form`
 const SelectOption = styled.select`
     width: 200px;
     height: 40px;
+    outline: none;
     padding-left: 10px;
     background-color: white;
     font-size: 1rem;
-    outline: none;
     border: 1px solid ${props => props.theme.lightGray};
+    border-radius: none;
     transition: 0.3s;
     color: ${props => props.theme.brandBlue};
     font-size: 1rem;
