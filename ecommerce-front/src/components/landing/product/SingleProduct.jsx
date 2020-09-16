@@ -164,11 +164,15 @@ const Price = styled.div`
     color: ${props => props.theme.lightBlue};
 `
 const AddToCart = styled.button`
-    all: unset;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+    display: inline-block;
+    border: none;
+    outline: none;
     font-size: 1.1rem;
     width: 100%;
     height: 45px;
-    text-align: center;
     cursor: pointer;
     color: ${props => props.theme.primWhite};
     background-color: ${props => props.theme.interactive};

@@ -64,7 +64,7 @@ const CheckOut = ({ cart, history, auth: { isAuthenticated }, cartState: { clien
             }
             {isAuthenticated? 
                 (instance !== null? <CheckoutBtn onClick={buy}>Pay</CheckoutBtn> : <LoadingBtn>Loading</LoadingBtn>) 
-                : <SigninBtn to="/signin">Signin to checkout</SigninBtn>
+                : <SigninBtn to="/signin">Signin to pay</SigninBtn>
             }
         </Wrap>
     )
@@ -96,20 +96,28 @@ const AddressWrap = styled.div`
 `
 
 const LoadingBtn = styled.button`
-    all: unset;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+    display: inline-block;
+    border: none;
+    outline: none;
     font-size: 1.1rem;
     width: 100%;
     height: 45px;
-    text-align: center;
     color: ${props => props.theme.primWhite};
     background-color: ${props => props.theme.lightGray};
 `
 const CheckoutBtn = styled.button`
-    all: unset;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+    display: inline-block;
+    border: none;
+    outline: none;
     font-size: 1.1rem;
     width: 100%;
     height: 45px;
-    text-align: center;
     cursor: pointer;
     color: ${props => props.theme.primWhite};
     background-color: ${props => props.theme.interactive};
@@ -119,13 +127,14 @@ const CheckoutBtn = styled.button`
     }
 `
 const SigninBtn = styled(Link)`
-    all: unset;
-    display: flex;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
     justify-content: center;
-    align-items: center;
     font-size: 1.1rem;
     width: 100%;
-    height: 45px;
+    margin-top: 10px;
+    padding: 1rem 0rem;
     cursor: pointer;
     color: ${props => props.theme.primWhite};
     background-color: ${props => props.theme.interactive};
