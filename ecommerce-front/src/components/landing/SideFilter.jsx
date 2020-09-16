@@ -107,6 +107,7 @@ const SectionWrap = styled.div`
     margin-bottom: 10px;
     padding-bottom: 10px;
     ${media.tablat_S} {
+        border: none;
         margin-bottom: 0px;
     }
 `
@@ -138,8 +139,8 @@ const CheckboxForm = styled.form`
                     height: 10px;
                     top: 2px;
                     left: -20px;
-                    border-bottom: solid 2px white;
-                    border-right: solid 2px white;
+                    border-bottom: solid 3px white;
+                    border-right: solid 3px white;
                     transform: rotate(40deg);
                 }
             }     
