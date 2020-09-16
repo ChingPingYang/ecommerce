@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alertAction';
 import { setSelectedCategories } from '../../actions/categoryAction';
+import { media } from '../../styled/media';
 
 const SideFilter = ({product:{search}, priceRange, setPriceRange, category, setNewCategories, setAlert, setSelectedCategories}) => {
     const { categories, selectedCategories } = category;
@@ -95,11 +96,19 @@ const Wrap = styled.div`
     width: 50%;
     display: flex;
     flex-direction: column;
+    ${media.tablat_S} {
+        width: 95%;
+        flex-direction: row;
+        justify-content: space-around;
+    }
 `
 const SectionWrap = styled.div`
     border-bottom: solid 1px ${props => props.theme.lightGray};
     margin-bottom: 10px;
     padding-bottom: 10px;
+    ${media.tablat_S} {
+        margin-bottom: 0px;
+    }
 `
 const SectionTitle = styled.div`
     font-weight: 600;
@@ -110,7 +119,7 @@ const CheckboxForm = styled.form`
     flex-direction: column;
     label {
         cursor: pointer;
-        width: 200px;        
+        width: 200px;   
         margin-bottom: 10px;
         input {
             display: none;
@@ -155,6 +164,9 @@ const PriceForm = styled.form`
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    ${media.tablat_S} {
+        max-width: 150px;
+    }
 `
 const InputWrap = styled.div`
     margin: 0px 20px 10px 0px;

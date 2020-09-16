@@ -240,6 +240,11 @@ const Wrap = styled.div`
     flex-direction: row;
     margin-top: 40px;
     margin-bottom: 20px;
+    ${media.tablat_S} {
+        margin-top: 10px;
+        flex-direction: column;
+        align-items: center;
+    }
 `
 const SideFilterWrap = styled.div`
     width: 30%;
@@ -247,8 +252,8 @@ const SideFilterWrap = styled.div`
     justify-content: flex-end;
     border-right: solid 1px ${props => props.theme.lightGray};
     ${media.tablat_S} {
-        justify-content: flex-start;
-        margin-left: 10px;
+        width: 100%;
+        justify-content: center;
     }
 `
 const ProductListWrap = styled.div`
@@ -258,7 +263,8 @@ const ProductListWrap = styled.div`
     padding-left: 30px;
     ${media.tablat_S} {
         width: 100%;
-        padding-left: 5px;
+        padding-left: 0px;
+        align-items: center;
     }
 `
 const ProductWrap = styled.div`

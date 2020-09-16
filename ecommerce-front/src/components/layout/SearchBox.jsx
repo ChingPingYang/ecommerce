@@ -56,19 +56,22 @@ const Form = styled.form`
     ${media.tablat_L} {
         margin-top: 20px;
         width: 100%;
-        margin-left: 0px;
+        margin-left: 3%;
         padding: 0px 20%;
         border: none;
         ${media.tablat_S} {
-            padding: 0px 20px;
-            
+            margin-left: 4%;
+            ${media.mobile} {
+                margin-left: 6%;
+            }
         }
+        
     }
 
     input {
         width: 100%;
         height: 40px;
-        margin: 5px 0;
+        margin: 5px 0px;
         padding-left: 10px;
         outline: none;
         border: 1px solid ${props => props.theme.lightGray};

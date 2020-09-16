@@ -11,6 +11,7 @@ const Global = createGlobalStyle`
         width: 100vw;
         min-height: 100vh;
         display: flex;
+        overflow-x:hidden;
     }
     #root {
         width: 100vw;
